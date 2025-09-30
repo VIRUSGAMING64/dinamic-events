@@ -1,3 +1,14 @@
-
+1.0.0.1
+added .gitignore to .gitignore
+AMAZING...
 1.0.0.0
 first commit with basic files in my project
+
+HOW UNDERSTAND VERSIONS CHANGELOGS
+F.A.BE.SE
+/*
+F change if add framework
+A change if add class or functions
+BE change if a big error are solved
+SE change if a stupid error are solved
+*/

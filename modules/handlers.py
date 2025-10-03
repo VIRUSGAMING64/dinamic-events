@@ -1,16 +1,19 @@
 import os
 import os.path as path
 import json
-from modules.events import *
+if __name__ != '__main__':
+    from modules.events import *
+else:
+    from events import *
 
 class BasicHandler:
-    self.resources:dict = {
+    resources = {
     
     }
-    self.used_resources:dict = { 
+    used_resources = { 
 
     }
-    self.chunk_size = 65535
+    chunk_size = 65535
     def _load_resources(self,filename):
         if self._ex_ext(filename) != 'json':
             raise "need a json file"
@@ -19,33 +22,31 @@ class BasicHandler:
         line = tmp.read(self.chunk_size)
         while line != '':
             data = data + line
-            line = tmo.read(self.chunk_size)
-        #combert data to json
+            line = tmp.read(self.chunk_size)
+        json_resources = json.loads(data)
         #combert json_resources to dict
-        return dict_resources
+        return json_resources
     
     def _ex_ext(self,filename):
         #extract extension function
         filename = filename.split('.')
         return filename[-1]
     
-    def _json_to_dict(json_data):
+    def _jsonstr_to_dict(json_data):
         pass
 
-    def _dict_to_json(dict_data):
+    def _dict_to_jsonstr(dict_data):
         pass
 
     def save_resources(self,filename):
         pass
 
 class Calendar(BasicHandler):
-    self.currents_event = None
-    self.next_events = []
+    currents_event = None
+    next_events = []
 
-    def __init__(self):
-        pass
-
-    def __init__(self,event):
+    def __init__(self,event = None):
+        if event == None: return
         self.currents.append(event)
     
     def cancel_current(self):
@@ -68,3 +69,4 @@ if __name__ == '__main__':
     print('test mode')
     hand = Calendar()
     print(hand._ex_ext('filename'))
+    print(hand._load_resources('resources.json'))

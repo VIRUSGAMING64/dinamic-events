@@ -1,0 +1,25 @@
+{
+    "cpu": {
+        "cout":1,
+        "need": ["memory"],
+        "without": ["gpu"]
+    },
+    "memory": {
+        "count": 8,
+        "need": ["cpu"]
+    },
+    "hdd" : {
+        "count": 16,
+        "need": ["cpu"],
+        "without": ["ssd"]
+    },
+    "ssd" : {
+        "count": 16,
+        "need": ["cpu"],
+        "without": ["hdd"]
+    },
+    "gpu": {
+        "count": 2,
+        "need": ["v_memory"]
+    }
+}

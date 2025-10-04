@@ -1,6 +1,6 @@
 {
     "cpu": {
-        "cout":1,
+        "count":1,
         "need": ["memory"],
         "without": ["gpu"]
     },

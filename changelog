@@ -1,3 +1,7 @@
+1.2.0.0
+Created gvar, utils, and console_utils modules
+Created a simple console UI for test functions
+Fixed simples errors
 1.1.0.1
 Fixed errors in handler declarations
 1.1.0.0

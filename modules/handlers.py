@@ -1,6 +1,7 @@
 import os
 import os.path as path
 import json
+import datetime as date
 if __name__ != '__main__':
     from modules.events import *
 else:
@@ -23,33 +24,48 @@ class BasicHandler:
         while line != '':
             data = data + line
             line = tmp.read(self.chunk_size)
-        json_resources = json.loads(data)
-        #combert json_resources to dict
-        return json_resources
-    
+        data = self._jsonstr_to_dict(data)
+        self.resources = data
+        return data
+
+
     def _ex_ext(self,filename):
         #extract extension function
         filename = filename.split('.')
-        return filename[-1]
+        return filename[-1] #this works (readed in docs.python.org)
     
-    def _jsonstr_to_dict(json_data):
-        pass
+    def _jsonstr_to_dict(self,json_data):
+        return json.loads(json_data)
 
-    def _dict_to_jsonstr(dict_data):
-        pass
+    def _dict_to_jsonstr(self,dict_data):
+        return json.dumps(dict_data)
 
-    def save_resources(self,filename):
-        pass
+    def save_json_datas(self):
+        try:
+            save_res = self._dict_to_jsonstr(self.resources)
+            save_Ures = self._dict_to_jsonstr(self.used_resources)
+            fi = open('resources.json')
+            fi.write(save_res)
+            fi.close()
+            fi = open('used_resources.json')
+            fi.write(save_Ures)
+            fi.close()
+        except Exception as e:
+            print("maybe you don't have access to this file: ",e)
 
+        
 class Calendar(BasicHandler):
-    currents_event = None
-    next_events = []
+    currents_event = None # current event 
+    next_events = [] # contanins events in order 
 
     def __init__(self,event = None):
         if event == None: return
         self.currents.append(event)
     
     def cancel_current(self):
+        self.currents_event = self.next_event()
+
+    def next_event(self):
         pass
 
     def add_event(self,event):
@@ -70,3 +86,6 @@ if __name__ == '__main__':
     hand = Calendar()
     print(hand._ex_ext('filename'))
     print(hand._load_resources('resources.json'))
+
+
+

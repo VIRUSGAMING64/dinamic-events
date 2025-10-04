@@ -1,3 +1,7 @@
+1.3.0.0
+Created new panel 
+Sorted functions in files
+Some errors fixeds
 1.2.0.0
 Created gvar, utils, and console_utils modules
 Created a simple console UI for test functions
@@ -5,21 +9,21 @@ Fixed simples errors
 1.1.0.1
 Fixed errors in handler declarations
 1.1.0.0
-added basics functions templates to modules
-added install.sh
-added TODO file
-added rresources and tasks templates to json
+Added basics functions templates to modules
+Added install.sh
+Added TODO file
+Added rresources and tasks templates to json
 1.0.0.1
-added .gitignore to .gitignore
+Added .gitignore to .gitignore
 AMAZING...
 1.0.0.0
-first commit with basic files in my project
+First commit with basic files in my project
 
 HOW UNDERSTAND VERSIONS CHANGELOGS
 F.A.BE.SE
 /*
-F change if add framework
-A change if add class or functions
-BE change if a big error are solved
-SE change if a stupid error are solved
+F Change if add framework
+A Change if add class or functions
+BE Change if a big error are solved
+SE Change if a stupid error are solved
 */

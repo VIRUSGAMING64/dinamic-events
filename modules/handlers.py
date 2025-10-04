@@ -2,10 +2,7 @@ import os
 import os.path as path
 import json
 import datetime as date
-if __name__ != '__main__':
-    from modules.events import *
-else:
-    from events import *
+from modules.events import *
 
 class BasicHandler:
     resources = {
@@ -80,12 +77,3 @@ class Calendar(BasicHandler):
     def find(self,id):
         """return first date of {id} task"""
         pass
-
-if __name__ == '__main__':
-    print('test mode')
-    hand = Calendar()
-    print(hand._ex_ext('filename'))
-    print(hand._load_resources('resources.json'))
-
-
-

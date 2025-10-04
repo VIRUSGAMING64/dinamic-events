@@ -5,9 +5,10 @@ SAVE VARIABLE THAT I NEED SHARE
 BETWEEN MODULES
 """
 
-debug = False
+debug = True
 calendar = Calendar()
 calendar._load_resources('resources.json')
-MAX_OPTION = 2
+MAX_OPTION = 4
 LOCATION = 0
-
+MAIN_MENU = 0
+ADD_EVENT_MENU = 1

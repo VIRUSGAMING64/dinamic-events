@@ -1,10 +1,10 @@
 {
     "cpu": {
         "count":1,
-        "need": ["memory"],
+        "need": ["mem"],
         "without": ["gpu"]
     },
-    "memory": {
+    "mem": {
         "count": 8,
         "need": ["cpu"]
     },

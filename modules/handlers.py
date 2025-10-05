@@ -5,6 +5,9 @@ import datetime as date
 from modules.events import *
 
 class BasicHandler:
+    aviable_tasks = {
+
+    }
     resources = {
     
     }
@@ -12,7 +15,9 @@ class BasicHandler:
 
     }
     chunk_size = 65535
-    def _load_resources(self,filename):
+
+
+    def _load_json(self,filename):
         if self._ex_ext(filename) != 'json':
             raise "need a json file"
         data = ''
@@ -22,10 +27,12 @@ class BasicHandler:
             data = data + line
             line = tmp.read(self.chunk_size)
         data = self._jsonstr_to_dict(data)
-        self.resources = data
         return data
 
-
+    def _load_resources(self,filename):
+        data = self._load_json(filename)
+        self.resources = data
+    
     def _ex_ext(self,filename):
         #extract extension function
         filename = filename.split('.')
@@ -36,6 +43,22 @@ class BasicHandler:
 
     def _dict_to_jsonstr(self,dict_data):
         return json.dumps(dict_data)
+
+    def _load_tasks(self,name):
+        data = self._load_json(name)
+        self.aviable_tasks = data
+        
+class Calendar(BasicHandler):
+    currents_event = None # current event 
+    next_events = [] # contanins events in order 
+    def __init__(self,event = None):
+        if event == None: return
+        self.currents.append(event)
+
+    def cancel_current(self):
+        tmp=self.currents_event
+        self.currents_event = self.next_event()
+        return tmp
 
     def save_json_datas(self):
         try:
@@ -50,21 +73,19 @@ class BasicHandler:
         except Exception as e:
             print("maybe you don't have access to this file: ",e)
 
-        
-class Calendar(BasicHandler):
-    currents_event = None # current event 
-    next_events = [] # contanins events in order 
 
-    def __init__(self,event = None):
-        if event == None: return
-        self.currents.append(event)
-    
-    def cancel_current(self):
-        self.currents_event = self.next_event()
+    def create_task(self,start,end,taskname):
+        task = event({
+            "name":taskname,
+            "time-range":[start,end],
+            "need": self.aviable_tasks[taskname]['need'],
+            "resources":self.resources
+        })
+        return task
 
     def next_event(self):
         pass
-
+    
     def add_event(self,event):
         pass
 

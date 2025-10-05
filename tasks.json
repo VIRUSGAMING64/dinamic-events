@@ -1,13 +1,16 @@
 {
-    "mine monero": {
+    "run monero miner": {
         "need": [
-
+            {
+                "name":"cpu",
+                "count":1
+            }
         ],
         "without": [
             
         ]
     },
-    "mine btc": {
+    "run btc miner": {
         "need": [
             
         ],

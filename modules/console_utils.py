@@ -7,6 +7,16 @@ from modules.utils import *
 def void():
     pass
 
+def _show_events():
+    clear_console()
+    if debug:
+        print(calendar.aviable_tasks)
+    print("AVIABLE EVENTS:")
+    l = 1
+    for i in calendar.aviable_tasks:
+        print(f"[{l}] -",i)
+        l+=1
+    input('\nenter any key to continue...')
 def _come_back():
     global LOCATION
     LOCATION = parent[LOCATION]
@@ -15,13 +25,13 @@ def _add_event_show_menu():
     global LOCATION,ADD_EVENT_MENU
     LOCATION = ADD_EVENT_MENU
     menu = """
-    ***********************
-    *   ADD EVENT PANEL   *
-    * [1] - Show tasks    * 
-    * [2] - Set new       *
-    * [3] - Exit          *
-    *                     *
-    ***********************
+    *****************************
+    *      ADD EVENT PANEL      *
+    * [1] - Show aviable tasks  * 
+    * [2] - Set new             *
+    * [3] - Exit                *
+    *                           *
+    *****************************
     >>> """
     print(menu,end='')
 
@@ -35,8 +45,10 @@ def _show_console_resources():
         print(calendar.resources)
         time.sleep(1)
     print('AVAILABLE RESOURCES')
+    idx = 1
     for i in calendar.resources:
-        print(i, f" count: {calendar.resources[i]['count']}")
+        print(f"[{idx}] - ",i, f" count: {calendar.resources[i]['count']}")
+        idx+-1
     input('Enter any key to continue...\n')
    
 def _show_console_menu():
@@ -78,8 +90,8 @@ MENU_TO = {
         None: void
     },
     ADD_EVENT_MENU: {
-        1:{},
-        2:{},
+        1:_show_events,
+        2:_add_event,
         3:_come_back
     }
 }

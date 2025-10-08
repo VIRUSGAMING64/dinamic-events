@@ -1,6 +1,10 @@
 import json
 from modules.gvar import *
 import time
+import os
+
+def void():
+    pass
 
 def get_saved_json(filename):
     jsonstr = read_file(filename)
@@ -11,6 +15,9 @@ def read_file(name):
     data = task.read(2**31)
     task.close()
     return data
+
+def clear_console(): #optimizar
+    o = os.system('clear')
 
 def get_number(a,b):
     imp = input() # remplace this with getchr to read number task or other or signals to get -> to change
@@ -30,3 +37,9 @@ def get_number(a,b):
         time.sleep(3)
         return None
     return imp
+
+def get_str():
+    string=""
+    while string == "":
+        string = input(">>> ")
+    return string

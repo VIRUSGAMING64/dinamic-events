@@ -8,6 +8,9 @@ class BasicHandler:
     aviable_tasks = {
 
     }
+    currents_tasks = {
+
+    }
     resources = {
     
     }
@@ -15,7 +18,6 @@ class BasicHandler:
 
     }
     chunk_size = 65535
-
 
     def _load_json(self,filename):
         if self._ex_ext(filename) != 'json':
@@ -86,8 +88,13 @@ class Calendar(BasicHandler):
     def next_event(self):
         pass
     
-    def add_event(self,event):
-        pass
+    def add_event(self,new:event):
+        """
+        en esta funcion hay que verificar si en ese momento hay recurosos disponibles 
+        para hacer la tarea, tambien hay que ver como organizar las tareas
+        continuar como que ya esta hecho (hacer el fin de semana (10/10) -> (12/10))
+        """
+        self.currents_tasks[[new.start,new.end]] = new
 
     def remove_event(self,id):
         pass

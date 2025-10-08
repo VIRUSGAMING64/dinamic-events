@@ -1,11 +1,7 @@
-import os
-import signal
+
 import time 
 from modules.gvar import *
 from modules.utils import *
-
-def void():
-    pass
 
 def _show_events():
     clear_console()
@@ -17,13 +13,37 @@ def _show_events():
         print(f"[{l}] -",i)
         l+=1
     input('\nenter any key to continue...')
+
+
+def _get_file_content():
+    print(f"please enter filename\nthe file is json with a format:\n{JSON_EXAMPLE}")
+    name = get_str()
+    try:
+        data = None
+        with open(name) as file:
+            data = file.read(2**30)
+            file.close()
+        if data == None:
+            print("no loaded :'(\n")
+        else:
+            print("loaded !!!")
+    except Exception as e:
+            print(e)
+            input('error :[')
+    finally:
+        input('press any key to continue...')
+    return data
+
 def _come_back():
-    global LOCATION
+    global LOCATION,MAX_OPTION
     LOCATION = parent[LOCATION]
+    MAX_OPTION = sizes[LOCATION]
+
 
 def _add_event_show_menu():
-    global LOCATION,ADD_EVENT_MENU
+    global LOCATION,ADD_EVENT_MENU,MAX_OPTION
     LOCATION = ADD_EVENT_MENU
+    MAX_OPTION = 3
     menu = """
     *****************************
     *      ADD EVENT PANEL      *
@@ -36,7 +56,23 @@ def _add_event_show_menu():
     print(menu,end='')
 
 def _add_event():
-    pass
+    global LOCATION,MAX_OPTION
+    LOCATION = LOAD_TASK_MENU
+    MAX_OPTION = 3
+    
+def _add_task_meno_how_to():
+
+    menu = """
+    *****************************
+    *      LOAD EVENT PANEL     *
+    * [1] - Generate            * 
+    * [2] - open from files     *
+    * [3] - Exit                *
+    *                           *
+    *****************************
+    >>> """
+    print(menu,end='')
+
 
 def _show_console_resources():
     clear_console()
@@ -61,12 +97,8 @@ def _show_console_menu():
     * [4] - remove event from calendar *
     ************************************
     >>> """
-    print(menu,end='')
+    print(menu,end='')    
 
-def clear_console():
-    #optimizar
-    o = os.system('clear')
-    
 def main_console_loop():
     global MENUS,LOCATION
     while True:
@@ -80,27 +112,53 @@ def main_console_loop():
             print(e)
             input()
 
+
+
+def _load_from_file():
+    data = _get_file_content()
+    data = calendar._jsonstr_to_dict(data)
+    for new_task in data:
+        new = calendar.create_task(
+            new_task["time"][0],new_task['time'][1],
+            new_task['name']
+        )
+        calendar.add_event(new)
+
 MENU_TO = {
     MAIN_MENU :{    
-        1: {},
+        1: void,
         2: _show_console_resources,
         3: _add_event_show_menu,
-        4: {},
-        5: {},
+        4: void,
+        5: void,
         None: void
     },
     ADD_EVENT_MENU: {
         1:_show_events,
         2:_add_event,
         3:_come_back
+    },
+    LOAD_TASK_MENU: {
+        1:void,
+        2:_load_from_file,
+        3:_come_back
     }
 }
+
 parent = {
-    1:0,
-    0:0,
+    MAIN_MENU:MAIN_MENU,
+    ADD_EVENT_MENU:MAIN_MENU,
+    LOAD_TASK_MENU:ADD_EVENT_MENU
+}
+
+sizes = {
+    MAIN_MENU:4,
+    ADD_EVENT_MENU:3,
+    LOAD_TASK_MENU: 3
 }
 
 MENUS = [
     _show_console_menu,
     _add_event_show_menu,
+    _add_task_meno_how_to,
 ]

@@ -1,5 +1,6 @@
 .env
 __pycache__
-.vscode
+.vscode/
 .gitignore
 TODO
+src/

@@ -1,5 +1,7 @@
 import time
-from multiprocessing import Process as Thread
+import os
+from multiprocessing import Process
+
 start = time.time_ns() / 10**9
 from modules import *
 end = time.time_ns() / 10**9
@@ -29,6 +31,6 @@ def single_core_speed(core = 0):
 
 def cores_speed():
     for i in range(os.cpu_count()):
-        Thread(args=[i],target=single_core_speed).start()
+        Process(args=[i],target=single_core_speed).start()
 
 cores_speed()

@@ -1,27 +1,16 @@
-import os
-import os.path as path
 import json
-import datetime as date
-from modules.events import *
+import datetime
+
 
 class BasicHandler:
-    aviable_tasks = {
-
-    }
-    currents_tasks = {
-
-    }
-    resources = {
-    
-    }
-    used_resources = { 
-
-    }
+    aviable_tasks = {}
+    currents_tasks = []
+    resources = {}
+    used_resources = {}
     chunk_size = 65535
-
     def _load_json(self,filename):
         if self._ex_ext(filename) != 'json':
-            raise "need a json file"
+            raise Exception("need a json file")
         data = ''
         tmp = open(filename,'r')
         line = tmp.read(self.chunk_size)
@@ -49,39 +38,89 @@ class BasicHandler:
     def _load_tasks(self,name):
         data = self._load_json(name)
         self.aviable_tasks = data
-        
+
+class event(BasicHandler):    
+    next = None
+    start = 0
+    end = 0
+    def __init__(self,_json:dict):
+        self.need_resources:list = _json["resources"]
+        self.date = _json["date-range"]
+        self.time:list = _json['time-range'] #enter in minute that start
+        self.start = int(self.time[0])
+        self.end = int(self.time[1])
+        self.task:str = _json['name']
+        self._load_resources("resources.json")
+        A = set()
+        for x in self.need_resources:
+            A.add(x)
+        for x in self.need_resources:
+            needed = self.get_sources_dependency(x)
+            for x in needed:
+                A.add(x)
+
+        B = set()
+        for x in A:
+            for el in self.resources[x]["without"]:
+                B.add(el)
+
+        Colisions = A & B
+        if len(Colisions) > 0:
+            raise BaseException("invalid task, exist colision")
+
+    def get_sources_dependency(self,res:str,vis = {}):
+        try:
+            if vis[res] == 1:return []
+        except:
+            vis[res] = 1
+            #not visited
+            pass
+        neds = []
+        for x in self.resources[res]["need"]:
+            neds.append(x)
+            neds += self.get_sources_dependency(res)
+        return neds
+
+    def get_no_utilization(self,res:str):
+        noneds = []
+        for x in self.resources[res]["whitout"]:
+            noneds.append(x)
+        return noneds
+    
 class Calendar(BasicHandler):
     currents_event = None # current event 
     next_events = [] # contanins events in order 
-    def __init__(self,event = None):
-        if event == None: return
-        self.currents.append(event)
+    def __init__(self):
+        pass
 
     def cancel_current(self):
         tmp=self.currents_event
         self.currents_event = self.next_event()
         return tmp
 
-    def save_json_datas(self):
+    def save_json_datas(self,calendar_name = 'calendar.json'):
         try:
             save_res = self._dict_to_jsonstr(self.resources)
             save_Ures = self._dict_to_jsonstr(self.used_resources)
-            fi = open('resources.json')
+            fi = open('resources.json',"w")
             fi.write(save_res)
             fi.close()
-            fi = open('used_resources.json')
+            fi = open('used_resources.json',"w")
             fi.write(save_Ures)
+            fi.close()
+            data = "in progress"
+            fi = open(calendar_name,"w")
+            fi.write(data)
             fi.close()
         except Exception as e:
             print("maybe you don't have access to this file: ",e)
 
-
-    def create_task(self,start,end,taskname):
+    def create_task(self,start:int,end:int,taskname:str,daterange:list):
         task = event({
             "name":taskname,
             "time-range":[start,end],
-            "need": self.aviable_tasks[taskname]['need'],
-            "resources":self.resources
+            "resources":self.aviable_tasks[taskname]['need'],
+            "date-range":daterange
         })
         return task
 
@@ -90,18 +129,66 @@ class Calendar(BasicHandler):
     
     def add_event(self,new:event):
         """
-        en esta funcion hay que verificar si en ese momento hay recurosos disponibles 
-        para hacer la tarea, tambien hay que ver como organizar las tareas
-        continuar como que ya esta hecho (hacer el fin de semana (10/10) -> (12/10))
+        optimizar esto
+        si da tiempo
         """
-        self.currents_tasks[[new.start,new.end]] = new
+        try:
+            dt = new.start
+            while (dt <= new.end):
+                for resource in new.need_resources:
+                    res = 0
+                    try:
+                        res = self.used_resources[dt][resource]
+                    except:
+                        try:
+                            res = self.used_resources[dt]
+                            self.used_resources[dt][resource] = 0    
+                        except:
+                            self.used_resources[dt] = {}
+                            self.used_resources[dt][resource] = 0
+                        finally:
+                            res = 0
+                    if (res >= self.resources[resource]["count"]):
+                        return 0
+                dt+=1
+            self.currents_tasks.append(new)
+            dt = new.start
+            while (dt <= new.end):
+                for resource in new.need_resources:
+                    self.used_resources[dt][resource]+=1
+                dt+=1
 
+            return 1
+        
+        except Exception as e:
+            print("unknow exception: ",e)
+    
     def remove_event(self,id):
         pass
 
-    def change_event(self,id,event):
-        pass
+    def findlasterr(self,new:event):
+        try:
+            lasterr = 0
+            dt = new.start
+            while (dt <= new.end):
+                for resource in new.need_resources:
+                    res = 0
+                    try:
+                        res = self.used_resources[dt][resource]
+                    except:
+                        try:
+                            res = self.used_resources[dt]
+                            self.used_resources[dt][resource] = 0    
+                        except:
+                            self.used_resources[dt] = {}
+                            self.used_resources[dt][resource] = 0
+                        finally:
+                            res = 0
+                    if (res >= self.resources[resource]["count"]):
+                        lasterr = dt
+                dt+=1
+            return lasterr
+        except:
+            pass
 
-    def find(self,id):
-        """return first date of {id} task"""
-        pass
+

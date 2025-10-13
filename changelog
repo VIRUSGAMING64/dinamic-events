@@ -1,3 +1,9 @@
+1.6.0.0
+Added test in testfile.py
+Added save datas function
+Added function find last error
+Added function to combert datetime to minute
+Merged events.py and handlers.py
 1.5.0.0
 Updated consoleutils
 Added _get_file_content,_load_from_file and _add_task_meno_how_to

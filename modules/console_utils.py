@@ -18,8 +18,8 @@ def _show_events():
 def _get_file_content():
     print(f"please enter filename\nthe file is json with a format:\n{JSON_EXAMPLE}")
     name = get_str()
+    data = None
     try:
-        data = None
         with open(name) as file:
             data = file.read(2**30)
             file.close()
@@ -84,10 +84,12 @@ def _show_console_resources():
     idx = 1
     for i in calendar.resources:
         print(f"[{idx}] - ",i, f" count: {calendar.resources[i]['count']}")
-        idx+-1
+        idx+=1
     input('Enter any key to continue...\n')
    
 def _show_console_menu():
+    global MAX_OPTION
+    MAX_OPTION = 5
     menu = """
     ************************************
     *          DINAMIC EVENTS          *
@@ -95,12 +97,13 @@ def _show_console_menu():
     * [2] - show aviable resources     *
     * [3] - add event to calendar      *
     * [4] - remove event from calendar *
+    * [5] - save currents tasks        *
     ************************************
     >>> """
     print(menu,end='')    
 
 def main_console_loop():
-    global MENUS,LOCATION
+    global MENUS,LOCATION,MAX_OPTION
     while True:
         try:
             clear_console()
@@ -119,10 +122,28 @@ def _load_from_file():
     data = calendar._jsonstr_to_dict(data)
     for new_task in data:
         new = calendar.create_task(
-            new_task["time"][0],new_task['time'][1],
-            new_task['name']
+            tominute(datetime.fromisoformat(new_task["time"][0])),tominute(datetime.fromisoformat(new_task['time'][1])),
+            new_task['name'],new_task["time"]
         )
         calendar.add_event(new)
+
+
+def _save_calendar():
+    clear_console()
+    menu ="""
+    **************************
+    * ENTER FILENAME TO SAVE *
+    **************************
+"""
+    try:
+        print(menu)
+        get_str()
+        calendar.save_json_datas()
+        print('DATAS SAVED')
+    except Exception as e:
+        print(e)
+    finally:
+        input() 
 
 MENU_TO = {
     MAIN_MENU :{    
@@ -130,7 +151,7 @@ MENU_TO = {
         2: _show_console_resources,
         3: _add_event_show_menu,
         4: void,
-        5: void,
+        5: _save_calendar,
         None: void
     },
     ADD_EVENT_MENU: {
@@ -152,7 +173,7 @@ parent = {
 }
 
 sizes = {
-    MAIN_MENU:4,
+    MAIN_MENU:5,
     ADD_EVENT_MENU:3,
     LOAD_TASK_MENU: 3
 }

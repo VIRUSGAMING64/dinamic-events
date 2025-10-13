@@ -2,6 +2,7 @@ import json
 from modules.gvar import *
 import time
 import os
+from datetime import datetime
 
 def void():
     pass
@@ -43,3 +44,29 @@ def get_str():
     while string == "":
         string = input(">>> ")
     return string
+
+def tominute(date:datetime):
+    minute = date.minute
+    minute += (date.hour) * 60 
+    minute += (date.day-1) * 24 * 60
+    mon = date.month - 1 
+    ye = date.year - 1
+    ye = ye * 365 + int(ye // 4)
+    ye = ye * 24 * 60
+    mon = dict({
+        0:0,
+        1:31,
+        2:31+28 +((date.year % 4 )== 0),
+        3:31+28 +((date.year % 4 )== 0) + 31,
+        4:31+28 +((date.year % 4 )== 0) + 31 + 30,
+        5:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31,
+        6:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30,
+        7:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30 + 31,
+        8:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30 + 31 + 31,
+        9:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30 + 31 + 31 + 30,
+        10:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31,
+        11:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30,
+    })[mon]
+    minute += ye
+    minute += mon * 24 * 60
+    return minute

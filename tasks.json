@@ -1,61 +1,35 @@
 {
     "run monero miner": {
-        "need": [
+        "resources": [
             {
                 "name":"cpu",
                 "count":1
             }
         ],
-        "without": [
-            
-        ]
+        "without": []
     },
     "run btc miner": {
-        "need": [
-            
-        ],
-        "without": [
-            
-        ]
+        "resources": [],
+        "without": []
     },
     "encode video to x265 codec": {
-        "need": [
-            
-        ],
-        "without": [
-            
-        ]
+        "resources": [],
+        "without": []
     },
     "telegram bot hosting": {
-        "need": [
-            
-        ],
-        "without": [
-            
-        ]
+        "resources": [],
+        "without": []
     },
     "webpage hosting": {
-        "need": [
-            
-        ],
-        "without": [
-            
-        ]
+        "resources": [],
+        "without": []
     },
     "host a dota 2 server": {
-        "need": [
-            
-        ],
-        "without": [
-            
-        ]
+        "resources": [],
+        "without": []
     },
     "vps hosting": {
-        "need": [
-            
-        ],
-        "without": [
-            
-        ]
+        "resources": [],
+        "without": []
     }
 }

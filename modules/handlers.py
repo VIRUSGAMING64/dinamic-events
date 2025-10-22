@@ -1,12 +1,11 @@
 import json
+from modules.gvar import *
+from modules.utils import *
 import datetime
-
+import modules.filelogin as log
 
 class BasicHandler:
-    aviable_tasks = {}
-    currents_tasks = []
     resources = {}
-    used_resources = {}
     chunk_size = 65535
     def _load_json(self,filename):
         if self._ex_ext(filename) != 'json':
@@ -58,7 +57,6 @@ class event(BasicHandler):
             needed = self.get_sources_dependency(x)
             for x in needed:
                 A.add(x)
-
         B = set()
         for x in A:
             for el in self.resources[x]["without"]:
@@ -86,17 +84,30 @@ class event(BasicHandler):
         for x in self.resources[res]["whitout"]:
             noneds.append(x)
         return noneds
-    
+
 class Calendar(BasicHandler):
+    used_resources = {}
+    aviable_tasks = {}
+    currents_tasks = []
     currents_event = None # current event 
-    next_events = [] # contanins events in order 
+    events = [] # contanins events in order 
+
     def __init__(self):
-        pass
+        try:
+            self.load_used_sources("used_resources.json")
+            self.remove_olds_events()
+        except Exception as e:
+            # error loading data
+            log.log(f"error loading used resources: ",e)
+            pass
 
     def cancel_current(self):
         tmp=self.currents_event
         self.currents_event = self.next_event()
         return tmp
+
+    def load_used_sources(self,filename):
+        self.used_resources = self._load_json(filename)
 
     def save_json_datas(self,calendar_name = 'calendar.json'):
         try:
@@ -116,55 +127,78 @@ class Calendar(BasicHandler):
             print("maybe you don't have access to this file: ",e)
 
     def create_task(self,start:int,end:int,taskname:str,daterange:list):
-        task = event({
-            "name":taskname,
-            "time-range":[start,end],
-            "resources":self.aviable_tasks[taskname]['need'],
-            "date-range":daterange
-        })
+        try:
+            task = event({
+                "name":taskname,
+                "time-range":[start,end],
+                "resources": [],
+                "date-range":daterange
+            })
+        except Exception as e:
+            log.log("error creating task",e)
+            return None
+        try:
+            for elem in self.aviable_tasks[taskname]["resources"]:
+                task.need_resources.append(elem['name'])
+        except Exception as e:
+            print("error adding resources to task: ",e)
+            input()
+            return None
         return task
 
     def next_event(self):
         pass
+    
+    def check_aviable(self,new_res,start,end):
+        if not (new_res in self.used_resources.keys()):
+            return True
+        
+        for res in self.used_resources:
+            if res != new_res:
+                continue
+            try:
+                #already saved sorteds index
+                # 
+                pass
+                
+
+
+            except Exception as e:
+                log.log("error checking aviable resource: ",e)
+                return False
+
+        return True
     
     def add_event(self,new:event):
         """
         optimizar esto
         si da tiempo
         """
+        self.events.append(new)
         try:
-            dt = new.start
-            while (dt <= new.end):
-                for resource in new.need_resources:
-                    res = 0
-                    try:
-                        res = self.used_resources[dt][resource]
-                    except:
-                        try:
-                            res = self.used_resources[dt]
-                            self.used_resources[dt][resource] = 0    
-                        except:
-                            self.used_resources[dt] = {}
-                            self.used_resources[dt][resource] = 0
-                        finally:
-                            res = 0
-                    if (res >= self.resources[resource]["count"]):
-                        return 0
-                dt+=1
-            self.currents_tasks.append(new)
-            dt = new.start
-            while (dt <= new.end):
-                for resource in new.need_resources:
-                    self.used_resources[dt][resource]+=1
-                dt+=1
-
-            return 1
-        
+            for res in new.need_resources:
+                av = self.check_aviable(res,new.start,new.end)
+                if av == False:
+                    return av
+            for res in new.need_resources:        
+                add_to_dict(self.used_resources,[res,new.start,1])        
+                add_to_dict(self.used_resources,[res,new.end+1,-1])
+            return True
         except Exception as e:
-            print("unknow exception: ",e)
-    
-    def remove_event(self,id):
-        pass
+            log.log("error adding event: [unknow error]",e)
+
+    def remove_olds_events(self):
+        now = tominute(datetime.datetime.now())
+        for ev in self.events:
+            if ev.end < now:
+                self.events.remove(ev)
+            for res in ev.need_resources:
+                self.used_resources[res][ev.start] -= 1
+                self.used_resources[res][ev.end+1] += 1
+                if self.used_resources[res][ev.start] == 0:
+                    del self.used_resources[res][ev.start]
+                if self.used_resources[res][ev.end+1] == 0:
+                    del self.used_resources[res][ev.end+1]
 
     def findlasterr(self,new:event):
         try:

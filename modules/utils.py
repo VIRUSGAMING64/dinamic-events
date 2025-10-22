@@ -1,6 +1,7 @@
 import json
 from modules.gvar import *
 import time
+import modules.filelogin as log
 import os
 from datetime import datetime
 
@@ -70,3 +71,19 @@ def tominute(date:datetime):
     minute += ye
     minute += mon * 24 * 60
     return minute
+
+
+
+def add_to_dict(dic:dict,lis):
+    if len(lis) == 2:
+        try:
+            dic[lis[0]] += lis[1]
+        except:
+            dic[lis[0]] = lis[1]
+        return
+    
+    if lis[0] in dic.keys():
+        add_to_dict(dic[lis[0]],lis[1:])
+    else:
+        dic[lis[0]] = {}
+        add_to_dict(dic[lis[0]],lis[1:])

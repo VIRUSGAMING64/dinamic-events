@@ -9,7 +9,12 @@
         "without": []
     },
     "run btc miner": {
-        "resources": [],
+        "resources": [
+            {
+                "name":"gpu",
+                "count":1
+            }
+        ],
         "without": []
     },
     "encode video to x265 codec": {

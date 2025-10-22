@@ -2,6 +2,7 @@
 import time 
 from modules.gvar import *
 from modules.utils import *
+import modules.filelogin as log
 
 def _show_events():
     clear_console()
@@ -28,7 +29,7 @@ def _get_file_content():
         else:
             print("loaded !!!")
     except Exception as e:
-            print(e)
+            log.log(e)
             input('error :[')
     finally:
         input('press any key to continue...')
@@ -112,7 +113,7 @@ def main_console_loop():
             if imp == None: continue
             MENU_TO[LOCATION][imp]()
         except Exception as e:
-            print(e)
+            log.log(e)
             input()
 
 
@@ -120,13 +121,32 @@ def main_console_loop():
 def _load_from_file():
     data = _get_file_content()
     data = calendar._jsonstr_to_dict(data)
+    if debug:
+        print("loaded data and comberted")
     for new_task in data:
+        if debug:
+            print("iteration _load_from_file")
+        try:
+            l = tominute(datetime.fromisoformat(new_task["time"][0]))
+            r = tominute(datetime.fromisoformat(new_task['time'][1]))
+        except Exception as e:
+            log.log("error in date format, use isoformat",e)
+            input()
+            return
         new = calendar.create_task(
-            tominute(datetime.fromisoformat(new_task["time"][0])),tominute(datetime.fromisoformat(new_task['time'][1])),
-            new_task['name'],new_task["time"]
+            l , r,
+            new_task['name'],
+            new_task["time"]
         )
-        calendar.add_event(new)
-
+        try:
+            print("SAVING EVENT")
+            calendar.add_event(new)
+        except Exception as e:
+            log.log("error adding event from file: ",e)
+            input()
+        if debug:
+            print("added new task",new.need_resources)
+            input()
 
 def _save_calendar():
     clear_console()

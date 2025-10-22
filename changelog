@@ -1,3 +1,8 @@
+1.6.1.0
+Added function for logs
+Added remove_olds_events function
+Optimized some functions
+Updated python for tests
 1.6.0.0
 Added test in testfile.py
 Added save datas function
@@ -16,7 +21,7 @@ Created github workflow
 1.3.0.0
 Created new panel 
 Sorted functions in files
-Some errors fixeds
+Some errors fixed
 1.2.0.0
 Created gvar, utils, and console_utils modules
 Created a simple console UI for test functions
@@ -27,14 +32,13 @@ Fixed errors in handler declarations
 Added basics functions templates to modules
 Added install.sh
 Added TODO file
-Added rresources and tasks templates to json
+Added resources and tasks templates to json
 1.0.0.1
-Added .gitignore to .gitignore
-AMAZING...
+Added .gitignore to .gitignore (amazing...)
 1.0.0.0
 First commit with basic files in my project
 
-HOW UNDERSTAND VERSIONS CHANGELOGS
+HOW TO UNDERSTAND VERSIONS CHANGELOGS
 F.A.BE.SE
 /*
 F Change if add framework

@@ -2,22 +2,22 @@
 Added function for logs
 Added remove_olds_events function
 Optimized some functions
-Updated python for tests
+Updated Python for tests
 1.6.0.0
 Added test in testfile.py
-Added save datas function
-Added function find last error
-Added function to combert datetime to minute
+Added save data function
+Added function to find last error
+Added function to convert datetime to minutes
 Merged events.py and handlers.py
 1.5.0.0
-Updated consoleutils
-Added _get_file_content,_load_from_file and _add_task_meno_how_to
+Updated console_utils
+Added _get_file_content, _load_from_file and _add_task_meno_how_to
 1.4.0.0
-Aded testfile.py
+Added testfile.py
 Modules updates
 Created show events function
-Class event is created new
-Created github workflow
+Created new class event
+Created GitHub workflow
 1.3.0.0
 Created new panel 
 Sorted functions in files
@@ -25,11 +25,11 @@ Some errors fixed
 1.2.0.0
 Created gvar, utils, and console_utils modules
 Created a simple console UI for test functions
-Fixed simples errors
+Fixed simple errors
 1.1.0.1
 Fixed errors in handler declarations
 1.1.0.0
-Added basics functions templates to modules
+Added basic function templates to modules
 Added install.sh
 Added TODO file
 Added resources and tasks templates to json
@@ -41,8 +41,8 @@ First commit with basic files in my project
 HOW TO UNDERSTAND VERSIONS CHANGELOGS
 F.A.BE.SE
 /*
-F Change if add framework
-A Change if add class or functions
-BE Change if a big error are solved
-SE Change if a stupid error are solved
+F  Change when a framework is added
+A  Change when a class or functions are added
+BE Change when a big error is solved
+SE Change when a small error is solved
 */

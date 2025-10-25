@@ -77,13 +77,13 @@ def tominute(date:datetime):
 def add_to_dict(dic:dict,lis):
     if len(lis) == 2:
         try:
-            dic[lis[0]] += lis[1]
+            dic[str(lis[0])] += lis[1]
         except:
-            dic[lis[0]] = lis[1]
+            dic[str(lis[0])] = lis[1]
         return
     
     if lis[0] in dic.keys():
-        add_to_dict(dic[lis[0]],lis[1:])
+        add_to_dict(dic[str(lis[0])],lis[1:])
     else:
-        dic[lis[0]] = {}
-        add_to_dict(dic[lis[0]],lis[1:])
+        dic[str(lis[0])] = {}
+        add_to_dict(dic[str(lis[0])],lis[1:])

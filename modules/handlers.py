@@ -95,7 +95,6 @@ class Calendar(BasicHandler):
     def __init__(self):
         try:
             self.load_used_sources("used_resources.json")
-            self.remove_olds_events()
         except Exception as e:
             # error loading data
             log.log(f"error loading used resources: ",e)

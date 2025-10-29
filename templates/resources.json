@@ -1,0 +1,48 @@
+{
+   "cpu": {
+      "count": 3,
+      "need": [
+         "ram"
+      ],
+      "without": [
+         "gpu"
+      ]
+   },
+   "ram": {
+      "count": 3,
+      "need": [
+         "cpu"
+      ],
+      "without": []
+   },
+   "hdd": {
+      "count": 1,
+      "need": [
+         "cpu"
+      ],
+      "without": [
+         "ssd"
+      ]
+   },
+   "ssd": {
+      "count": 1,
+      "need": [
+         "cpu"
+      ],
+      "without": [
+         "hdd"
+      ]
+   },
+   "gpu": {
+      "count": 1,
+      "need": [
+         "vram"
+      ],
+      "without": []
+   },
+   "vram": {
+      "count": 1,
+      "need": [],
+      "without": []
+   }
+}

@@ -1,5 +1,5 @@
 {
-    "run monero miner": {
+    "monero miner": {
         "resources": [
             {
                 "name":"cpu",
@@ -8,7 +8,7 @@
         ],
         "without": []
     },
-    "run btc miner": {
+    "btc miner": {
         "resources": [
             {
                 "name":"gpu",

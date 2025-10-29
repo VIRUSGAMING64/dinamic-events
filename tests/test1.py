@@ -1,9 +1,15 @@
 import time
+start = time.time_ns() / 10**9
 import os
+from modules.events import *
 from multiprocessing import Process
 from typing import *
-start = time.time_ns() / 10**9
-from modules import *
+import datetime as dt
+from modules.utils import *
+from modules.gvar import *
+from datetime import datetime
+import os
+
 end = time.time_ns() / 10**9
 Time_s = end-start
 print(f"IMPORT TIME ELAPSED\n{Time_s} SECONDS")
@@ -27,22 +33,21 @@ def single_core_speed(core = 0):
     mtx = True
     print(f"CORE {core} SPEED TEST\npython speed 1e8 Floting Points Operations in {Time_s}s\n{id[i]}flops: {flops}".upper())
     mtx = False
-
 cores = os.cpu_count()
+
 def cores_speed():
     for i in range(cores):
         Process(args=[i],target=single_core_speed).start()
 
-print("==============================================")
-print("==============================================")
+#cores_speed()
+
 print('now in ctime:',tominute(datetime.now()))
 print('now in ctime:',tominute(datetime(1,1,2,0,10)))
-print("==============================================")
-print("==============================================")
 
 da=datetime.now()
 s=tominute(da)
-da2 =da.replace(year=da.year+1)
+dl=dt.timedelta(minutes=1)
+da2 = da+dl
 e=tominute(da2)
 
 ev = event(
@@ -50,38 +55,35 @@ ev = event(
         "name": "mine btc",
         "time-range":[s,e],
         "resources": ['cpu'],
-        "date-range": [da,da2]
+        "date-range": [da.isoformat(),da2.isoformat()]
     }
 )
 
 print("dependency:",ev.get_sources_dependency("ram"))
-print("==============================================")
 print("==============TEST ADD EVENT==================")
 
 start = time.time_ns() / 10**9
 da=calendar.add_event(ev)
 print("aded",da)
-ev.end += 1
+ev.end += 10
 da=calendar.add_event(ev)
 print('aded',da)
 end = time.time_ns() / 10**9
 Time_s = end-start
 
 print(f"ADDING TIME ELAPSED\n{Time_s} SECONDS")
-print("==============================================")
 print("==============TEST RESOURCES==================")
 print(calendar.resources)
 print("==============TESTING SAVE====================")
 
 start = time.time_ns() / 10**9
-calendar.save_json_datas("testcalendar.json")
+calendar.save_json_datas()
 end = time.time_ns() / 10**9
 Time_s = end-start
 
 print(f"SAVING TIME ELAPSED\n{Time_s} SECONDS")
-print("==============================================")
 print("==============TEST LAST ERROR=================")
-print("last index error: ",calendar.findlasterr(ev),"init: ",ev.start,"end: ",ev.end)
-print("==============================================")
-cores_speed()
+#print("last index error: ",calendar.findlasterr(ev),"init: ",ev.start,"end: ",ev.end)
 
+
+    

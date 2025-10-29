@@ -1,6 +1,0 @@
-1 - Si da tiempo el how to use en la webpage
-2 - GUI (pyqt or Flex)
-3 - commandline utilization: Example --> (dinev --help) (dinev --add-event "hola" --need 'cpu','gpu',..., --time 123,132 --without '123',"123")
-4 - The Readme (esto es necesario para aprobar supongo)
-5 - Si queda tiempo el api en fast api
-6 - despues de hacer el $5 hacer la GUI en la webpage tambien

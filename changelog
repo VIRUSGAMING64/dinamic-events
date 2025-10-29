@@ -1,3 +1,9 @@
+2.0.0.0
+Created 3 folders for tests,save datas and templates
+Created Basic GUI with customtkinter
+Created new module for custom gui widgets
+Created File for run tests
+module handlers separed in 3 files: handlers events and calendar
 1.6.1.1
 Some bugs fixed
 1.6.1.0

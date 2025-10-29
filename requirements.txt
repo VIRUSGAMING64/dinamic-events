@@ -1,1 +1,7 @@
 flask
+psutils
+customtkinter
+CTkMessagebox
+CTkTable
+CTkDatePicker
+ctkdlib

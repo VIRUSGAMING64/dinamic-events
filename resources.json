@@ -1,1 +1,0 @@
-{"cpu": {"count": 1, "need": ["ram"], "without": ["gpu"]}, "ram": {"count": 1, "need": ["cpu"], "without": []}, "hdd": {"count": 1, "need": ["cpu"], "without": ["ssd"]}, "ssd": {"count": 1, "need": ["cpu"], "without": ["hdd"]}, "gpu": {"count": 1, "need": ["vram"], "without": []}, "vram": {"count": 1, "need": [], "without": []}}

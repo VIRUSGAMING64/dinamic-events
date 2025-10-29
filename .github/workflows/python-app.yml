@@ -27,4 +27,4 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test with testfile.py
       run: |
-        python runtest.py
+        python runtests.py

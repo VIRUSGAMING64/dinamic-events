@@ -5,6 +5,6 @@ python3 --version
 echo "=============!"
 echo "RUNING AS" ; whoami
 echo "=============!"
-
 sleep 3
 python3 dinev.py
+bash ./clean.sh

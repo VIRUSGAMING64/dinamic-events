@@ -1,6 +1,6 @@
 {
    "cpu": {
-      "count": 3,
+      "count": 1,
       "need": [
          "ram"
       ],
@@ -9,7 +9,7 @@
       ]
    },
    "ram": {
-      "count": 3,
+      "count": 1,
       "need": [
          "cpu"
       ],

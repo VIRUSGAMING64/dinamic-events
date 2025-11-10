@@ -1,5 +1,6 @@
 from modules.events import *
 
+
 class Calendar(BasicHandler):
     used_resources = {}
     aviable_tasks = {}
@@ -10,17 +11,19 @@ class Calendar(BasicHandler):
     def __init__(self):
         try:
             self.load_used_sources(f"{SAVE_ROOT}/used_resources.json")
-            self.remove_olds_events()
             ex = self._load_json(f"{SAVE_ROOT}/actives_events.json")
             self.events = []
             for i in ex:
                 self.events.append(event(i))
+            self.remove_olds_events()
+            self.save_json_datas()
         except Exception as e:
             # error loading data
             log.log(f"error loading used resources: ",e)
             pass
     
     def list_events(self): #definitivamente no se puede optimizar
+        self.remove_olds_events()
         return self.events
 
     def load_used_sources(self,filename):
@@ -69,9 +72,9 @@ class Calendar(BasicHandler):
         SI:
             optimizarlo despues del frontend
         NO:
-            PILOAAAA!!!
+            PIOLAAAA!!!
         """
-        self.remove_olds_events()
+        
         for res in self.used_resources:
             if res != new_res:
                 continue
@@ -92,6 +95,7 @@ class Calendar(BasicHandler):
         optimizar esto si da tiempo
         """
         self.sort()
+        self.remove_olds_events()
         try:
             for res in new.need_resources:
                 av = self.check_aviable(res,new.start,new.end)
@@ -106,12 +110,31 @@ class Calendar(BasicHandler):
             log.log("error adding event: [unknow error]",e)
         return False
 
+    def _no_check_add(self,events:list[event]):
+        try:
+            for ev in events:
+                for res in ev.need_resources:
+                    add_to_dict(self.used_resources,[res,ev.start, 1])
+                    add_to_dict(self.used_resources,[res,ev.end, -1])
+        except Exception as e:
+            log.log(f"error adding without check [{e}]")
+
     def remove_olds_events(self):
-        return None
+        self.sort()
+        now = datetime.datetime.now()
+        init_t = tominute(now)
+        del now
+        events = []
+        for task in self.events:
+            if init_t < task.end:
+                events.append(task)
+        self.used_resources = {}
+        self.events = events
+        self._no_check_add(events)
 
     def sort(self):
         """
-        this function sort keys off self.used_resources by age
+        this function sort keys of self.used_resources by age
         """
         temp = {}
         for res in self.used_resources:

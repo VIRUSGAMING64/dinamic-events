@@ -1,3 +1,10 @@
+2.1.0.0
+Added bash script to clean repository of __pycache__ and .cph (competitive programing helper)
+Added folder with backend of the GUI(with handlers of buttons and others)
+Added Function for add event(GUI)
+Divided GUI into others files
+Updated Readme
+Removed Folder of web
 2.0.0.3
 Fix error in name of saved testfile
 2.0.0.2

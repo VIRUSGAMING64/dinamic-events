@@ -1,3 +1,5 @@
+2.1.0.1
+Removed console UI start point (deprecated)
 2.1.0.0
 Added bash script to clean repository of __pycache__ and .cph (competitive programing helper)
 Added folder with backend of the GUI(with handlers of buttons and others)

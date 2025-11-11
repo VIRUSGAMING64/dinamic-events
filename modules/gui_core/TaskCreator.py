@@ -7,7 +7,7 @@ from CTkMessagebox import CTkMessagebox as Messagebox
 class TaskCreator(CTk):
     def __init__(self):
         super().__init__()
-        self.title("Custom Tkinter App")
+        self.title("TASK ADDER")
         self.x_size = 280
         self.y_size = 300
         self.geometry(f"{self.x_size}x{self.y_size}")

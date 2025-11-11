@@ -15,6 +15,10 @@ class event(BasicHandler):
                 self.notes = _json["note"]
             self.start = int(self.time[0])
             self.end = int(self.time[1])
+            
+            if self.start > self.end:
+                raise Exception("Invalid range [R < L]")
+            
             self._load_resources("./templates/resources.json")
             Deps = set()        
             for x in self.need_resources:

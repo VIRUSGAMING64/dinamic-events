@@ -1,3 +1,8 @@
+2.2.0.0
+Added GUI to delete existing task without backend
+Added Remove Task Button to mainloop of gui
+Added python script to clean the project
+Deleted webapp.py (not used)
 2.1.0.1
 Removed console UI start point (deprecated)
 2.1.0.0

@@ -38,7 +38,7 @@ class app(CTk):
                 self.task_remover.destroy()
                 self.task_remover = None
             except Exception as e:
-                log.log(f"already destroyed [{e}]")
+                log(f"already destroyed [{e}]")
 
         
         self.task_remover = TaskRemover()
@@ -51,7 +51,7 @@ class app(CTk):
                 self.task_creator.destroy()
                 self.task_creator = None
             except Exception as e:
-                log.log(f"already destroyed [{e}]")
+                log(f"already destroyed [{e}]")
             
         self.task_creator = TaskCreator()
         self.task_creator.mainloop()

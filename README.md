@@ -102,7 +102,6 @@ dinamic-events/
 │  ├─ calendar.py
 │  ├─ console_utils.py
 │  ├─ events.py
-│  ├─ filelogin.py
 │  ├─ gvar.py
 │  ├─ handlers.py
 │  ├─ utils.py
@@ -133,7 +132,6 @@ dinamic-events/
 | `modules/console_utils.py` | Menú de consola para gestionar el calendario sin GUI. |
 | `modules/gui_core/customGUI.py` | Widgets auxiliares y estilos para la interfaz CustomTkinter. |
 | `modules/gui_core/TaskCreator.py` / `TaskRemover.py` | Ventanas auxiliares para crear / eliminar tareas desde la GUI. |
-| `modules/filelogin.py` | Registro de logs y errores en `logs.txt`. |
 | `modules/gvar.py` | Variables globales, calendario compartido y bootstrap de datos. |
 | `modules/utils.py` | Helpers generales (conversión de tiempo, manejo de diccionarios, etc.). |
 | `modules/webapp.py` | Punto de partida para exponer la lógica vía web. |
@@ -144,7 +142,6 @@ dinamic-events/
 
 - `python runtests.py`: ejecuta los tests definidos en `tests/`.
 - `tests/test1.py`, `tests/test2.py`, `tests/test3.py`: casos de ejemplo para carga/guardado y estrés.
-- `logs.txt`: bitácora generada por `filelogin.py` para revisar errores.
 
 > ✅ Ejecuta `python runtests.py` tras refactorizar los módulos de planificación.
 
@@ -164,8 +161,7 @@ dinamic-events/
 
 1. Añadir más ejemplos o casos de uso en `templates/`.
 2. Ampliar la suite de tests para el motor `Calendar`.
-3. Explorar la base `modules/webapp.py` para una versión web.
-4. Dockerizar el proyecto si necesitas deployar rápidamente.
+3. Dockerizar el proyecto si necesitas deployar rápidamente.
 
 ---
 

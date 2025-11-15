@@ -1,3 +1,7 @@
+2.4.0.0
+Added Segment tree to optimize Check range of time (ChackAviable)
+Removed unused modules
+Added test to segment tree
 2.3.0.0
 Added Sugest brute function to calendar class
 Added logs.txt to clean.sh

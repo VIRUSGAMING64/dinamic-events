@@ -1,5 +1,5 @@
 from modules.events import *
-
+from modules.SegTree import *
 
 class Calendar(BasicHandler):
     used_resources = {}
@@ -19,7 +19,7 @@ class Calendar(BasicHandler):
             self.save_json_datas()
         except Exception as e:
             # error loading data
-            log.log(f"error loading used resources: ",e)
+            log(f"error loading used resources: ",e)
             pass
     
     def list_events(self): #definitivamente no se puede optimizar
@@ -53,7 +53,7 @@ class Calendar(BasicHandler):
                 "date-range":daterange
             })
         except Exception as e:
-            log.log("error creating task",e)
+            log("error creating task",e)
             return None
         try:
             for elem in self.aviable_tasks[taskname]["resources"]:
@@ -64,34 +64,49 @@ class Calendar(BasicHandler):
             return None
         return task
     
-    def check_aviable(self,new_res:str,start:int,end:int): #! ERROR GRAVE 
+    def check_aviable(self,new_res:str,start:int,end:int): 
         if not (new_res in self.used_resources.keys()):
             return True
-        """
-        se puede optimizar esto ?
-        SI:
-            optimizarlo despues del frontend
-        NO:
-            PIOLAAAA!!!
-        """
+        
         self.sort()
+        di = {}
+        
         for res in self.used_resources:
             if res != new_res:
                 continue
             try:
                 sum = 0
+                id = 0
+                a2 = [start,end]
+                a = [0] * (id + 10)
+
                 for i in self.used_resources[res]:
                     x = int(i)
-                    sum += int(self.used_resources[res][i])
-                    if ((x >= start) and (x <= end)) and (sum >= self.resources[res]["count"]):
-                        return False
+                    a2.append(x)
+                
+                a2.sort()
+
+                for x in a2:
+                    if di.get(x,-1) == -1:
+                        di[x] = id
+                        id += 1                
+                
+                for x in di:
+                    a[di[x]] += 1
+                
+                tree = SegTree(a)
+                l = di[start]
+                r = di[end]
+                mx = tree.query(l,r)
+
+                if mx >= self.resources[res]["count"]:
+                    return False
+                
             except Exception as e:
-                log.log("error checking aviable resource: ",e)
+                log("error checking aviable resource: ",e)
                 return False
         return True
-    
-
-    
+        
     def add_event(self,new:event):
         """
         optimizar esto si da tiempo
@@ -109,7 +124,7 @@ class Calendar(BasicHandler):
                 add_to_dict(self.used_resources,[res,new.end,-1])
             return True
         except Exception as e:
-            log.log("error adding event: [unknow error]",e)
+            log("error adding event: [unknow error]",e)
         return False
 
     def remove(self,index):
@@ -126,7 +141,7 @@ class Calendar(BasicHandler):
                     add_to_dict(self.used_resources,[res,ev.start, 1])
                     add_to_dict(self.used_resources,[res,ev.end, -1])
         except Exception as e:
-            log.log(f"error adding without check [{e}]")
+            log(f"error adding without check [{e}]")
 
     def remove_olds_events(self):
         self.sort()

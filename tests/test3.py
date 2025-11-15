@@ -1,32 +1,20 @@
+#para hacer test a segtree
 
-def concat(x):
-    s = ""
-    for i in range(1,x+1):
-        s += str(i)
-    return s
-
-def gen(x,A):
-    co = 0
-    c = 0
-    for i in A[:x]:
-        c+=1
-        if i == '1':
-            co += 1
-            print(c,co)
+from modules import SegTree
+from random import *
+a = []
+mx = 0
+for i in range(10**5):
+    b=randint(1,10**9)
+    a.append(b)
+    mx = max(mx,b)
 
 
-n = 100000
-
-gen(len(concat(n)),concat(n))
+tree = SegTree(a)
 
 
-"""
-!SOLUCION RECURSIVA:
+o = tree.query(0,len(a) - 1)
 
-f(1) = 1 
-f(x) = 10**(log10(x)) + 10f(x/10)
+print(mx , o)
 
-eso me da (habiendo concatenado x elementos, entonces cuantos 1 hay hasta x)
-x siempre potencia de 10
-
-"""
+assert mx == o

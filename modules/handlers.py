@@ -2,7 +2,6 @@ import json
 from modules.gvar import *
 from modules.utils import *
 import datetime
-import modules.filelogin as log
 SAVE_ROOT = "./saved"
 
 class BasicHandler:

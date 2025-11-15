@@ -1,9 +1,12 @@
 import json
 from modules.gvar import *
 import time
-import modules.filelogin as log
 import os
 from datetime import datetime
+import time
+
+def log(*data):
+    print(f"[{time.ctime()}]: ",*data,file=(open("logs.txt","a")))
 
 def get_sources_dependency(resources,res:str,vis = None):
     if vis == None:
@@ -49,7 +52,7 @@ def CheckISODate(date:str):
             return 0        
         return 1
     except Exception as e:
-        log.log(f"error checking ISO date [{e}]")
+        log(f"error checking ISO date [{e}]")
         return 0
 
 

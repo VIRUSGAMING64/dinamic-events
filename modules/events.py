@@ -36,7 +36,7 @@ class event(BasicHandler):
                 raise BaseException("invalid task, exist colision")
             self.need_resources = list(Deps)
         except Exception as e:
-            log.log(f"error initialicing event [{e}]")
+            log(f"error initialicing event [{e}]")
 
     def __str__(self):
         return json.dumps({

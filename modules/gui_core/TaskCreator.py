@@ -94,7 +94,7 @@ class TaskCreator(CTk):
             ne += f"- {i}\n"
 
         self.dependency_label.configure(text= org + ":\n" + ne)
-        
+        return deps
 
     def __sugest(self,l:int , r : int, resources :list) -> list:
         print("running...")
@@ -123,8 +123,9 @@ class TaskCreator(CTk):
             return False
 
         #! get resources of the task
-        res = ["cpu","ram"]
-                 
+        res = self._get_deps(self.tasks.get())
+        
+        print(res)
 
         l,r = self.__sugest(tominute(begin),tominute(end),res)
         #! combert l,r to datetime isoformat
@@ -161,11 +162,9 @@ class TaskCreator(CTk):
             self.Invalid("date")
             return False
 
-        task_name = None
-        #! get name of the task to do
+        task_name = self.tasks.get()
 
-        res = ["cpu"]
-        #! get resources of this task
+        res = self._get_deps(task_name)
 
         new = event(
             {
@@ -189,9 +188,8 @@ class TaskCreator(CTk):
             message.get()
             return False
         
-        added = calendar.add_event(new)
-        if added:
-            calendar.save_json_datas()
+        added = calendar.add_event(new)    
+        calendar.save_json_datas()
         print(f"added: [{added}]")
         return added
 

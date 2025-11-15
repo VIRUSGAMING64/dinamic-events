@@ -59,7 +59,7 @@ ev = event(
     }
 )
 
-print("dependency:",ev.get_sources_dependency("ram"))
+print("dependency:",get_sources_dependency(calendar.resources,"ram"))
 print("==============TEST ADD EVENT==================")
 
 start = time.time_ns() / 10**9

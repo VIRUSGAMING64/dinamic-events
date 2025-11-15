@@ -1,3 +1,12 @@
+2.3.0.0
+Added Sugest brute function to calendar class
+Added logs.txt to clean.sh
+Changed name of GUI.py to main.py
+get_sources_dependency moved to utils.py from event.py
+Created CheckISODate in utils.py
+Created _get_deps and adjust in TaskCreator.py
+Added button to remove tasks
+Minor fixes in others files
 2.2.0.0
 Added GUI to delete existing task without backend
 Added Remove Task Button to mainloop of gui

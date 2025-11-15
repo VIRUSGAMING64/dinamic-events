@@ -24,7 +24,7 @@ class event(BasicHandler):
             for x in self.need_resources:
                 Deps.add(x)
             for x in self.need_resources:
-                needed = self.get_sources_dependency(x)
+                needed = get_sources_dependency(self.resources,x)
                 for x in needed:
                     Deps.add(x)
             NoUse = set()
@@ -49,19 +49,7 @@ class event(BasicHandler):
 
     def __dict__(self):
         return json.loads(self.__str__())
-
-    def get_sources_dependency(self,res:str,vis = None):
-        if vis == None:
-            vis = {}
-        if res in vis.keys():
-            return []
-        vis[res] = 1
-        neds = []
-        for x in self.resources[res]["need"]:
-            neds.append(x)
-            neds += self.get_sources_dependency(res,vis)
-        return neds
-
+    
     def get_no_utilization(self,res:str):
         noneds = []
         for x in self.resources[res]["whitout"]:

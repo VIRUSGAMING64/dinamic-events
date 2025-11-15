@@ -18,6 +18,7 @@ calendar._load_resources('./templates/resources.json')
 calendar._load_tasks("./templates/tasks.json")
 MAX_OPTION = 4
 LOCATION = 0
+FONT_SIZE = ...
 ##############################
 # MENUES
 MAIN_MENU = 0

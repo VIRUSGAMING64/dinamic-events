@@ -5,6 +5,54 @@ import modules.filelogin as log
 import os
 from datetime import datetime
 
+def get_sources_dependency(resources,res:str,vis = None):
+    if vis == None:
+        vis = {}
+    if res in vis.keys():
+        return []
+    vis[res] = 1
+    neds = []
+    for x in resources[res]["need"]:
+        neds.append(x)
+        neds += get_sources_dependency(resources,res,vis)
+        return neds
+
+
+def CheckISODate(date:str): 
+    try:
+        print(date)
+        date = date.split("-")
+        year = int(date[0])
+        mo = int(date[1])
+        print(year,mo)
+        if int(mo) > 12 or int(mo) <= 0:
+            return 0
+        d_h = date[2].split("T")
+        h = d_h[1]
+        d = int(d_h[0])
+        h = h.split(':')
+        print(h,d,mo,year)
+        if int(h[0]) >= 24 or int(h[0]) < 0:
+            return 0
+        if int(h[1]) >= 60 or int(h[1]) < 0:
+            return 0       
+        d31 = [1,3,5,7,8,10,12]
+        d28 = [2]
+        d30 = [4,6,9,11]
+        if d <= 0:
+            return 0
+        if mo == 2 and d > 28:
+            return 0
+        if mo in d31 and d > 31:
+            return 0
+        if mo in d30 and d > 30:
+            return 0        
+        return 1
+    except Exception as e:
+        log.log(f"error checking ISO date [{e}]")
+        return 0
+
+
 def void():
     pass
 

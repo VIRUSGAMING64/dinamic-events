@@ -32,14 +32,31 @@ class TaskCreator(CTk):
         self.begin_time.place(x=self.x_size-200,y=0)
         self.begin_time_label.place(x=self.x_size-200-75,y=0)
 
-        self.end_time.place(x=self.x_size-200,y=28)
-        self.end_time_label.place(x=self.x_size-200-65,y=28)
-        
         self.begin_time.bind("<Return>", lambda event: "break")
         self.end_time.bind("<Return>", lambda event: "break")
 
+
+        self.end_time.place(x=self.x_size-200,y=28)
+        self.end_time_label.place(x=self.x_size-200-65,y=28)
+        
         self.begin_time.insert("1.0",text=f"{start_time.replace("T"," AT ")}")
         self.end_time.insert("1.0",text=f"{start_time.replace("T"," AT ")}")
+        """
+        SHOW RESOURCESS THAT THIS EVENT NEED
+        """
+        self.tasks = CTkComboBox(self,width=280,values=self._get_tasks(),state="readonly", command=self._get_deps)
+        self.tasks.set("Select a task")
+        self.tasks.pack()
+        self.tasks.place(x=0,y=56)
+
+        """
+        DEPENDENCY LABEL
+        """
+        self.dependency_label = CTkLabel(self,text="Dependencies:\n" )
+        self.dependency_label.pack()
+        self.dependency_label.place(x=0,y=90)
+
+
         """
         BUTTONS
         """
@@ -47,47 +64,76 @@ class TaskCreator(CTk):
         self.b_add.pack()
         self.b_add.place(x=70, y = self.y_size - 56)
 
-    def CheckDate(self,date:str): 
-        try:
-            print(date)
-            date = date.split("-")
-            year = int(date[0])
-            mo = int(date[1])
-            print(year,mo)
-            if int(mo) > 12 or int(mo) <= 0:
-                return 0
-            d_h = date[2].split("T")
-            h = d_h[1]
-            d = int(d_h[0])
-            h = h.split(':')
 
-            print(h,d,mo,year)
-
-            if int(h[0]) >= 24 or int(h[0]) < 0:
-                return 0
-            if int(h[1]) >= 60 or int(h[1]) < 0:
-                return 0
-            
-            d31 = [1,3,5,7,8,10,12]
-            d28 = [2]
-            d30 = [4,6,9,11]
-
-            if d <= 0:
-                return 0
-
-            if mo == 2 and d > 28:
-                return 0
-            if mo in d31 and d > 31:
-                return 0
-            if mo in d30 and d > 30:
-                return 0
-            
-            return 1
+        self.sug = CTkButton(self,text="Adjust date",command=self.adjust)
+        self.sug.pack()
+        self.sug.place(x=70, y = self.y_size - 56 * 2)
 
 
-        except Exception as e:
-            log.log(f"error checking date [{e}]")
-            return 0
+    def _get_deps(self,selected):
+        deps = []
+        print(selected,calendar.aviable_tasks)
+        res = calendar.aviable_tasks[selected]["resources"]
+        for t in res:
+            deps.append(t["name"])
+        
+        A = set()
+        for i in deps:
+            A.add(i)
+            for x in get_sources_dependency(calendar.resources,i):
+                A.add(x)
+        
+        print(A)
+        deps = []
+        for i in A:
+            deps.append(i)
+        print(deps)
+        org = self.dependency_label.cget("text").split(':')[0]
+        ne = ""
+        for i in deps:
+            ne += f"- {i}\n"
+
+        self.dependency_label.configure(text= org + ":\n" + ne)
+        
+
+    def __sugest(self,l:int , r : int, resources :list) -> list:
+        print("running...")
+        L = calendar.sugest_bruteLR(l,r,resources)
+        print("finded...")
+        R = L + datetime.timedelta(minutes=r - l)
+        return L,R
+
+    def adjust(self):
+       
+        print("[SUGEST_FUNCTION]")
+        begin = self.begin_time.get("1.0","19.0").replace(" AT ","T").replace("\n","")
+        end = self.end_time.get("1.0","19.0").replace(" AT ","T").replace("\n","")
+        valid =  CheckISODate(begin)
+        valid != CheckISODate(end)
+        print("intializing sugest...")
+        if valid == 0:
+            self.Invalid("date")
+            return False
+        
+        begin = datetime.datetime.fromisoformat(begin)
+        end = datetime.datetime.fromisoformat(end)
+        
+        if begin == end:
+            self.Invalid("[begin == end]")
+            return False
+
+        #! get resources of the task
+        res = ["cpu","ram"]
+                 
+
+        l,r = self.__sugest(tominute(begin),tominute(end),res)
+        #! combert l,r to datetime isoformat
+
+        print(l.isoformat())
+        print(r.isoformat())
+        return True
+        
+
 
     def _get_tasks(self) -> list:
         tasks = []
@@ -97,7 +143,7 @@ class TaskCreator(CTk):
         return tasks
     
     def Invalid(self,data):
-        message = Messagebox(
+        Messagebox(
             height=100,
             width=100,
             title="ERROR",
@@ -108,17 +154,17 @@ class TaskCreator(CTk):
     def _add_event(self):
         begin = self.begin_time.get("1.0","19.0").replace(" AT ","T").replace("\n","")
         end = self.end_time.get("1.0","19.0").replace(" AT ","T").replace("\n","")
-        valid = self.CheckDate(begin)
-        valid *= self.CheckDate(end)
-
+        valid = CheckISODate(begin)
+        valid *= CheckISODate(end)
+    
         if valid == 0:
             self.Invalid("date")
-            return
+            return False
 
         task_name = None
         #! get name of the task to do
 
-        res = []
+        res = ["cpu"]
         #! get resources of this task
 
         new = event(
@@ -161,6 +207,7 @@ class TaskCreator(CTk):
         response = message.get()
         if response == "Cancel":
             print("User canceled the event addition.")
+            return False
         elif response == "Accept":
             added = self._add_event()
 
@@ -171,14 +218,8 @@ class TaskCreator(CTk):
             Messagebox(self,message="No added")
             return
 
-    def remove_event(self):
-        pass
-
     def sugest(self):
         pass
 
     def verifict(self):
-        pass
-
-    def ShowCalendar(self):
         pass

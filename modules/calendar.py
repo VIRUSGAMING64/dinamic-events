@@ -64,7 +64,7 @@ class Calendar(BasicHandler):
             return None
         return task
     
-    def check_aviable(self,new_res:str,start:int,end:int):
+    def check_aviable(self,new_res:str,start:int,end:int): #! ERROR GRAVE 
         if not (new_res in self.used_resources.keys()):
             return True
         """
@@ -74,7 +74,7 @@ class Calendar(BasicHandler):
         NO:
             PIOLAAAA!!!
         """
-        
+        self.sort()
         for res in self.used_resources:
             if res != new_res:
                 continue
@@ -89,6 +89,8 @@ class Calendar(BasicHandler):
                 log.log("error checking aviable resource: ",e)
                 return False
         return True
+    
+
     
     def add_event(self,new:event):
         """
@@ -109,6 +111,13 @@ class Calendar(BasicHandler):
         except Exception as e:
             log.log("error adding event: [unknow error]",e)
         return False
+
+    def remove(self,index):
+        deleted = self.events.pop(index)
+        for res in deleted.need_resources:
+            add_to_dict(self.used_resources,[res,deleted.start, -1])
+            add_to_dict(self.used_resources,[res,deleted.end, 1])
+        self.remove_olds_events()
 
     def _no_check_add(self,events:list[event]):
         try:
@@ -157,11 +166,29 @@ class Calendar(BasicHandler):
         bind inter tasks and now - first
         """
         lenght = ev.end - ev.start
-        mx = -1
+        l = tominute(datetime.datetime.now())
         for res in ev.need_resources:
-            l = tominute(datetime.datetime.now())
             while not self.check_aviable(res,l,l + lenght):
                 l+=1
-            mx = max(l,mx)
-        return mx
+        return l
+
+    def sugest_bruteLR(self,L:int, R:int,resources:list):
+        """
+        return minimun position to add event
+        how to optimize ?
+        bind inter tasks and now - first
+        """
+        lenght = (R-L)
+        print(type(L),type(R))
+        dt = datetime.timedelta(minutes=1)    
+        l = tominute(datetime.datetime.now())
+        start = datetime.datetime.now()
+    
+        for res in resources:
+            print(type(l),type(lenght), l, start.isoformat(" "))
+            while not self.check_aviable(res,l,l + lenght):
+                l+=1
+                start+=dt
+
+        return start
     

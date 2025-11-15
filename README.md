@@ -67,54 +67,58 @@ pip install -r requirements.txt
 ## ▶️ Ejecución
 
 ```bash
-# Lanzar la GUI principal (CustomTkinter)
-python GUI.py
+# Lanzar la GUI principal (interfaz gráfica en `main.py`)
+python main.py
 
-# Usar la interfaz/menú de consola
-python dinev.py
+# Usar la interfaz/menú de consola (si existe una alternativa de consola)
+# (nota: en este repo actual la entrada gráfica principal es `main.py`)
 
 # Ejecutar el script de apoyo (Linux/macOS)
 bash run.sh
 ```
 
 > 🔁 Reinicia la app tras editar `templates/tasks.json` o `templates/resources.json` para recargar la configuración.
+>
+> ⚠️ Nota: `run.sh` actualmente ejecuta `dinev.py` y `testfile.py` — si esos archivos los renombraste a `main.py` o a otros nombres, actualiza `run.sh` o mantenlo como helper según prefieras.
 
 ---
 
-## �️ Estructura del proyecto
+## 🗂️ Estructura del proyecto
 
 ```
 dinamic-events/
-├─ GUI.py
-├─ dinev.py
+├─ main.py                # Entrada GUI principal (CustomTkinter wrappers)
 ├─ run.sh
+├─ clean.sh
 ├─ requirements.txt
 ├─ runtests.py
 ├─ changelog
 ├─ logs.txt
 ├─ project.md
+├─ saved/                 # Estado en tiempo de ejecución (eventos / recursos usados)
+│  ├─ actives_events.json
+│  └─ used_resources.json
 ├─ modules/
 │  ├─ calendar.py
 │  ├─ console_utils.py
-│  ├─ customGUI.py
 │  ├─ events.py
 │  ├─ filelogin.py
 │  ├─ gvar.py
 │  ├─ handlers.py
 │  ├─ utils.py
-│  └─ webapp.py
+│  ├─ webapp.py
+│  └─ gui_core/
+│     ├─ customGUI.py
+│     ├─ TaskCreator.py
+│     └─ TaskRemover.py
 ├─ templates/
-│  ├─ actives_events.json
 │  ├─ resources.json
 │  ├─ sample.json
 │  └─ tasks.json
-├─ src/
-│  ├─ main.html
-│  ├─ css/main.css
-│  └─ js/main.js
 └─ tests/
    ├─ test1.py
-   └─ test2.py
+   ├─ test2.py
+   └─ test3.py
 ```
 
 ---
@@ -127,7 +131,8 @@ dinamic-events/
 | `modules/events.py` | Define la clase `event`, normaliza datos y detecta incompatibilidades. |
 | `modules/handlers.py` | Carga y guarda JSON de tareas, recursos y eventos. |
 | `modules/console_utils.py` | Menú de consola para gestionar el calendario sin GUI. |
-| `modules/customGUI.py` | Widgets auxiliares y estilos para la interfaz CustomTkinter. |
+| `modules/gui_core/customGUI.py` | Widgets auxiliares y estilos para la interfaz CustomTkinter. |
+| `modules/gui_core/TaskCreator.py` / `TaskRemover.py` | Ventanas auxiliares para crear / eliminar tareas desde la GUI. |
 | `modules/filelogin.py` | Registro de logs y errores en `logs.txt`. |
 | `modules/gvar.py` | Variables globales, calendario compartido y bootstrap de datos. |
 | `modules/utils.py` | Helpers generales (conversión de tiempo, manejo de diccionarios, etc.). |
@@ -138,19 +143,20 @@ dinamic-events/
 ## 🧪 Pruebas y utilidades
 
 - `python runtests.py`: ejecuta los tests definidos en `tests/`.
-- `tests/test1.py`, `tests/test2.py`: casos de ejemplo para carga/guardado y estrés.
+- `tests/test1.py`, `tests/test2.py`, `tests/test3.py`: casos de ejemplo para carga/guardado y estrés.
 - `logs.txt`: bitácora generada por `filelogin.py` para revisar errores.
 
 > ✅ Ejecuta `python runtests.py` tras refactorizar los módulos de planificación.
 
 ---
 
-## �️ Archivos de configuración
+## 🗃️ Archivos de configuración
 
 - `templates/tasks.json`: definición de tareas con sus requisitos.
 - `templates/resources.json`: inventario de recursos disponibles.
-- `templates/actives_events.json`: eventos activos de referencia.
 - `templates/sample.json`: plantilla con datos de ejemplo.
+
+> ℹ️ Los eventos activos y el estado runtime se guardan en `saved/actives_events.json` y `saved/used_resources.json`.
 
 ---
 

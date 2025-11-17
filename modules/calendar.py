@@ -120,7 +120,6 @@ class Calendar(BasicHandler):
         optimizar esto si da tiempo
         """
         self.sort()
-        self.remove_old_events()
         try:
             for res in new.need_resources:
                 av = self.check_available(res, new.start, new.end)
@@ -142,15 +141,6 @@ class Calendar(BasicHandler):
             add_to_dict(self.used_resources,[res,deleted.end, 1])
         self.remove_old_events()
 
-    def _no_check_add(self,events:list[event]):
-        try:
-            for ev in events:
-                for res in ev.need_resources:
-                    add_to_dict(self.used_resources,[res,ev.start, 1])
-                    add_to_dict(self.used_resources,[res,ev.end, -1])
-        except Exception as e:
-            log(f"error adding without check [{e}]")
-
     def remove_old_events(self):
         self.sort()
         now = datetime.datetime.now()
@@ -158,11 +148,12 @@ class Calendar(BasicHandler):
         del now
         events = []
         for task in self.events:
-            if init_t < task.end:
+            if init_t <= task.end:
                 events.append(task)
         self.used_resources = {}
-        self.events = events
-        self._no_check_add(events)
+        self.events  = []
+        for x in events:
+            self.add_event(x)
 
     def sort(self):
         """

@@ -1,3 +1,10 @@
+2.5.0.0
+Removed customgui.py (deprecated)
+Removed sample.json (deprecated)
+Added Information Label to main menu
+Minor error fixed in event.__init__()
+Minor changes in task creator
+Added Resources and tasks
 2.4.1.0
 Minor changes in Readme.md
 Minor Changes in changelog

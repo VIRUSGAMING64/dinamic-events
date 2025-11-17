@@ -2,39 +2,96 @@
     "monero miner": {
         "resources": [
             {
-                "name":"cpu",
-                "count":1
+                "name": "cpu",
+                "count": 1
             }
         ],
-        "without": []
+        "without": [
+            "gpu"
+        ]
     },
     "btc miner": {
         "resources": [
             {
-                "name":"gpu",
-                "count":1
+                "name": "gpu",
+                "count": 1
+            }
+        ],
+        "without": [
+            "cpu"
+        ]
+    },
+    "encode video to x265 codec": {
+        "resources": [
+            {
+                "name": "codec",
+                "count": 1
             }
         ],
         "without": []
     },
-    "encode video to x265 codec": {
-        "resources": [],
-        "without": []
-    },
     "telegram bot hosting": {
-        "resources": [],
+        "resources": [
+            {
+                "name": "hdd",
+                "count": 1
+            },
+            {
+                "name": "cpu",
+                "count": 1
+            },
+            {
+                "name": "net",
+                "count": 1
+            }
+        ],
         "without": []
     },
     "webpage hosting": {
-        "resources": [],
+        "resources": [
+            {
+                "name": "ssd",
+                "count": 1
+            },
+            {
+                "name": "cpu",
+                "count": 1
+            },
+            {
+                "name": "net",
+                "count": 1
+            }
+        ],
         "without": []
     },
     "host a dota 2 server": {
-        "resources": [],
+        "resources": [
+            {
+                "name": "sdd",
+                "count": 1
+            },
+            {
+                "name": "cpu",
+                "count": 1
+            }
+        ],
         "without": []
     },
     "vps hosting": {
-        "resources": [],
+        "resources": [
+            {
+                "name": "hdd",
+                "count": 1
+            },
+            {
+                "name": "cpu",
+                "count": 1
+            },
+            {
+                "name": "net",
+                "count": 1
+            }
+        ],
         "without": []
     }
 }

@@ -1,12 +1,11 @@
 from customtkinter import *
 from CTkMessagebox import CTkMessagebox as Messagebox
 from CTkTable import CTkTable
-from modules.gui_core.customGUI import *
 from modules.gui_core import *
 from tktimepicker import *
 from ctkdlib import *
 from modules import *
-
+from threading import Thread
 
 class app(CTk):
 
@@ -32,6 +31,46 @@ class app(CTk):
             y=30
         )
 
+
+        self.currents = CTkComboBox(self,width=512 - 140,command=self.get_information,state="readonly")
+        self.currents.set("Select current a task")
+        self.currents.pack()
+        self.currents.place(x=0,y=0)
+
+
+        self.info = CTkLabel(self,text="INFORMATION:\n")
+        self.info.pack()
+        self.info.place(x=0,y=30)
+        Thread(target=self.updater,daemon=True).start()
+
+
+
+    def get_information(self,selected):
+
+        base = "INFORMATION:\n"
+
+        id = selected.split("]")[0][1:]
+        id = int(id)
+        ev = calendar.events[id]
+        base += f"Task name: {ev.task}\n"
+        base += f"Date range: {ev.date[0]} TO {ev.date[1]}\n"
+        base += f"Time range: {ev.time[0]} TO {ev.time[1]}\n"
+        base += f"Resources needed: {', '.join(ev.need_resources)}\n"
+        base += f"Notes: {ev.notes}\n"
+
+        self.info.configure(text = base)
+
+
+    def update(self):
+        L = []
+        for i in range(len(calendar.events)):
+            id = i
+            ev = calendar.events[i]
+            L.append(f"[{id}] {ev.task} FROM {ev.date[0]} TO ...")
+
+        self.currents.configure(values = L)
+    
+
     def remove_task(self):
         if self.task_remover != None:
             try:
@@ -39,7 +78,6 @@ class app(CTk):
                 self.task_remover = None
             except Exception as e:
                 log(f"already destroyed [{e}]")
-
         
         self.task_remover = TaskRemover()
         self.task_remover.mainloop()
@@ -62,6 +100,11 @@ class app(CTk):
             self.task_creator.destroy()
         if self.task_remover != None:
             self.task_remover.destroy()
+
+    def updater(self):
+        while True:
+            self.update()
+            time.sleep(3)
 
 APP = app()
 APP.mainloop()

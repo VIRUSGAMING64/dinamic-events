@@ -11,8 +11,8 @@ class event(BasicHandler):
             self.date = _json["date-range"]
             self.time:list = _json['time-range']  # minute when it starts
             self.task:str = _json['name']
-            if "note" in _json.keys():
-                self.notes = _json["note"]
+            if "notes" in _json.keys():
+                self.notes = _json["notes"]
             self.start = int(self.time[0])
             self.end = int(self.time[1])
             

@@ -7,7 +7,7 @@ class TaskCreator(CTk):
     def __init__(self):
         super().__init__()
         self.title("TASK ADDER")
-        self.x_size = 280
+        self.x_size = 480
         self.y_size = 300
         self.geometry(f"{self.x_size}x{self.y_size}")
         
@@ -26,15 +26,15 @@ class TaskCreator(CTk):
         self.begin_time_label.pack(pady=0)
         self.end_time_label.pack(pady=0)
 
-        self.begin_time.place(x=self.x_size - 200, y=0)
-        self.begin_time_label.place(x=self.x_size - 275, y=0)
+        self.begin_time.place(x=self.x_size - 200 - 200, y=0)
+        self.begin_time_label.place(x=self.x_size - 275- 200, y=0)
 
         self.begin_time.bind("<Return>", lambda event: "break")
         self.end_time.bind("<Return>", lambda event: "break")
 
 
-        self.end_time.place(x=self.x_size - 200, y=28)
-        self.end_time_label.place(x=self.x_size - 265, y=28)
+        self.end_time.place(x=self.x_size - 200- 200, y=28)
+        self.end_time_label.place(x=self.x_size - 265- 200, y=28)
 
         self.begin_time.insert("1.0", start_time.replace('T', ' AT '))
         self.end_time.insert("1.0", start_time.replace('T', ' AT '))
@@ -66,6 +66,12 @@ class TaskCreator(CTk):
         self.adjust_button.pack()
         self.adjust_button.place(x=70, y=self.y_size - 112)
 
+        """Notes textbox"""
+
+        self.notes = CTkTextbox(self,height = self.y_size,width =200)
+        self.notes.insert("1.0","Task notes")
+        self.notes.pack()
+        self.notes.place(x = 280, y = 0)
 
     def _get_deps(self, selected):
         deps = []
@@ -162,7 +168,7 @@ class TaskCreator(CTk):
     def _add_event(self):
         begin = self.begin_time.get("1.0","19.0").replace(" AT ","T").replace("\n","")
         end = self.end_time.get("1.0","19.0").replace(" AT ","T").replace("\n","")
-
+        notes = self.notes.get("1.0","end")
         valid = CheckISODate(begin)
         valid *= CheckISODate(end)
     
@@ -182,7 +188,8 @@ class TaskCreator(CTk):
                     tominute(datetime.datetime.fromisoformat(end))
                 ],
                 "resources": res,
-                "date-range": [begin,end]
+                "date-range": [begin,end],
+                "notes": notes
             }
         )
         if new.start >= new.end:

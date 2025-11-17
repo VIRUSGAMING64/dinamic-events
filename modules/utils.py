@@ -8,17 +8,17 @@ import time
 def log(*data):
     print(f"[{time.ctime()}]: ",*data,file=(open("logs.txt","a")))
 
-def get_sources_dependency(resources,res:str,vis = None):
-    if vis == None:
-        vis = {}
-    if res in vis.keys():
+def get_sources_dependency(resources, res: str, visited=None):
+    if visited is None:
+        visited = set()
+    if res in visited:
         return []
-    vis[res] = 1
-    neds = []
-    for x in resources[res]["need"]:
-        neds.append(x)
-        neds += get_sources_dependency(resources,res,vis)
-        return neds
+    visited.add(res)
+    needs = []
+    for dependency in resources[res]["need"]:
+        needs.append(dependency)
+        needs += get_sources_dependency(resources, dependency, visited)
+    return needs
 
 
 def CheckISODate(date:str): 
@@ -73,7 +73,7 @@ def clear_console(): #optimizar
     o = os.system('clear')
 
 def get_number(a,b):
-    imp = input() # remplace this with getchr to read number task or other or signals to get -> to change
+    imp = input() # replace this with getchr to read number task or other or signals to get -> to change
     if imp == '': return None
     num_err = False
     if debug:

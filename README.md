@@ -1,4 +1,4 @@
-# Dinamic Events 🚀
+# Dynamic Events 🚀
 
 > Planificador dinámico de tareas y recursos. Crea eventos, reserva CPU/GPU/RAM y detecta colisiones antes de que sucedan.
 
@@ -20,7 +20,7 @@
 
 ## 🌐 Visión general
 
-Dinamic Events es una plataforma ligera para experimentar con planificación de recursos. Define tareas con necesidades de hardware, prográmalas en un calendario compartido y detecta conflictos con una GUI construida con CustomTkinter o desde la consola.
+Dynamic Events es una plataforma ligera para experimentar con planificación de recursos. Define tareas con necesidades de hardware, prográmalas en un calendario compartido y detecta conflictos con una GUI construida con CustomTkinter o desde la consola.
 
 Ideal para: laboratorios de automatización, ensayos de carga y pruebas de orquestación.
 

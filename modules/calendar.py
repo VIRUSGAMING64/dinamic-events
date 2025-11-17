@@ -3,33 +3,33 @@ from modules.SegTree import *
 
 class Calendar(BasicHandler):
     used_resources = {}
-    aviable_tasks = {}
-    currents_tasks = []
-    currents_event = None # current event 
+    available_tasks = {}
+    current_tasks = []
+    current_event = None  # current event
     events = []
     
     def __init__(self):
         try:
-            self.load_used_sources(f"{SAVE_ROOT}/used_resources.json")
+            self.load_used_resources(f"{SAVE_ROOT}/used_resources.json")
             ex = self._load_json(f"{SAVE_ROOT}/actives_events.json")
             self.events = []
             for i in ex:
                 self.events.append(event(i))
-            self.remove_olds_events()
-            self.save_json_datas()
+            self.remove_old_events()
+            self.save_json_data()
         except Exception as e:
             # error loading data
             log(f"error loading used resources: ",e)
             pass
     
-    def list_events(self): #definitivamente no se puede optimizar
-        self.remove_olds_events()
+    def list_events(self):  # definitivamente no se puede optimizar
+        self.remove_old_events()
         return self.events
 
-    def load_used_sources(self,filename):
+    def load_used_resources(self, filename):
         self.used_resources = self._load_json(filename)
 
-    def save_json_datas(self):
+    def save_json_data(self):
         sv = []
         for ev in self.events:
             sv.append(ev.__dict__())
@@ -37,9 +37,9 @@ class Calendar(BasicHandler):
         fi.write(json.dumps(sv,indent=3))
         fi.close()
         try:
-            save_Usedres = self._dict_to_jsonstr(self.used_resources)
+            save_used_resources = self._dict_to_jsonstr(self.used_resources)
             fi = open(f'{SAVE_ROOT}/used_resources.json',"w")
-            fi.write(save_Usedres)
+            fi.write(save_used_resources)
             fi.close()
         except Exception as e:
             print("maybe you don't have access to this file: ",e)
@@ -56,7 +56,7 @@ class Calendar(BasicHandler):
             log("error creating task",e)
             return None
         try:
-            for elem in self.aviable_tasks[taskname]["resources"]:
+            for elem in self.available_tasks[taskname]["resources"]:
                 task.need_resources.append(elem['name'])
         except Exception as e:
             print("error adding resources to task: ",e)
@@ -64,12 +64,11 @@ class Calendar(BasicHandler):
             return None
         return task
     
-    def check_aviable(self,new_res:str,start:int,end:int): 
+    def check_available(self, new_res: str, start: int, end: int):
         if not (new_res in self.used_resources.keys()):
             return True
         
         self.sort()
-        di = {}
         
         for res in self.used_resources:
             if res != new_res:
@@ -79,9 +78,12 @@ class Calendar(BasicHandler):
                 id = 0
                 a2 = [start,end]
                 a = [0] * (id + 10)
+                di = {}
 
-                for i in self.used_resources[res]:
-                    x = int(i)
+                for i in self.events:
+                    x = int(i.start)
+                    a2.append(x)
+                    x = int(i.end)
                     a2.append(x)
                 
                 a2.sort()
@@ -89,21 +91,27 @@ class Calendar(BasicHandler):
                 for x in a2:
                     if di.get(x,-1) == -1:
                         di[x] = id
-                        id += 1                
-                
-                for x in di:
-                    a[di[x]] += 1
-                
+                        id += 1  
+
+                ##* hasta aqui hice la comprecion de coordenadas
+
                 tree = SegTree(a)
+                
+                for x in self.events:
+                    l = di[x.start]
+                    r = di[x.end]
+                    tree.update(l,r,1)
+                               
                 l = di[start]
                 r = di[end]
                 mx = tree.query(l,r)
 
                 if mx >= self.resources[res]["count"]:
+                    print("here = ", f"[{mx},{l},{r}]     {a} ,  {a2}")
                     return False
                 
             except Exception as e:
-                log("error checking aviable resource: ",e)
+                log("error checking available resource: ", e)
                 return False
         return True
         
@@ -112,10 +120,10 @@ class Calendar(BasicHandler):
         optimizar esto si da tiempo
         """
         self.sort()
-        self.remove_olds_events()
+        self.remove_old_events()
         try:
             for res in new.need_resources:
-                av = self.check_aviable(res,new.start,new.end)
+                av = self.check_available(res, new.start, new.end)
                 if av == False:
                     return av
             self.events.append(new)
@@ -124,7 +132,7 @@ class Calendar(BasicHandler):
                 add_to_dict(self.used_resources,[res,new.end,-1])
             return True
         except Exception as e:
-            log("error adding event: [unknow error]",e)
+            log("error adding event: [unknown error]", e)
         return False
 
     def remove(self,index):
@@ -132,7 +140,7 @@ class Calendar(BasicHandler):
         for res in deleted.need_resources:
             add_to_dict(self.used_resources,[res,deleted.start, -1])
             add_to_dict(self.used_resources,[res,deleted.end, 1])
-        self.remove_olds_events()
+        self.remove_old_events()
 
     def _no_check_add(self,events:list[event]):
         try:
@@ -143,7 +151,7 @@ class Calendar(BasicHandler):
         except Exception as e:
             log(f"error adding without check [{e}]")
 
-    def remove_olds_events(self):
+    def remove_old_events(self):
         self.sort()
         now = datetime.datetime.now()
         init_t = tominute(now)
@@ -174,36 +182,53 @@ class Calendar(BasicHandler):
         for res in temp:
             self.used_resources[res] = temp[res]
 
-    def sugest_brute(self,ev:event):
+    def suggest_brute(self, ev: event):
         """
-        return minimun position to add event
-        how to optimize ?
-        bind inter tasks and now - first
+    Return minimum position to add event.
+    How to optimize?
+    Consider inter-task binding and current time first.
         """
-        lenght = ev.end - ev.start
+        length = ev.end - ev.start
         l = tominute(datetime.datetime.now())
         for res in ev.need_resources:
-            while not self.check_aviable(res,l,l + lenght):
+            while not self.check_available(res, l, l + length):
                 l+=1
         return l
 
-    def sugest_bruteLR(self,L:int, R:int,resources:list):
+    def suggest_brute_lr(self, L: int, R: int, resources: list):
         """
-        return minimun position to add event
-        how to optimize ?
-        bind inter tasks and now - first
+        Return minimum position to add event.
+        How to optimize?
+        Consider inter-task binding and current time first.
         """
-        lenght = (R-L)
+
+        length = (R-L)
         print(type(L),type(R))
-        dt = datetime.timedelta(minutes=1)    
         l = tominute(datetime.datetime.now())
         start = datetime.datetime.now()
-    
+        LR = []
+
         for res in resources:
-            print(type(l),type(lenght), l, start.isoformat(" "))
-            while not self.check_aviable(res,l,l + lenght):
+            print(type(l),type(length), l, start.isoformat(" "))
+            
+            while not self.check_available(res, l, l + length):
+                mx = 2**300
+
+                print(start.isoformat(),l,self.events[0].start,self.events[0].end, length)
+
+                for x in self.list_events():
+                    if (l < x.end) and (l >= x.start):
+                        mx = min(mx, x.end)
+
+                if mx == 2**300:
+                    mx = l + 1
+                
+                ant = l
+                l = mx - 1
                 l+=1
-                start+=dt
+                dif = l - ant
+                dr = datetime.timedelta(minutes=dif)
+                start+=dr
 
         return start
     

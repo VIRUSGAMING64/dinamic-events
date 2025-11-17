@@ -1,47 +1,54 @@
+2.4.1.0
+Minor changes in Readme.md
+Minor Changes in changelog
+Minor Changes in event.py
+Minor Changes in other files
+Function adjust fixed in TaskCreator.py
+Fixed suggest_brute_lr and other minor changes
 2.4.0.0
-Added Segment tree to optimize Check range of time (ChackAviable)
+Added segment tree to optimize range checks (CheckAvailable)
 Removed unused modules
 Added test to segment tree
 2.3.0.0
-Added Sugest brute function to calendar class
+Added suggest brute function to calendar class
 Added logs.txt to clean.sh
 Changed name of GUI.py to main.py
 get_sources_dependency moved to utils.py from event.py
 Created CheckISODate in utils.py
 Created _get_deps and adjust in TaskCreator.py
 Added button to remove tasks
-Minor fixes in others files
+Minor fixes in other files
 2.2.0.0
 Added GUI to delete existing task without backend
-Added Remove Task Button to mainloop of gui
-Added python script to clean the project
+Added remove task button to GUI main loop
+Added Python script to clean the project
 Deleted webapp.py (not used)
 2.1.0.1
 Removed console UI start point (deprecated)
 2.1.0.0
-Added bash script to clean repository of __pycache__ and .cph (competitive programing helper)
-Added folder with backend of the GUI(with handlers of buttons and others)
-Added Function for add event(GUI)
-Divided GUI into others files
-Updated Readme
-Removed Folder of web
+Added bash script to clean repository of __pycache__ and .cph (competitive programming helper)
+Added folder with backend of the GUI (with handlers for buttons and others)
+Added function to add events (GUI)
+Divided GUI into other files
+Updated README
+Removed web folder
 2.0.0.3
-Fix error in name of saved testfile
+Fixed error in name of saved test file
 2.0.0.2
-removed unused dependencies
+Removed unused dependencies
 2.0.0.1
-Try fix github tests
+Tried to fix GitHub tests
 2.0.0.0
-Created 3 folders for tests,save datas and templates
-Created Basic GUI with customtkinter
-Created new module for custom gui widgets
-Created File for run tests
-module handlers separed in 3 files: handlers events and calendar
+Created 3 folders for tests, saved data, and templates
+Created basic GUI with CustomTkinter
+Created new module for custom GUI widgets
+Created file to run tests
+Module handlers separated into 3 files: handlers, events, and calendar
 1.6.1.1
 Some bugs fixed
 1.6.1.0
 Added function for logs
-Added remove_olds_events function
+Added remove_old_events function
 Optimized some functions
 Updated Python for tests
 1.6.0.0
@@ -52,10 +59,10 @@ Added function to convert datetime to minutes
 Merged events.py and handlers.py
 1.5.0.0
 Updated console_utils
-Added _get_file_content, _load_from_file and _add_task_meno_how_to
+Added _get_file_content, _load_from_file and _add_task_menu_how_to
 1.4.0.0
 Added testfile.py
-Modules updates
+Module updates
 Created show events function
 Created new class event
 Created GitHub workflow
@@ -73,7 +80,7 @@ Fixed errors in handler declarations
 Added basic function templates to modules
 Added install.sh
 Added TODO file
-Added resources and tasks templates to json
+Added resources and tasks templates to JSON
 1.0.0.1
 Added .gitignore to .gitignore (amazing...)
 1.0.0.0

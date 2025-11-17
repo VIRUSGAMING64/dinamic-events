@@ -3,9 +3,7 @@ from modules.calendar import Calendar
 import sys
 sys.setrecursionlimit(2**30)
 """
-THI IS GLOBAL VAR MODULES TO 
-SAVE VARIABLE THAT I NEED SHARE 
-BETWEEN MODULES
+Global variables shared across modules.
 """
 try:
     os.mkdir("saved")
@@ -20,7 +18,7 @@ MAX_OPTION = 4
 LOCATION = 0
 FONT_SIZE = ...
 ##############################
-# MENUES
+# MENUS
 MAIN_MENU = 0
 ADD_EVENT_MENU = 1
 LOAD_TASK_MENU = 2

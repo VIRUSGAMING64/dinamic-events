@@ -27,7 +27,7 @@ for i in range(365 * 10):
 
 
 print("saving")
-calendar.save_json_datas()
+calendar.save_json_data()
 print("saved")
 
 

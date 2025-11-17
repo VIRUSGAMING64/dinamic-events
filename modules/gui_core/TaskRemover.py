@@ -11,12 +11,12 @@ class TaskRemover(CTk):
         self.y_size = 128
         self.title("Task Remover")
         self.geometry(f"{self.x_size}x{self.y_size}")
-        #TODO create selector of events
-        self.ElimButton = CTkButton(self,text="remove this event", command=self.remove)
-        self.ElimButton.pack()
-        self.ElimButton.place(
-            x = (self.x_size - self.ElimButton._current_width)//2,
-            y = self.y_size - self.ElimButton._current_height
+        # TODO create selector of events
+        self.remove_button = CTkButton(self, text="Remove this event", command=self.remove)
+        self.remove_button.pack()
+        self.remove_button.place(
+            x = (self.x_size - self.remove_button._current_width)//2,
+            y = self.y_size - self.remove_button._current_height
         )
 
     def remove(self):
@@ -25,6 +25,6 @@ class TaskRemover(CTk):
         calendar.remove(id)
         pass
 
-    def get_currents(self):
+    def get_current_events(self):
         return calendar.list_events()
 

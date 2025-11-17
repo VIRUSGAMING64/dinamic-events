@@ -31,7 +31,7 @@ def single_core_speed(core = 0):
         i+=1
     while mtx == True: time.sleep(311/10000)
     mtx = True
-    print(f"CORE {core} SPEED TEST\npython speed 1e8 Floting Points Operations in {Time_s}s\n{id[i]}flops: {flops}".upper())
+    print(f"CORE {core} SPEED TEST\npython speed 1e8 Floating Point operations in {Time_s}s\n{id[i]}flops: {flops}".upper())
     mtx = False
 cores = os.cpu_count()
 
@@ -77,7 +77,7 @@ print(calendar.resources)
 print("==============TESTING SAVE====================")
 
 start = time.time_ns() / 10**9
-calendar.save_json_datas()
+calendar.save_json_data()
 end = time.time_ns() / 10**9
 Time_s = end-start
 

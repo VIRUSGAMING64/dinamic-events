@@ -40,4 +40,4 @@ class BasicHandler:
     def _load_tasks(self,name):
         filename = os.path.realpath(name)
         data = self._load_json(name)
-        self.aviable_tasks = data
+        self.available_tasks = data

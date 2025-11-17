@@ -2,17 +2,20 @@ class SegTree:
     a = []
     tree = []
     lazy = []
-    lenght = 0
-    def __init__(self,a):
+    length = 0
+
+    def __init__(self,a = None):
+        if a == None:
+            a = [0] * (10**6 * 2)
         self.a = a
-        self.lenght = len(a)
-        self.lazy = [0] * 4 * self.lenght
-        self.tree = [0] * 4 * self.lenght
+        self.length = len(a)
+        self.lazy = [0] * 4 * self.length
+        self.tree = [0] * 4 * self.length
         for i in range(len(a)):
             self.update(i,i,a[i])
     
     def query(self,l, r):
-        return self._query(1,0,self.lenght - 1, l, r)
+        return self._query(1,0,self.length - 1, l, r)
 
     def _query(self,n , l , r , a, b):
         self.propagate(n,l,r)
@@ -26,7 +29,7 @@ class SegTree:
         return max(q1,q2)
 
     def update(self,l , r, x):
-        self._update(1,0,self.lenght-1,l,r,x)
+        self._update(1,0,self.length-1,l,r,x)
 
     def _update(self,n, l, r , a , b, x):
         self.propagate(n,l,r)

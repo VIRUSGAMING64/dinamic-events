@@ -1,3 +1,7 @@
+2.5.0.1
+Removed run.sh (deprecated)
+Removed project.md (done)
+minor change in tests.__init__.py
 2.5.0.0
 Removed customgui.py (deprecated)
 Removed sample.json (deprecated)

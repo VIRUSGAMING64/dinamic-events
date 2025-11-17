@@ -1,3 +1,7 @@
+2.6.0.0
+Removed deprecated functions in utils
+Created function for duplicated code
+Readme updated`
 2.5.0.1
 Removed run.sh (deprecated)
 Removed project.md (done)

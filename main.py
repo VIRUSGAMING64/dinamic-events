@@ -46,29 +46,15 @@ class app(CTk):
 
 
     def get_information(self,selected):
-
-        base = "INFORMATION:\n"
-
-        id = selected.split("]")[0][1:]
-        id = int(id)
-        ev = calendar.events[id]
-        base += f"Task name: {ev.task}\n"
-        base += f"Date range: {ev.date[0]} TO {ev.date[1]}\n"
-        base += f"Time range: {ev.time[0]} TO {ev.time[1]}\n"
-        base += f"Resources needed: {', '.join(ev.need_resources)}\n"
-        base += f"Notes: {ev.notes}\n"
-
-        self.info.configure(text = base)
+        index = parse_event_option(selected)
+        if index is None or index >= len(calendar.events):
+            return
+        ev = calendar.events[index]
+        self.info.configure(text = format_event_info(ev))
 
 
     def update(self):
-        L = []
-        for i in range(len(calendar.events)):
-            id = i
-            ev = calendar.events[i]
-            L.append(f"[{id}] {ev.task} FROM {ev.date[0]} TO ...")
-
-        self.currents.configure(values = L)
+        self.currents.configure(values = build_event_option_labels(calendar.events))
     
 
     def remove_task(self):

@@ -1,7 +1,5 @@
-import tkinter as tk
 from threading import Thread
 from customtkinter import *
-import datetime
 from modules import *
 from CTkMessagebox import CTkMessagebox as Messagebox
 
@@ -40,12 +38,8 @@ class TaskRemover(CTk):
 
             while True:
                 print("updating remover")
-                L = []
-                for i in range(len(calendar.events)):
-                    id = i
-                    ev = calendar.events[i]
-                    L.append(f"[{id}] {ev.task} FROM {ev.date[0]} TO ...")
-                self.eventos.configure(values = L)
+                labels = build_event_option_labels(calendar.events)
+                self.eventos.configure(values = labels)
                 time.sleep(3)
 
         except Exception as e:
@@ -63,34 +57,10 @@ class TaskRemover(CTk):
     
 
     def update_label(self,selected):
-        TEXT = "INFORMATION:\n"
-        id = selected.split("]")[0][1:]
-        id = int(id)
-        self.selected = id
-        ev = calendar.events[id]
-        TEXT += f"Task name: {ev.task}\n"
-        TEXT += f"Start Date: {ev.date[0]}\n"
-        TEXT += f"End Date: {ev.date[1]}\n"
-        TEXT += f"Time range: {ev.time[0]} TO {ev.time[1]}\n"
-        TEXT += f"Resources needed: {', '.join(ev.need_resources)}\n"
-        TEXT += f"Notes: {ev.notes}\n"
-        self.info.configure(text = TEXT)
-
-
-    def get_current_events(self):
-        return calendar.list_events()
-
-
-
-    def get_information(self,selected):
-        base = "INFORMATION:\n"
-        id = selected.split("]")[0][1:]
-        id = int(id)
-        ev = calendar.events[id]
-        base += f"Task name: {ev.task}\n"
-        base += f"Date range: {ev.date[0]} TO {ev.date[1]}\n"
-        base += f"Time range: {ev.time[0]} TO {ev.time[1]}\n"
-        base += f"Resources needed: {', '.join(ev.need_resources)}\n"
-        base += f"Notes: {ev.notes}\n"
-
-        self.info.configure(text = base)
+        idx = parse_event_option(selected)
+        if idx is None or idx >= len(calendar.events):
+            self.selected = None
+            return
+        self.selected = idx
+        ev = calendar.events[idx]
+        self.info.configure(text = format_event_info(ev))

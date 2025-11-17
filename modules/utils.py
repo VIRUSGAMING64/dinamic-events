@@ -20,7 +20,6 @@ def get_sources_dependency(resources, res: str, visited=None):
         needs += get_sources_dependency(resources, dependency, visited)
     return needs
 
-
 def CheckISODate(date:str): 
     try:
         print(date)
@@ -55,10 +54,6 @@ def CheckISODate(date:str):
         log(f"error checking ISO date [{e}]")
         return 0
 
-
-def void():
-    pass
-
 def get_saved_json(filename):
     jsonstr = read_file(filename)
     return json.load(jsonstr)
@@ -68,34 +63,6 @@ def read_file(name):
     data = task.read(2**31)
     task.close()
     return data
-
-def clear_console(): #optimizar
-    o = os.system('clear')
-
-def get_number(a,b):
-    imp = input() # replace this with getchr to read number task or other or signals to get -> to change
-    if imp == '': return None
-    num_err = False
-    if debug:
-        print(f"[debug][imp] {imp}:{type(imp)}")
-        time.sleep(1)
-    if not imp.isnumeric(): #not number introduced
-        num_err  = True
-    elif int(imp) < a or int(imp) > b: #option out of range
-        num_err = True
-    else: #is valid option
-        imp = int(imp)
-    if num_err:
-        print(f'[!] Please enter a valid number in a range [{a},{b}]')
-        time.sleep(3)
-        return None
-    return imp
-
-def get_str():
-    string=""
-    while string == "":
-        string = input(">>> ")
-    return string
 
 def tominute(date:datetime):
     minute = date.minute
@@ -138,3 +105,36 @@ def add_to_dict(dic:dict,lis):
     else:
         dic[str(lis[0])] = {}
         add_to_dict(dic[str(lis[0])],lis[1:])
+
+
+def event_option_label(idx: int, ev) -> str:
+    return f"[{idx}] {ev.task} FROM {ev.date[0]} TO ..."
+
+
+def build_event_option_labels(events: list) -> list:
+    return [event_option_label(idx, ev) for idx, ev in enumerate(events)]
+
+
+def parse_event_option(option: str):
+    if not option or "]" not in option:
+        return None
+    try:
+        prefix = option.split("]", 1)[0]
+        prefix = prefix.replace("[", "").strip()
+        return int(prefix)
+    except ValueError:
+        return None
+
+
+def format_event_info(ev) -> str:
+    resources = ', '.join(ev.need_resources) if ev.need_resources else "-"
+    lines = [
+        "INFORMATION:",
+        f"Task name: {ev.task}",
+        f"Start Date: {ev.date[0]}",
+        f"End Date: {ev.date[1]}",
+        f"Time range: {ev.time[0]} TO {ev.time[1]}",
+        f"Resources needed: {resources}",
+        f"Notes: {ev.notes}",
+    ]
+    return "\n".join(lines)

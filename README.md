@@ -209,28 +209,6 @@ python main.py
 
 ---
 
-## �️ Estructura principal del proyecto
-
-```
-dinamic-events/
-├─ main.py                # Entrada GUI principal (ventana `app`)
-├─ requirements.txt
-├─ runtests.py            # Runner de tests de ejemplo
-├─ saved/                 # Estado runtime persistido
-├─ modules/               # Lógica del motor
-│  ├─ calendar.py         # Clase Calendar
-│  ├─ events.py           # Clase event
-│  ├─ handlers.py         # BasicHandler y utilidades de carga JSON
-│  ├─ SegTree.py          # Estructura de datos segment tree (rango)
-│  ├─ utils.py            # Funciones auxiliares (timinute, logs, etc.)
-│  ├─ gvar.py             # Variables globales (bootstrap)
-│  └─ gui_core/           # Ventanas auxiliares (TaskCreator, TaskRemover)
-├─ templates/             # Definiciones ejemplo (tasks/resources)
-└─ tests/                 # Tests de ejemplo
-```
-
----
-
 ## 📘 Descripción de las clases (qué hace cada clase)
 
 Aquí tienes una guía rápida de las clases principales del repo y sus responsabilidades. Esto te ayuda a entender dónde tocar si quieres añadir funciones o cambiar comportamiento.

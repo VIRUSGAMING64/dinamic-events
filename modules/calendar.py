@@ -173,19 +173,6 @@ class Calendar(BasicHandler):
         for res in temp:
             self.used_resources[res] = temp[res]
 
-    def suggest_brute(self, ev: event):
-        """
-    Return minimum position to add event.
-    How to optimize?
-    Consider inter-task binding and current time first.
-        """
-        length = ev.end - ev.start
-        l = tominute(datetime.datetime.now())
-        for res in ev.need_resources:
-            while not self.check_available(res, l, l + length):
-                l+=1
-        return l
-
     def suggest_brute_lr(self, L: int, R: int, resources: list):
         """
         Return minimum position to add event.

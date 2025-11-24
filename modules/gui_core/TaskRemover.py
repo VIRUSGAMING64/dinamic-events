@@ -35,7 +35,6 @@ class TaskRemover(CTk):
 
     def update_combo(self):
         try:
-
             while True:
                 print("updating remover")
                 labels = build_event_option_labels(calendar.events)

@@ -63,8 +63,11 @@ def read_file(name):
     task.close()
     return data
 
-def tominute(date:datetime):
-    return int(date.timestamp()) // 60
+def tominute(date:datetime | str):
+    #! Fix it, error if date > 3000Years
+    if isinstance(date,str):
+        date = datetime.fromisoformat(date)
+    return int(date.timestamp() // 60)
 
 def add_to_dict(dic:dict,lis):
     if len(lis) == 2:

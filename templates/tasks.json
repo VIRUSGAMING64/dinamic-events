@@ -67,7 +67,7 @@
     "host a dota 2 server": {
         "resources": [
             {
-                "name": "sdd",
+                "name": "ssd",
                 "count": 1
             },
             {

@@ -1,24 +1,23 @@
 from modules.events import *
 from modules.SegTree import *
+from modules.Pool import *
 
 class Calendar(BasicHandler):
     used_resources = {}
     available_tasks = {}
-    current_tasks = []
-    current_event = None  # current event
     events = []
     
-    def __init__(self):
+    def __init__(self,used_res = "used_resources.json", actives_ev = "actives_events.json"):
         try:
-            self.load_used_resources(f"{SAVE_ROOT}/used_resources.json")
-            ex = self._load_json(f"{SAVE_ROOT}/actives_events.json")
+            self.actives_events_path = actives_ev
+            self.used_res_path = used_res
+            self.load_used_resources(f"{SAVE_ROOT}/{used_res}")
+            ex = self._load_json(f"{SAVE_ROOT}/{actives_ev}")
             self.events = []
             for i in ex:
                 self.events.append(event(i))
-            self.remove_old_events()
             self.save_json_data()
         except Exception as e:
-            # error loading data
             log(f"error loading used resources: ",e)
             pass
     
@@ -33,12 +32,12 @@ class Calendar(BasicHandler):
         sv = []
         for ev in self.events:
             sv.append(ev.__dict__())
-        fi = open(f"{SAVE_ROOT}/actives_events.json","w")
+        fi = open(f"{SAVE_ROOT}/{self.actives_events_path}","w")
         fi.write(json.dumps(sv,indent=3))
         fi.close()
         try:
             save_used_resources = self._dict_to_jsonstr(self.used_resources)
-            fi = open(f'{SAVE_ROOT}/used_resources.json',"w")
+            fi = open(f'{SAVE_ROOT}/{self.used_res_path}',"w")
             fi.write(save_used_resources)
             fi.close()
         except Exception as e:
@@ -67,58 +66,42 @@ class Calendar(BasicHandler):
     def check_available(self, new_res: str, start: int, end: int):
         if not (new_res in self.used_resources.keys()):
             return True
-        
-        self.sort()
-        
-        for res in self.used_resources:
-            if res != new_res:
-                continue
-            try:
-                sum = 0
-                id = 0
-                a2 = [start,end]
-                a = [0] * (id + 10)
-                di = {}
-
-                for i in self.events:
-                    x = int(i.start)
-                    a2.append(x)
-                    x = int(i.end)
-                    a2.append(x)
-                
-                a2.sort()
-
-                for x in a2:
-                    if di.get(x,-1) == -1:
-                        di[x] = id
-                        id += 1  
-
-                ##* hasta aqui hice la comprecion de coordenadas
-
-                tree = SegTree(a)
-                
-                for x in self.events:
-                    l = di[x.start]
-                    r = di[x.end]
-                    tree.update(l,r,1)
-                               
-                l = di[start]
-                r = di[end]
-                mx = tree.query(l,r)
-
-                if mx >= self.resources[res]["count"]:
-                    print("here = ", f"[{mx},{l},{r}]     {a} ,  {a2}")
-                    return False
-                
-            except Exception as e:
-                log("error checking available resource: ", e)
+        try:
+            id = 0
+            a2 = [start,end]
+            di = {}
+            for i in self.events:
+                x = int(i.start)
+                a2.append(x)
+                x = int(i.end)
+                a2.append(x)
+            
+            a2.sort()
+            for x in a2:
+                if di.get(x,-1) == -1:
+                    di[x] = id
+                    id += 1 
+            
+            a = [0] * (id + 10) 
+            tree = SegTree(a)
+            for x in self.events:
+                l = di[x.start]
+                r = di[x.end]
+                tree.update(l,r,1)
+                            
+            l = di[start]
+            r = di[end]
+            mx = tree.query(l,r)
+            if mx >= self.resources[new_res]["count"]:
                 return False
+                
+        except Exception as e:
+            log("error checking available resource: ", str(e))
+            return False
+            
         return True
         
     def add_event(self,new:event):
-        """
-        optimizar esto si da tiempo
-        """
         self.sort()
         try:
             for res in new.need_resources:
@@ -126,12 +109,16 @@ class Calendar(BasicHandler):
                 if av == False:
                     return av
             self.events.append(new)
+            
             for res in new.need_resources:     
+                
                 add_to_dict(self.used_resources,[res,new.start,1])        
                 add_to_dict(self.used_resources,[res,new.end,-1])
             return True
+    
         except Exception as e:
             log("error adding event: [unknown error]", e)
+        
         return False
 
     def remove(self,index):
@@ -174,33 +161,24 @@ class Calendar(BasicHandler):
             self.used_resources[res] = temp[res]
 
     def suggest_brute_lr(self, L: int, R: int, resources: list):
-        """
-        Return minimum position to add event.
-        How to optimize?
-        Consider inter-task binding and current time first.
-        """
-
         length = (R-L)
         print(type(L),type(R))
         l = tominute(datetime.datetime.now())
         start = datetime.datetime.now()
         LR = []
+        
+        self.sort()
 
         for res in resources:
-            print(type(l),type(length), l, start.isoformat(" "))
-            
+            print(type(l),type(length), l, start.isoformat(" "))    
             while not self.check_available(res, l, l + length):
                 mx = 2**300
-
                 print(start.isoformat(),l,self.events[0].start,self.events[0].end, length)
-
                 for x in self.list_events():
                     if (l < x.end) and (l >= x.start):
                         mx = min(mx, x.end)
-
                 if mx == 2**300:
                     mx = l + 1
-                
                 ant = l
                 l = mx - 1
                 l+=1

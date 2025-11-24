@@ -1,23 +1,31 @@
 from customtkinter import *
 from CTkMessagebox import CTkMessagebox as Messagebox
-from CTkTable import CTkTable
 from modules.gui_core import *
-from tktimepicker import *
 from ctkdlib import *
 from modules import *
 from threading import Thread
+import PIL
+
+set_appearance_mode("dark")
 
 class app(CTk):
 
     def __init__(self):
         super().__init__()
+        self.pack_propagate(False)
+        self.title("Server tasks administrator")
         self.task_creator = None
         self.task_remover = None
         self.size_x = 512
         self.size_y = 256
-
         self.geometry(f"{self.size_x}x{self.size_y}")
 
+        
+        bg_image = CTkImage(dark_image=PIL.Image.open("templates/server1.jpg"),size = (self.size_x,self.size_y))
+        self.bg = CTkLabel(self,image=bg_image,width=self.size_x,height=self.size_y,text="")
+        self.bg.pack()
+        self.bg.place(y=0,x=0)
+    
 
         self.ButtonTaskCreator = CTkButton(self,text="Create new task",command=self.create_task)
         self.ButtonTaskCreator.pack()
@@ -38,12 +46,10 @@ class app(CTk):
         self.currents.place(x=0,y=0)
 
 
-        self.info = CTkLabel(self,text="INFORMATION:\n")
+        self.info = CTkLabel(self,text="INFORMATION:")
         self.info.pack()
         self.info.place(x=0,y=30)
         Thread(target=self.updater,daemon=True).start()
-
-
 
     def get_information(self,selected):
         index = parse_event_option(selected)
@@ -66,6 +72,7 @@ class app(CTk):
                 log(f"already destroyed [{e}]")
         
         self.task_remover = TaskRemover()
+        self.task_remover.resizable(False,False)
         self.task_remover.mainloop()
         self.task_remover = None
 
@@ -78,6 +85,7 @@ class app(CTk):
                 log(f"already destroyed [{e}]")
             
         self.task_creator = TaskCreator()
+        self.task_creator.resizable(False,False)
         self.task_creator.mainloop()
         self.task_creator = None
 
@@ -92,5 +100,7 @@ class app(CTk):
             self.update()
             time.sleep(3)
 
+calendar.remove_old_events()
 APP = app()
+APP.resizable(False,False)
 APP.mainloop()

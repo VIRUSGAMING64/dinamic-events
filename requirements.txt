@@ -1,5 +1,4 @@
 flask
 customtkinter
 CTkMessagebox
-CTkTable
 ctkdlib

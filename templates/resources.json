@@ -49,5 +49,10 @@
       "count": 1,
       "need": [],
       "without": []
+   },
+   "codec": {
+      "count": 1,
+      "need": ["cpu"],
+      "without": []
    }
 }

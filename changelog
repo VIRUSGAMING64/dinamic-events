@@ -1,3 +1,19 @@
+2.6.2.1
+Minor erros fixed
+2.6.2.0
+Added Background image
+Added title to main menu
+Removed .sort() from check avialable
+Fix error in add_event 
+Fixed errors in templates
+Fixed resize of main menu and others options
+Optimized some functions [56s test time] -> [26s test time]
+Tested project on (windows 11 25h2 26200.6584) (python 3.14)
+2.6.1.0
+Fixed Readme
+Fixed TaskCreator Date in sugest
+Removed unused function in calendar (suggest_brute)
+Minors fix in other folders
 2.6.0.0
 Removed deprecated functions in utils
 Created function for duplicated code
@@ -82,7 +98,7 @@ Created show events function
 Created new class event
 Created GitHub workflow
 1.3.0.0
-Created new panel 
+Created new panel
 Sorted functions in files
 Some errors fixed
 1.2.0.0

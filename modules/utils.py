@@ -39,7 +39,6 @@ def CheckISODate(date:str):
         if int(h[1]) >= 60 or int(h[1]) < 0:
             return 0       
         d31 = [1,3,5,7,8,10,12]
-        d28 = [2]
         d30 = [4,6,9,11]
         if d <= 0:
             return 0
@@ -64,33 +63,11 @@ def read_file(name):
     task.close()
     return data
 
-def tominute(date:datetime):
-    minute = date.minute
-    minute += (date.hour) * 60 
-    minute += (date.day-1) * 24 * 60
-    mon = date.month - 1 
-    ye = date.year - 1
-    ye = ye * 365 + int(ye // 4)
-    ye = ye * 24 * 60
-    mon = dict({
-        0:0,
-        1:31,
-        2:31+28 +((date.year % 4 )== 0),
-        3:31+28 +((date.year % 4 )== 0) + 31,
-        4:31+28 +((date.year % 4 )== 0) + 31 + 30,
-        5:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31,
-        6:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30,
-        7:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30 + 31,
-        8:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30 + 31 + 31,
-        9:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30 + 31 + 31 + 30,
-        10:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31,
-        11:31+28 +((date.year % 4 )== 0) + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30,
-    })[mon]
-    minute += ye
-    minute += mon * 24 * 60
-    return minute
-
-
+def tominute(date:datetime | str):
+    #! Fix it, error if date > 3000Years
+    if isinstance(date,str):
+        date = datetime.fromisoformat(date)
+    return int(date.timestamp() // 60)
 
 def add_to_dict(dic:dict,lis):
     if len(lis) == 2:

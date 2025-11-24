@@ -125,20 +125,20 @@ class TaskCreator(CTk):
             self.show_invalid("[begin >= end]")
             return False
 
-    # Retrieve resources required by the selected task
         res = self._get_deps(self.tasks.get())
         
         print(res)
 
         l, r = self.__suggest(tominute(begin), tominute(end), res)
-        # Convert start and end back to ISO format
         
-        l=l.isoformat().replace('T', ' AT ').split(".")[0]
-        r=r.isoformat().replace('T', ' AT ').split(".")[0]
-       
+        l=str(l.isoformat().replace('T', ' AT ').split(".")[0])
+        r=str(r.isoformat().replace('T', ' AT ').split(".")[0])
+        l=l.rsplit(":",1)[0]
+        r=r.rsplit(":",1)[0]
         print(l)
         print(r)
         
+
         self.begin_time.delete("1.0","19.0")
         self.end_time.delete("1.0","19.0")
         

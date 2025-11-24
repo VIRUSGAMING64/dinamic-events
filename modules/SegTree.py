@@ -3,7 +3,6 @@ class SegTree:
     tree = []
     lazy = []
     length = 0
-
     def __init__(self,a = None):
         if a == None:
             a = [0] * (10**6 * 2)

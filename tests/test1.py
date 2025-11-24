@@ -42,7 +42,7 @@ def cores_speed():
 #cores_speed()
 
 print('now in ctime:',tominute(datetime.now()))
-print('now in ctime:',tominute(datetime(1,1,2,0,10)))
+print('now in ctime:',tominute(datetime(2000,1,2,0,10).isoformat()))
 
 da=datetime.now()
 s=tominute(da)

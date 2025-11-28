@@ -47,13 +47,17 @@ class TaskRemover(CTk):
     def remove(self):
         if self.selected == None:
             Messagebox(
-                self, 300, 300, "[ERROR] Select one event"
+                self, 300, 300,"ERROR", "[ERROR] Select one event"
             )
             return
+        
         calendar.remove(self.selected)
-        Messagebox(self,300,300,"REMOVED", F"TASK [{self.selected}] REMOVED")
         calendar.save_json_data()
-    
+        sl = self.selected
+        self.selected = None
+        self.info.configure(text = "")
+        Messagebox(self,300,300,"REMOVED", F"TASK [{sl}] REMOVED")
+        
 
     def update_label(self,selected):
         idx = parse_event_option(selected)

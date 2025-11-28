@@ -1,6 +1,6 @@
 {
    "cpu": {
-      "count": 1,
+      "count": 2,
       "need": [
          "ram"
       ],
@@ -9,14 +9,14 @@
       ]
    },
    "ram": {
-      "count": 1,
+      "count": 2,
       "need": [
          "cpu"
       ],
       "without": []
    },
    "hdd": {
-      "count": 1,
+      "count": 2,
       "need": [
          "cpu"
       ],
@@ -25,7 +25,7 @@
       ]
    },
    "ssd": {
-      "count": 1,
+      "count": 2,
       "need": [
          "cpu"
       ],
@@ -34,24 +34,24 @@
       ]
    },
    "gpu": {
-      "count": 1,
+      "count": 2,
       "need": [
          "vram"
       ],
       "without": []
    },
    "vram": {
-      "count": 1,
+      "count": 2,
       "need": [],
       "without": []
    },
    "net": {
-      "count": 1,
+      "count": 2,
       "need": [],
       "without": []
    },
    "codec": {
-      "count": 1,
+      "count": 2,
       "need": ["cpu"],
       "without": []
    }

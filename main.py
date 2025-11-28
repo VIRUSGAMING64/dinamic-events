@@ -45,19 +45,54 @@ class app(CTk):
         self.currents.pack()
         self.currents.place(x=0,y=0)
 
-
         self.info = CTkLabel(self,text="INFORMATION:")
         self.info.pack()
         self.info.place(x=0,y=30)
+        self.ev_info_select = None
+
+        Thread(target=self.bar_updater,daemon=True).start()
         Thread(target=self.updater,daemon=True).start()
+        self.prog = CTkProgressBar(
+            self, 
+            height=20, 
+            width=512 - 140,
+            variable=Variable(None, 0)
+        )
+        self.prog.pack()
+        print( self.info._current_width )
+        self.prog.place(x = 0, y = 30 + 28 * 5)
+        
 
     def get_information(self,selected):
         index = parse_event_option(selected)
         if index is None or index >= len(calendar.events):
             return
         ev = calendar.events[index]
+        self.ev_info_select = ev
         self.info.configure(text = format_event_info(ev))
+        self._bar_updater()
 
+    def _bar_updater(self):
+        if self.ev_info_select == None:
+            return
+
+        total = self.ev_info_select.end - self.ev_info_select.start + 1
+        part  = (total - (self.ev_info_select.end - tominute(datetime.datetime.now())))
+        percent = part / total 
+
+        if (percent >= 1.0) or (not calendar.is_running(self.ev_info_select)):
+            calendar.remove_old_events()
+            self.ev_info_select = None
+            self.info.configure(text = "INFORMATION:")
+            percent = 0
+        
+        percent = Variable(None,percent)
+        self.prog.configure( variable = percent)
+    
+    def bar_updater(self):
+        while True:
+            self._bar_updater()
+            time.sleep(10)
 
     def update(self):
         self.currents.configure(values = build_event_option_labels(calendar.events))

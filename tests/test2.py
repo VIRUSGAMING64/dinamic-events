@@ -14,6 +14,7 @@ R = L + dt
 
 total = 3650
 for i in range(365 * 10):
+    print(i)
     ev = event({
         "date-range":[L.isoformat(),R.isoformat()],
         'time-range':[tominute(L),tominute(R)],
@@ -26,16 +27,10 @@ for i in range(365 * 10):
     calendar.add_event(ev)
 
 
+
 print("saving")
 calendar.save_json_data()
 print("saved")
-
-
-
-
-
-
-
 
 end = time.time_ns()
 elapsed = (end-start)/10**9

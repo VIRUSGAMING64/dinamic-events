@@ -24,6 +24,7 @@ Ofrece:
 - Un motor `Calendar` que agrega/quita eventos y valida la disponibilidad de recursos.
 - Guardado/recuperación en JSON para persistir el estado de la aplicación.
 - Interfaz gráfica para crear y eliminar eventos de forma interactiva.
+- Barra de progreso en el menú principal para visualizar el estado de la tarea seleccionada en tiempo real.
 
 Es ideal para: laboratorios de automatización, simulación de cargas y prototipado de orquestadores simples.
 
@@ -33,6 +34,7 @@ Es ideal para: laboratorios de automatización, simulación de cargas y prototip
 
 - Los eventos se describen en `templates/tasks.json` y al instanciarse calculan sus recursos requeridos, incluyendo dependencias definidas en `templates/resources.json`.
 - `Calendar` mantiene una lista de eventos y un mapa de recursos usados por minuto. Para comprobar la disponibilidad de forma eficiente, usa **compresión de coordenadas** y un **Árbol de Segmentos** (`SegTree`) para consultas rápidas de máximo en rangos de tiempo.
+- **Optimización:** Se utiliza un caché del árbol de segmentos para acelerar operaciones repetitivas como `add_event` y `suggest_brute_lr`.
 - Cuando se añade un evento, el calendario verifica que para cada recurso necesario no se exceda la capacidad disponible en ningún minuto del intervalo solicitado.
 - El estado se guarda en la carpeta `saved/` para mantener la persistencia entre sesiones.
 
@@ -77,7 +79,6 @@ python main.py
 ```
 dinamic-events/
 ├─ main.py                # Entrada GUI principal
-├─ run.sh                 # Script de ejecución (ejemplo)
 ├─ clean.sh               # Script de limpieza
 ├─ requirements.txt
 ├─ runtests.py            # Runner para las pruebas

@@ -3,9 +3,10 @@ from modules.SegTree import *
 from modules.Pool import *
 
 class Calendar(BasicHandler):
-    used_resources = {}
-    available_tasks = {}
-    events = []
+    used_resources:dict = {}
+    available_tasks:dict = {}
+    events:list[event] = []
+    inqueue:dict[event,bool] = {} 
     
     def __init__(self,used_res = "used_resources.json", actives_ev = "actives_events.json"):
         try:
@@ -20,9 +21,10 @@ class Calendar(BasicHandler):
         except Exception as e:
             log(f"error loading used resources: ",e)
             pass
-    
-    def list_events(self):  # definitivamente no se puede optimizar
-        self.remove_old_events()
+    def is_running(self,ev):
+        return self.inqueue.get(ev, False)
+
+    def list_events(self): 
         return self.events
 
     def load_used_resources(self, filename):
@@ -62,33 +64,39 @@ class Calendar(BasicHandler):
             input()
             return None
         return task
+    def gen_tree(self, l , length):
+        
+        id = 0
+        a2 = [l,l + length]
+        di = {}
+        for i in self.events:
+            x = int(i.start)
+            a2.append(x)
+            x = int(i.end)
+            a2.append(x)
+            a2.append(i.end + 1)
     
-    def check_available(self, new_res: str, start: int, end: int):
+        a2.sort()
+    
+        for x in a2:
+            if di.get(x,-1) == -1:
+                di[x] = id
+                id += 1 
+        tree = SegTree([0] * (id + 10) )
+        
+        for x in self.events:
+            l = di[x.start]
+            r = di[x.end]
+            tree.update(l,r,1)
+                    
+        
+        return di,tree
+    
+    def check_available(self, new_res: str, start: int, end: int, di , tree):
         if not (new_res in self.used_resources.keys()):
             return True
         try:
-            id = 0
-            a2 = [start,end]
-            di = {}
-            for i in self.events:
-                x = int(i.start)
-                a2.append(x)
-                x = int(i.end)
-                a2.append(x)
             
-            a2.sort()
-            for x in a2:
-                if di.get(x,-1) == -1:
-                    di[x] = id
-                    id += 1 
-            
-            a = [0] * (id + 10) 
-            tree = SegTree(a)
-            for x in self.events:
-                l = di[x.start]
-                r = di[x.end]
-                tree.update(l,r,1)
-                            
             l = di[start]
             r = di[end]
             mx = tree.query(l,r)
@@ -103,19 +111,22 @@ class Calendar(BasicHandler):
         
     def add_event(self,new:event):
         self.sort()
+        di,tree = self.gen_tree(new.start,new.end - new.start)
         try:
             for res in new.need_resources:
-                av = self.check_available(res, new.start, new.end)
+                av = self.check_available(res, new.start, new.end, di, tree)
                 if av == False:
                     return av
             self.events.append(new)
-            
+            self.inqueue[new] = True
+
             for res in new.need_resources:     
                 
                 add_to_dict(self.used_resources,[res,new.start,1])        
                 add_to_dict(self.used_resources,[res,new.end,-1])
+        
             return True
-    
+        
         except Exception as e:
             log("error adding event: [unknown error]", e)
         
@@ -126,7 +137,7 @@ class Calendar(BasicHandler):
         for res in deleted.need_resources:
             add_to_dict(self.used_resources,[res,deleted.start, -1])
             add_to_dict(self.used_resources,[res,deleted.end, 1])
-        self.remove_old_events()
+        del self.inqueue[deleted]
 
     def remove_old_events(self):
         self.sort()
@@ -135,7 +146,7 @@ class Calendar(BasicHandler):
         del now
         events = []
         for task in self.events:
-            if init_t <= task.end:
+            if init_t < task.end:
                 events.append(task)
         self.used_resources = {}
         self.events  = []
@@ -165,24 +176,22 @@ class Calendar(BasicHandler):
         print(type(L),type(R))
         l = tominute(datetime.datetime.now())
         start = datetime.datetime.now()
-        LR = []
         
         self.sort()
-
+        
+        di,tree = self.gen_tree(l,length)
+    
         for res in resources:
-            print(type(l),type(length), l, start.isoformat(" "))    
-            while not self.check_available(res, l, l + length):
-                mx = 2**300
-                print(start.isoformat(),l,self.events[0].start,self.events[0].end, length)
+            while not self.check_available(res, l, l + length, di , tree):
+                mx:int = 2**300
                 for x in self.list_events():
                     if (l < x.end) and (l >= x.start):
-                        mx = min(mx, x.end)
+                        mx = min(mx, x.end+1)
                 if mx == 2**300:
                     mx = l + 1
-                ant = l
-                l = mx - 1
-                l+=1
-                dif = l - ant
+                ant:int = l
+                l:int = mx
+                dif:int = l - ant
                 dr = datetime.timedelta(minutes=dif)
                 start+=dr
 

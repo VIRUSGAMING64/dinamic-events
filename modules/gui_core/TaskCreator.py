@@ -225,11 +225,11 @@ class TaskCreator(CTk):
             added = self._add_event()
 
         if added:
-            self.destroy()
+            return True
         else:
             # Process not added
             Messagebox(self, message="Not added")
-            return
+            return False
 
     def verify(self):
         pass

@@ -1,3 +1,13 @@
+2.7.0.0
+Refactored CheckISODate in utils.py to use datetime.fromisoformat
+Added progress bar to main menu to track event progress
+Optimized calendar operations (add_event, suggest_brute_lr and others)
+Added is_running method to Calendar class
+Improved TaskCreator and TaskRemover GUI logic and error handling
+Updated tominute in utils.py for better date handling
+Increased default resource counts in templates
+Enabled all tests in tests module
+Analyzed time complexity for Calendar class functions
 2.6.2.3
 testing archlinux 2
 2.6.2.2

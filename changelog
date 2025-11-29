@@ -1,3 +1,6 @@
+2.7.1.0
+Updated runtests.py to auto-discover and run all tests
+Removed not used create_task function from calendar.py 
 2.7.0.0
 Refactored CheckISODate in utils.py to use datetime.fromisoformat
 Added progress bar to main menu to track event progress

@@ -21,6 +21,7 @@ class Calendar(BasicHandler):
         except Exception as e:
             log(f"error loading used resources: ",e)
             pass
+
     def is_running(self,ev):
         return self.inqueue.get(ev, False)
 
@@ -45,78 +46,62 @@ class Calendar(BasicHandler):
         except Exception as e:
             print("maybe you don't have access to this file: ",e)
 
-    def create_task(self,start:int,end:int,taskname:str,daterange:list):
-        try:
-            task = event({
-                "name":taskname,
-                "time-range":[start,end],
-                "resources": [],
-                "date-range":daterange
-            })
-        except Exception as e:
-            log("error creating task",e)
-            return None
-        try:
-            for elem in self.available_tasks[taskname]["resources"]:
-                task.need_resources.append(elem['name'])
-        except Exception as e:
-            print("error adding resources to task: ",e)
-            input()
-            return None
-        return task
-    def gen_tree(self, l , length):
+    def gen_tree(self, res , l , length):
         
         id = 0
-        a2 = [l,l + length]
+        a2 = [l,l + length, l+1,l + length+1]
         di = {}
         for i in self.events:
-            x = int(i.start)
-            a2.append(x)
-            x = int(i.end)
-            a2.append(x)
+            if not res in i.need_resources:
+                continue
+            a2.append(i.end)
+            a2.append(i.start)
+            a2.append(i.start+1)
             a2.append(i.end + 1)
     
         a2.sort()
-    
         for x in a2:
             if di.get(x,-1) == -1:
                 di[x] = id
-                id += 1 
+                id += 1
         tree = SegTree([0] * (id + 10) )
         
         for x in self.events:
-            l = di[x.start]
-            r = di[x.end]
-            tree.update(l,r,1)
-                    
-        
+            if not res in x.need_resources:
+                continue
+            start_idx = di[x.start]
+            end_idx = di[x.end]
+            tree.update(start_idx, end_idx, 1)
         return di,tree
     
+
     def check_available(self, new_res: str, start: int, end: int, di , tree):
         if not (new_res in self.used_resources.keys()):
             return True
         try:
-            
+            if start not in di or end not in di:
+                log(f"check_available: claves no encontradas - start={start} in di: {start in di}, end={end} in di: {end in di}")
+                return True 
             l = di[start]
             r = di[end]
             mx = tree.query(l,r)
             if mx >= self.resources[new_res]["count"]:
-                return False
-                
+                return False   
         except Exception as e:
             log("error checking available resource: ", str(e))
-            return False
-            
+            return True
         return True
-        
+
+
     def add_event(self,new:event):
         self.sort()
-        di,tree = self.gen_tree(new.start,new.end - new.start)
         try:
             for res in new.need_resources:
+                di,tree = self.gen_tree(res,new.start,new.end - new.start)
                 av = self.check_available(res, new.start, new.end, di, tree)
                 if av == False:
                     return av
+            
             self.events.append(new)
             self.inqueue[new] = True
 
@@ -179,21 +164,26 @@ class Calendar(BasicHandler):
         
         self.sort()
         
-        di,tree = self.gen_tree(l,length)
-    
-        for res in resources:
-            while not self.check_available(res, l, l + length, di , tree):
-                mx:int = 2**300
-                for x in self.list_events():
-                    if (l < x.end) and (l >= x.start):
-                        mx = min(mx, x.end+1)
-                if mx == 2**300:
-                    mx = l + 1
-                ant:int = l
-                l:int = mx
-                dif:int = l - ant
-                dr = datetime.timedelta(minutes=dif)
-                start+=dr
+        while True:
+            av = True
+            for res in resources:
+                di, tree = self.gen_tree(res, l, length)
+                if not self.check_available(res, l, l + length, di, tree):
+                    av = False
+                    mx: int = 10**300
 
-        return start
-    
+                    for x in self.list_events():
+                        if (l < x.end):
+                            mx = min(mx, x.end + 1)
+
+                    if mx == 10**300:
+                        mx = l + 1
+                    ant: int = l
+                    l: int = mx
+                    print(mx,start.isoformat())
+                    dif: int = l - ant
+                    dr = datetime.timedelta(minutes=dif)
+                    start += dr
+                    break
+            if av:
+                return start

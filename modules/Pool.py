@@ -21,7 +21,7 @@ class Pool():
                 func()
             func(*args)
         except Exception as e:
-            raise f"Thread pool exception [{e}]"
+            raise Exception(f"Thread pool exception [{e}]")
         finally:
             self.running -= 1
 

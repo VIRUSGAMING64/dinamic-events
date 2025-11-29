@@ -14,7 +14,7 @@ R = L + dt
 
 total = 3650
 for i in range(365 * 10):
-    print(i)
+    print(i+1,"/",total)
     ev = event({
         "date-range":[L.isoformat(),R.isoformat()],
         'time-range':[tominute(L),tominute(R)],

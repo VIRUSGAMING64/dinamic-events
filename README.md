@@ -79,22 +79,32 @@ python main.py
 ```
 dinamic-events/
 ├─ main.py                # Entrada GUI principal
-├─ clean.sh               # Script de limpieza
+├─ clean.py               # Script de limpieza
+├─ test.py                # Script de pruebas
 ├─ requirements.txt
-├─ runtests.py            # Runner para las pruebas
+├─ changelog              # Registro de cambios
 ├─ saved/                 # Estado guardado (eventos activos, uso de recursos)
 ├─ modules/               # Lógica principal del programa
 │  ├─ calendar.py
 │  ├─ events.py
+│  ├─ gvar.py
 │  ├─ handlers.py
+│  ├─ Pool.py
+│  ├─ SegTree.py
 │  ├─ utils.py
 │  └─ gui_core/           # Componentes de la interfaz gráfica
+│     ├─ EventDeffiner.py
+│     ├─ ResAdder.py
 │     ├─ TaskCreator.py
 │     └─ TaskRemover.py
 ├─ templates/             # Plantillas de configuración
 │  ├─ resources.json
 │  └─ tasks.json
 └─ tests/                 # Pruebas unitarias y de integración
+   ├─ test1.py
+   ├─ test2.py
+   ├─ test3.py
+   └─ test4.py
 ```
 
 ---
@@ -145,7 +155,7 @@ Guía rápida de las clases principales, incluyendo su **complejidad temporal** 
 
 - Para ejecutar el conjunto de pruebas, utiliza:
 ```bash
-python runtests.py
+python test.py
 ```
 Este comando buscará y ejecutará los tests definidos en la carpeta `tests/`.
 

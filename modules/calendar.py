@@ -1,6 +1,6 @@
 from modules.events import *
 from modules.SegTree import *
-from modules.Pool import *
+
 
 class Calendar(BasicHandler):
     used_resources:dict = {}
@@ -20,21 +20,36 @@ class Calendar(BasicHandler):
             self.save_json_data()
         except Exception as e:
             log(f"error loading used resources: ",e)
-            pass
+
+    def _save_tasks(self,filename = None):
+        if filename == None:
+            filename = "./templates/tasks.json"
+        filename = os.path.realpath(filename)
+        data = self._dict_to_jsonstr(self.available_tasks)
+        tmp = open(filename,'w')
+        tmp.write(data)
+        tmp.close()
 
     def is_running(self,ev):
         return self.inqueue.get(ev, False)
 
+
     def list_events(self): 
         return self.events
+
 
     def load_used_resources(self, filename):
         self.used_resources = self._load_json(filename)
 
-    def save_json_data(self):
-        sv = []
+
+    def save_json_data(self) -> None:
+        sv:list = []
         for ev in self.events:
             sv.append(ev.__dict__())
+        try:
+            os.mkdir(SAVE_ROOT)
+        except:
+            pass
         fi = open(f"{SAVE_ROOT}/{self.actives_events_path}","w")
         fi.write(json.dumps(sv,indent=3))
         fi.close()
@@ -46,8 +61,8 @@ class Calendar(BasicHandler):
         except Exception as e:
             print("maybe you don't have access to this file: ",e)
 
-    def gen_tree(self, res , l , length):
-        
+
+    def gen_tree(self, res , l , length):    
         id = 0
         a2 = [l,l + length, l+1,l + length+1]
         di = {}
@@ -114,8 +129,8 @@ class Calendar(BasicHandler):
         
         except Exception as e:
             log("error adding event: [unknown error]", e)
-        
         return False
+
 
     def remove(self,index):
         deleted = self.events.pop(index)
@@ -123,6 +138,7 @@ class Calendar(BasicHandler):
             add_to_dict(self.used_resources,[res,deleted.start, -1])
             add_to_dict(self.used_resources,[res,deleted.end, 1])
         del self.inqueue[deleted]
+
 
     def remove_old_events(self):
         self.sort()
@@ -137,6 +153,7 @@ class Calendar(BasicHandler):
         self.events  = []
         for x in events:
             self.add_event(x)
+
 
     def sort(self):
         """
@@ -155,6 +172,7 @@ class Calendar(BasicHandler):
         self.used_resources = {}
         for res in temp:
             self.used_resources[res] = temp[res]
+
 
     def suggest_brute_lr(self, L: int, R: int, resources: list):
         length = (R-L)

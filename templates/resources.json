@@ -1,6 +1,6 @@
 {
    "cpu": {
-      "count": 2,
+      "count": 1,
       "need": [
          "ram"
       ],
@@ -52,7 +52,14 @@
    },
    "codec": {
       "count": 2,
-      "need": ["cpu"],
+      "need": [
+         "cpu"
+      ],
+      "without": []
+   },
+   "candela": {
+      "count": 2,
+      "need": [],
       "without": []
    }
 }

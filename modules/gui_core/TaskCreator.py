@@ -227,7 +227,6 @@ class TaskCreator(CTk):
         if added:
             return True
         else:
-            # Process not added
             Messagebox(self, message="Not added")
             return False
 

@@ -1,3 +1,9 @@
+2.8.0.0 dev
+Added on_closing handler to properly destroy all child windows (TaskCreator, TaskRemover, EventCreator, RessAdder) on exit
+Added EventDeffiner and ResAdder files
+Created clean.py for use in windows an linux
+Updated .yml file
+Added save tasks function in calendar
 2.7.1.0
 Updated runtests.py to auto-discover and run all tests
 Removed not used create_task function from calendar.py 

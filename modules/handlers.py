@@ -7,6 +7,7 @@ SAVE_ROOT = "./saved"
 class BasicHandler:
     resources = {}
     chunk_size = 65535
+    res_path = "./templates/resources.json"
     def _load_json(self,filename):
         filename = os.path.realpath(filename)
         if self._ex_ext(filename) != 'json':
@@ -24,6 +25,15 @@ class BasicHandler:
         filename = os.path.realpath(filename)
         data = self._load_json(filename)
         self.resources = data
+
+    def _save_resources(self,filename = None):
+        if filename == None:
+            filename = self.res_path
+        filename = os.path.realpath(filename)
+        data = self._dict_to_jsonstr(self.resources)
+        tmp = open(filename,'w')
+        tmp.write(data)
+        tmp.close()
     
     def _ex_ext(self,filename):
         filename = os.path.realpath(filename)

@@ -1,97 +1,97 @@
 {
-    "monero miner": {
-        "resources": [
-            {
-                "name": "cpu",
-                "count": 1
-            }
-        ],
-        "without": [
-            "gpu"
-        ]
-    },
-    "btc miner": {
-        "resources": [
-            {
-                "name": "gpu",
-                "count": 1
-            }
-        ],
-        "without": [
-            "cpu"
-        ]
-    },
-    "encode video to x265 codec": {
-        "resources": [
-            {
-                "name": "codec",
-                "count": 1
-            }
-        ],
-        "without": []
-    },
-    "telegram bot hosting": {
-        "resources": [
-            {
-                "name": "hdd",
-                "count": 1
-            },
-            {
-                "name": "cpu",
-                "count": 1
-            },
-            {
-                "name": "net",
-                "count": 1
-            }
-        ],
-        "without": []
-    },
-    "webpage hosting": {
-        "resources": [
-            {
-                "name": "ssd",
-                "count": 1
-            },
-            {
-                "name": "cpu",
-                "count": 1
-            },
-            {
-                "name": "net",
-                "count": 1
-            }
-        ],
-        "without": []
-    },
-    "host a dota 2 server": {
-        "resources": [
-            {
-                "name": "ssd",
-                "count": 1
-            },
-            {
-                "name": "cpu",
-                "count": 1
-            }
-        ],
-        "without": []
-    },
-    "vps hosting": {
-        "resources": [
-            {
-                "name": "hdd",
-                "count": 1
-            },
-            {
-                "name": "cpu",
-                "count": 1
-            },
-            {
-                "name": "net",
-                "count": 1
-            }
-        ],
-        "without": []
-    }
+   "monero miner": {
+      "resources": [
+         {
+            "name": "cpu",
+            "count": 1
+         }
+      ],
+      "without": [
+         "gpu"
+      ]
+   },
+   "btc miner": {
+      "resources": [
+         {
+            "name": "gpu",
+            "count": 1
+         }
+      ],
+      "without": [
+         "cpu"
+      ]
+   },
+   "encode video to x265 codec": {
+      "resources": [
+         {
+            "name": "codec",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "telegram bot hosting": {
+      "resources": [
+         {
+            "name": "hdd",
+            "count": 1
+         },
+         {
+            "name": "cpu",
+            "count": 1
+         },
+         {
+            "name": "net",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "webpage hosting": {
+      "resources": [
+         {
+            "name": "ssd",
+            "count": 1
+         },
+         {
+            "name": "cpu",
+            "count": 1
+         },
+         {
+            "name": "net",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "host a dota 2 server": {
+      "resources": [
+         {
+            "name": "ssd",
+            "count": 1
+         },
+         {
+            "name": "cpu",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "vps hosting": {
+      "resources": [
+         {
+            "name": "hdd",
+            "count": 1
+         },
+         {
+            "name": "cpu",
+            "count": 1
+         },
+         {
+            "name": "net",
+            "count": 1
+         }
+      ],
+      "without": []
+   }
 }

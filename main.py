@@ -146,7 +146,9 @@ class app(CTk):
                 log(f"already destroyed [{e}]")
         
         self.task_remover = TaskRemover()
+        self.task_remover.run_updater()
         self.task_remover.resizable(False,False)
+        self.task_remover.mainloop()
 
     def create_task(self):
         if self.task_creator != None:

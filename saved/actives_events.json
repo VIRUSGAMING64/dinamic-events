@@ -1,0 +1,68 @@
+[
+   {
+      "time-range": [
+         539588865,
+         539588870
+      ],
+      "date-range": [
+         "2025-12-07T11:45",
+         "2025-12-07T11:50"
+      ],
+      "resources": [
+         "vram",
+         "gpu"
+      ],
+      "name": "btc miner",
+      "notes": "Task notes\n"
+   },
+   {
+      "time-range": [
+         539588865,
+         539588870
+      ],
+      "date-range": [
+         "2025-12-07T11:45",
+         "2025-12-07T11:50"
+      ],
+      "resources": [
+         "cpu",
+         "net",
+         "ram",
+         "hdd"
+      ],
+      "name": "vps hosting",
+      "notes": "Task notes\n"
+   },
+   {
+      "time-range": [
+         539588871,
+         539588876
+      ],
+      "date-range": [
+         "2025-12-07T11:51",
+         "2025-12-07T11:56"
+      ],
+      "resources": [
+         "cpu",
+         "ram"
+      ],
+      "name": "monero miner",
+      "notes": "Task notes\n"
+   },
+   {
+      "time-range": [
+         539588865,
+         539588870
+      ],
+      "date-range": [
+         "2025-12-07T11:45",
+         "2025-12-07T11:50"
+      ],
+      "resources": [
+         "vram",
+         "gpu"
+      ],
+      "name": "btc miner",
+      "notes": "Task notes\n"
+   }
+]

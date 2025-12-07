@@ -30,19 +30,29 @@ class TaskRemover(CTk):
         self.info.place(y = 28 , x = 0)
 
 
-        self.update_thread = Thread(target = self.update_combo, daemon = True).start()
+        self.update_thread = Thread(target = self.update_combo, daemon = True)
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.close = False
+    
+    def on_closing(self):
+        self.close = True
+        self.destroy()
+
+    def run_updater(self):        
+        self.update_thread.start()
 
 
     def update_combo(self):
-        try:
             while True:
+                if self.close:
+                    break
+                time.sleep(1)
                 print("updating remover")
                 labels = build_event_option_labels(calendar.events)
-                self.eventos.configure(values = labels)
-                time.sleep(3)
-
-        except Exception as e:
-            log(f"eror in update_combo [{e}]")
+                try:
+                    self.eventos.configure(values = labels)
+                except Exception as e:
+                    log(f"eror in update_combo [{e}]")
 
     def remove(self):
         if self.selected == None:

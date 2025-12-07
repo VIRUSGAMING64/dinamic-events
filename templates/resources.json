@@ -1,65 +1,325 @@
 {
-   "cpu": {
+   "repartidor": {
+      "count": 10,
+      "need": [],
+      "without": []
+   },
+   "cocinero": {
+      "count": 5,
+      "need": [
+         "uniforme"
+      ],
+      "without": []
+   },
+   "gerente": {
       "count": 1,
       "need": [
-         "ram"
-      ],
-      "without": [
-         "gpu"
-      ]
-   },
-   "ram": {
-      "count": 2,
-      "need": [
-         "cpu"
+         "telefono"
       ],
       "without": []
    },
-   "hdd": {
+   "personal_limpieza": {
       "count": 2,
       "need": [
-         "cpu"
-      ],
-      "without": [
-         "ssd"
-      ]
-   },
-   "ssd": {
-      "count": 2,
-      "need": [
-         "cpu"
-      ],
-      "without": [
-         "hdd"
-      ]
-   },
-   "gpu": {
-      "count": 2,
-      "need": [
-         "vram"
+         "uniforme"
       ],
       "without": []
    },
-   "vram": {
+   "ayudante_cocina": {
+      "count": 3,
+      "need": [
+         "uniforme"
+      ],
+      "without": []
+   },
+   "moto": {
+      "count": 5,
+      "need": [
+         "gasolina"
+      ],
+      "without": [
+         "bicicleta",
+         "furgoneta",
+         "coche",
+         "patinete_electrico"
+      ]
+   },
+   "bicicleta": {
+      "count": 5,
+      "need": [],
+      "without": [
+         "moto",
+         "furgoneta",
+         "coche",
+         "patinete_electrico"
+      ]
+   },
+   "furgoneta": {
+      "count": 2,
+      "need": [
+         "gasolina"
+      ],
+      "without": [
+         "moto",
+         "bicicleta",
+         "coche",
+         "patinete_electrico"
+      ]
+   },
+   "coche": {
+      "count": 2,
+      "need": [
+         "gasolina"
+      ],
+      "without": [
+         "moto",
+         "bicicleta",
+         "furgoneta",
+         "patinete_electrico"
+      ]
+   },
+   "patinete_electrico": {
+      "count": 3,
+      "need": [
+         "electricidad"
+      ],
+      "without": [
+         "moto",
+         "bicicleta",
+         "furgoneta",
+         "coche"
+      ]
+   },
+   "mochila_termica": {
+      "count": 15,
+      "need": [],
+      "without": []
+   },
+   "caja_registradora": {
+      "count": 2,
+      "need": [
+         "electricidad"
+      ],
+      "without": []
+   },
+   "datafono": {
+      "count": 4,
+      "need": [
+         "internet"
+      ],
+      "without": []
+   },
+   "ordenador_pedidos": {
+      "count": 2,
+      "need": [
+         "internet",
+         "electricidad"
+      ],
+      "without": []
+   },
+   "impresora_tickets": {
+      "count": 2,
+      "need": [
+         "electricidad"
+      ],
+      "without": []
+   },
+   "telefono": {
+      "count": 5,
+      "need": [],
+      "without": []
+   },
+   "uniforme": {
+      "count": 20,
+      "need": [],
+      "without": []
+   },
+   "manual_empleado": {
+      "count": 10,
+      "need": [],
+      "without": []
+   },
+   "casco": {
+      "count": 10,
+      "need": [],
+      "without": []
+   },
+   "guantes": {
+      "count": 50,
+      "need": [],
+      "without": []
+   },
+   "horno": {
+      "count": 2,
+      "need": [
+         "electricidad"
+      ],
+      "without": []
+   },
+   "freidora": {
+      "count": 2,
+      "need": [
+         "electricidad"
+      ],
+      "without": []
+   },
+   "plancha": {
+      "count": 1,
+      "need": [
+         "electricidad"
+      ],
+      "without": []
+   },
+   "nevera": {
+      "count": 3,
+      "need": [
+         "electricidad"
+      ],
+      "without": []
+   },
+   "congelador": {
+      "count": 2,
+      "need": [
+         "electricidad"
+      ],
+      "without": []
+   },
+   "lavavajillas": {
+      "count": 1,
+      "need": [
+         "electricidad"
+      ],
+      "without": []
+   },
+   "mesa_preparacion": {
+      "count": 4,
+      "need": [],
+      "without": []
+   },
+   "kit_herramientas": {
       "count": 2,
       "need": [],
       "without": []
    },
-   "net": {
-      "count": 2,
-      "need": [],
-      "without": []
-   },
-   "codec": {
-      "count": 2,
+   "ingredientes_frescos": {
+      "count": 50,
       "need": [
-         "cpu"
+         "nevera"
       ],
       "without": []
    },
-   "candela": {
+   "ingredientes_secos": {
+      "count": 100,
+      "need": [
+         "almacen"
+      ],
+      "without": []
+   },
+   "bebidas": {
+      "count": 100,
+      "need": [
+         "nevera"
+      ],
+      "without": []
+   },
+   "cajas_carton": {
+      "count": 200,
+      "need": [
+         "almacen"
+      ],
+      "without": []
+   },
+   "bolsas_papel": {
+      "count": 200,
+      "need": [
+         "almacen"
+      ],
+      "without": []
+   },
+   "servilletas": {
+      "count": 500,
+      "need": [
+         "almacen"
+      ],
+      "without": []
+   },
+   "folletos": {
+      "count": 1000,
+      "need": [
+         "almacen"
+      ],
+      "without": []
+   },
+   "anuncios_redes": {
+      "count": 5,
+      "need": [
+         "internet",
+         "ordenador_pedidos"
+      ],
+      "without": []
+   },
+   "bano": {
+      "count": 2,
+      "need": [
+         "agua",
+         "electricidad"
+      ],
+      "without": []
+   },
+   "almacen": {
+      "count": 1,
+      "need": [
+         "electricidad"
+      ],
+      "without": []
+   },
+   "zona_descanso": {
+      "count": 1,
+      "need": [
+         "electricidad"
+      ],
+      "without": []
+   },
+   "licencia_apertura": {
+      "count": 1,
+      "need": [],
+      "without": []
+   },
+   "carnet_manipulador": {
+      "count": 10,
+      "need": [],
+      "without": []
+   },
+   "extintor": {
+      "count": 5,
+      "need": [],
+      "without": []
+   },
+   "botiquin": {
       "count": 2,
       "need": [],
+      "without": []
+   },
+   "agua": {
+      "count": 100,
+      "need": [],
+      "without": []
+   },
+   "gasolina": {
+      "count": 100,
+      "need": [],
+      "without": []
+   },
+   "electricidad": {
+      "count": 100,
+      "need": [],
+      "without": []
+   },
+   "internet": {
+      "count": 1,
+      "need": [
+         "electricidad"
+      ],
       "without": []
    }
 }

@@ -59,12 +59,12 @@ class TaskCreator(CTk):
         """Buttons."""
         self.b_add = CTkButton(self, text="Add this event", command=self.add_event)
         self.b_add.pack()
-        self.b_add.place(x=70, y=self.y_size - 56)
+        self.b_add.place(x=70, y=self.y_size - 30)
 
 
         self.adjust_button = CTkButton(self, text="Adjust date", command=self.adjust)
         self.adjust_button.pack()
-        self.adjust_button.place(x=70, y=self.y_size - 112)
+        self.adjust_button.place(x=70, y=self.y_size - 60)
 
         """Notes textbox"""
 

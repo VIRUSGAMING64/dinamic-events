@@ -1,3 +1,10 @@
+2.9.0.0
+Changed name from dinamic-events to Jamazon
+Added Event shower class
+Removed tests
+changed position of buttons in TaskCreator
+Added many events and resources
+Changed Background image
 2.8.0.0 dev
 Added on_closing handler to properly destroy all child windows (TaskCreator, TaskRemover, EventCreator, RessAdder) on exit
 Added EventDeffiner and ResAdder files

@@ -1,169 +1,117 @@
-# Dynamic Events 🚀
+# Jamazon - Administrador de Tareas y Eventos 📅🚀
 
-> Planificador dinámico de tareas y recursos. Crea eventos, reserva CPU/GPU/RAM y detecta colisiones antes de que sucedan.
+**Jamazon** (también conocido como *Dinamic Events*) es una aplicación de escritorio desarrollada en Python para la gestión eficiente de tareas, eventos y recursos. Utiliza una interfaz gráfica moderna y estructuras de datos avanzadas para manejar la programación y evitar conflictos de recursos.
 
-## 📚 Tabla de contenidos
+## 🌟 Características Principales
 
-- [Visión general](#-visión-general)
-- [¿Cómo funciona?](#-cómo-funciona-resumen-técnico)
-- [Requisitos e instalación](#-requisitos-e-instalación)
-- [Uso rápido](#-uso-rápido)
-- [Estructura del proyecto](#-estructura-del-proyecto)
-- [Descripción de las clases](#-descripción-de-las-clases-qué-hace-cada-clase)
-- [Pruebas](#-pruebas)
-- [Siguientes pasos](#-siguientes-pasos-recomendados)
+*   **Gestión de Tareas:** Crear y eliminar tareas fácilmente.
+*   **Definición de Eventos:** Programar eventos con rangos de fecha y hora específicos.
+*   **Gestión de Recursos:** Añadir recursos y manejar dependencias entre ellos.
+*   **Detección de Conflictos:** Sistema inteligente que verifica si los recursos necesarios están disponibles y no entran en conflicto con otras reglas.
+*   **Interfaz Moderna:** GUI oscura y amigable basada en `customtkinter`.
 
----
+## 🛠️ Instalación y Ejecución
 
-## 🌐 Visión general
+Sigue estos pasos para ejecutar la aplicación en tu entorno local:
 
-Dynamic Events es una plataforma ligera para experimentar con planificación de recursos. Define tareas con necesidades de hardware, prográmalas en un calendario compartido y detecta conflictos con una GUI construida con CustomTkinter.
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone https://github.com/VIRUSGAMING64/Jamazon.git
+    cd Jamazon
+    ```
 
-Ofrece:
-- Un modelo de eventos (`event`) que resuelve dependencias de recursos.
-- Un motor `Calendar` que agrega/quita eventos y valida la disponibilidad de recursos.
-- Guardado/recuperación en JSON para persistir el estado de la aplicación.
-- Interfaz gráfica para crear y eliminar eventos de forma interactiva.
-- Barra de progreso en el menú principal para visualizar el estado de la tarea seleccionada en tiempo real.
+2.  **Instalar dependencias:**
+    Asegúrate de tener Python instalado. Luego, instala las librerías necesarias:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Es ideal para: laboratorios de automatización, simulación de cargas y prototipado de orquestadores simples.
+3.  **Ejecutar la aplicación:**
+    ```bash
+    python main.py
+    ```
 
----
+## 📖 Guía de Uso
 
-## ⚙️ ¿Cómo funciona? (Resumen técnico)
+Al iniciar la aplicación, verás un panel de control con las siguientes opciones:
 
-- Los eventos se describen en `templates/tasks.json` y al instanciarse calculan sus recursos requeridos, incluyendo dependencias definidas en `templates/resources.json`.
-- `Calendar` mantiene una lista de eventos y un mapa de recursos usados por minuto. Para comprobar la disponibilidad de forma eficiente, usa **compresión de coordenadas** y un **Árbol de Segmentos** (`SegTree`) para consultas rápidas de máximo en rangos de tiempo.
-- **Optimización:** Se utiliza un caché del árbol de segmentos para acelerar operaciones repetitivas como `add_event` y `suggest_brute_lr`.
-- Cuando se añade un evento, el calendario verifica que para cada recurso necesario no se exceda la capacidad disponible en ningún minuto del intervalo solicitado.
-- El estado se guarda en la carpeta `saved/` para mantener la persistencia entre sesiones.
+*   **Create new task:** Abre un formulario para registrar una nueva tarea en el sistema.
+*   **Remove existing task:** Permite eliminar tareas que ya no son necesarias.
+*   **Add Resource:** Agrega nuevos recursos (ej. salas, equipos) que pueden ser asignados a eventos.
+*   **Define new event:** Crea eventos complejos que requieren recursos y tienen una duración específica. El sistema validará automáticamente si los recursos están disponibles y si existen conflictos de dependencia.
 
----
+## 🧠 Detalles Técnicos y Módulos
 
-## 🛠️ Requisitos e instalación
+El proyecto está construido con un enfoque modular. A continuación se detallan los componentes principales:
 
-- Python 3.10+ (probado en 3.11/3.12)
-- `pip`
-- (Recomendado) Entorno virtual `venv`
+### 1. Núcleo (`modules/`)
 
-Pasos para la instalación:
-```bash
-# 1. Clonar el repositorio
-git clone https://github.com/<tu-usuario>/dinamic-events.git
-cd dinamic-events
+*   **`app` (en `main.py`)**:
+    *   Es la ventana principal de la aplicación.
+    *   Configura la interfaz, carga imágenes y gestiona la navegación a otras herramientas.
 
-# 2. Crear y activar un entorno virtual
-python -m venv .venv
-# En Windows: .venv\Scripts\activate
-# En Linux/macOS: source .venv/bin/activate
+*   **`Calendar` (en `modules/calendar.py`)**:
+    *   Gestiona la lista de eventos activos y los recursos utilizados.
+    *   Se encarga de guardar y cargar el estado de la aplicación.
+    *   Coordina la disponibilidad de las tareas.
 
-# 3. Instalar dependencias
-pip install -r requirements.txt
+*   **`event` (en `modules/events.py`)**:
+    *   Representa un evento individual con fecha, hora y recursos necesarios.
+    *   **Validación:** Verifica dependencias y colisiones de recursos al inicializarse. Si hay un conflicto, impide la creación del evento.
+
+*   **`SegTree` (en `modules/SegTree.py`)**:
+    *   Implementa un **Árbol de Segmentos** con *Lazy Propagation*.
+    *   Se utiliza para realizar consultas eficientes sobre rangos de tiempo, permitiendo verificar rápidamente la disponibilidad o el uso de recursos en intervalos específicos.
+
+### 2. Interfaz Gráfica (`modules/gui_core/`)
+
+*   **`EventCreator` (en `EventDeffiner.py`)**: Ventana para ingresar detalles de nuevos eventos.
+*   **`TaskCreator`**: Interfaz para registrar nuevas tareas en el sistema.
+*   **`TaskRemover`**: Interfaz para eliminar tareas existentes.
+*   **`ResAdder`**: Permite añadir nuevos recursos a la base de datos (`resources.json`).
+
+## 📂 Estructura del Proyecto
+
+```text
+Jamazon/
+├── changelog           # Registro de cambios del proyecto
+├── clean.py            # Script de limpieza de archivos temporales
+├── logs.txt            # Archivo de registro de errores y eventos
+├── main.py             # 🏁 Punto de entrada principal de la aplicación
+├── README.md           # Documentación del proyecto
+├── requirements.txt    # Lista de dependencias de Python
+├── test.py             # Script para pruebas rápidas
+├── modules/            # 🧠 Núcleo lógico del sistema
+│   ├── __init__.py
+│   ├── calendar.py     # Lógica del calendario y disponibilidad
+│   ├── events.py       # Definición de la clase Evento y validaciones
+│   ├── gvar.py         # Variables globales
+│   ├── handlers.py     # Manejadores base y utilidades
+│   ├── SegTree.py      # Implementación de Segment Tree (Árbol de Segmentos)
+│   ├── utils.py        # Funciones de utilidad general
+│   └── gui_core/       # 🎨 Componentes de la Interfaz Gráfica
+│       ├── __init__.py
+│       ├── EventDeffiner.py  # Ventana para definir nuevos eventos
+│       ├── EventShower.py    # Visualizador de eventos
+│       ├── ResAdder.py       # Ventana para añadir recursos
+│       ├── TaskCreator.py    # Ventana para crear tareas
+│       └── TaskRemover.py    # Ventana para eliminar tareas
+├── saved/              # Carpeta para datos guardados
+├── templates/          # 📄 Plantillas y datos estáticos
+│   ├── resources.json  # Base de datos de recursos disponibles
+│   └── tasks.json      # Base de datos de tareas guardadas
+└── tests/              # 🧪 Pruebas unitarias
 ```
 
----
+## 🤝 Contribución
 
-## ▶️ Uso rápido
+¡Las contribuciones son bienvenidas! Si deseas mejorar Jamazon:
 
-- Para lanzar la interfaz gráfica principal:
-```bash
-python main.py
-```
-- Los *templates* con las definiciones de tareas y recursos están en `templates/`.
-- Si editas los archivos JSON de los *templates*, reinicia la aplicación para que los cambios surtan efecto.
-
----
-
-## 🗂️ Estructura del proyecto
-
-```
-dinamic-events/
-├─ main.py                # Entrada GUI principal
-├─ clean.py               # Script de limpieza
-├─ test.py                # Script de pruebas
-├─ requirements.txt
-├─ changelog              # Registro de cambios
-├─ saved/                 # Estado guardado (eventos activos, uso de recursos)
-├─ modules/               # Lógica principal del programa
-│  ├─ calendar.py
-│  ├─ events.py
-│  ├─ gvar.py
-│  ├─ handlers.py
-│  ├─ Pool.py
-│  ├─ SegTree.py
-│  ├─ utils.py
-│  └─ gui_core/           # Componentes de la interfaz gráfica
-│     ├─ EventDeffiner.py
-│     ├─ ResAdder.py
-│     ├─ TaskCreator.py
-│     └─ TaskRemover.py
-├─ templates/             # Plantillas de configuración
-│  ├─ resources.json
-│  └─ tasks.json
-└─ tests/                 # Pruebas unitarias y de integración
-   ├─ test1.py
-   ├─ test2.py
-   ├─ test3.py
-   └─ test4.py
-```
+1.  Haz un Fork del proyecto.
+2.  Crea una rama para tu nueva funcionalidad (`git checkout -b feature/nueva-funcionalidad`).
+3.  Realiza tus cambios y haz commit (`git commit -m "Añadir nueva funcionalidad"`).
+4.  Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
+5.  Abre un Pull Request.
 
 ---
-
-## 📘 Descripción de las clases (qué hace cada clase)
-
-Guía rápida de las clases principales, incluyendo su **complejidad temporal** (donde $N$ es el número de eventos, $R$ el número de recursos y $M$ el número de puntos de tiempo únicos).
-
-- **app** (en `main.py`) — Ventana principal (CustomTkinter)
-  - **Propósito**: Orquesta la GUI, mostrando eventos y lanzando las ventanas de creación/eliminación.
-  - **Métodos clave**:
-    - `create_task()` / `remove_task()`: $O(1)$
-    - `update()`: $O(N)$ — Refresca la lista de eventos en la GUI.
-
-- **Calendar** (en `modules/calendar.py`) — Motor del calendario
-  - **Propósito**: Gestiona la lista de eventos, valida colisiones y persiste el estado.
-  - **Métodos clave**:
-    - `add_event(event)`: $O(R \cdot \log M)$ — Añade un evento tras validar la disponibilidad de sus recursos.
-    - `remove(index)`: $O(N \cdot R \cdot \log M)$ — Elimina un evento y reconstruye el estado de los recursos.
-    - `check_available(resource, start, end)`: $O(\log M)$ — Comprueba si un recurso está libre en un intervalo.
-    - `suggest_brute_lr(...)`: $O(T \cdot R \cdot \log M)$ — Busca un hueco libre para un evento.
-    - `save_json_data()` / `load_used_resources()`: $O(N \cdot R)$
-
-- **event** (en `modules/events.py`) — Representación de una tarea/evento
-  - **Propósito**: Encapsula los datos de un evento y resuelve sus dependencias de recursos.
-  - **Métodos clave**:
-    - `__init__`: $O(R^2)$ — Resuelve el grafo de dependencias de recursos.
-    - `__str__()` / `__dict__()`: $O(1)$
-
-- **SegTree** (en `modules/SegTree.py`) — Árbol de Segmentos
-  - **Propósito**: Estructura de datos para consultar el uso máximo de recursos en rangos de tiempo.
-  - **Métodos clave**:
-    - `update(l, r, x)`: $O(\log M)$
-    - `query(l, r)`: $O(\log M)$
-
-- **TaskCreator** / **TaskRemover** (en `modules/gui_core/`) — Ventanas GUI
-  - **Propósito**: Formularios para añadir y eliminar eventos de forma interactiva.
-  - **Complejidad**: Sus operaciones (`add_event`, `remove`) dependen directamente de los métodos correspondientes en `Calendar`.
-
-- **Utils** (en `modules/utils.py`) — Funciones de utilidad
-  - **Funciones clave**:
-    - `tominute(date)`: $O(1)$
-    - `get_sources_dependency(resources, res)`: $O(R + E)$ — DFS sobre el grafo de dependencias (donde $E$ es el número de aristas).
-
----
-
-## 🧪 Pruebas
-
-- Para ejecutar el conjunto de pruebas, utiliza:
-```bash
-python test.py
-```
-Este comando buscará y ejecutará los tests definidos en la carpeta `tests/`.
-
----
-
-## 🎯 Siguientes pasos recomendados
-
-1.  Añadir más tests unitarios para `Calendar` y `SegTree` (casos de colisión y límites).
-2.  Optimizar el método `remove` de `Calendar` para evitar la reconstrucción completa del estado.
-3.  Implementar un sistema de logging más robusto para facilitar la depuración.
-4.  Desarrollar la base de `webapp.py` para exponer la funcionalidad a través de una API REST.
+Desarrollado por [VIRUSGAMING64](https://github.com/VIRUSGAMING64)

@@ -1,94 +1,473 @@
 {
-   "monero miner": {
+   "entrega_moto": {
       "resources": [
          {
-            "name": "cpu",
+            "name": "repartidor",
+            "count": 1
+         },
+         {
+            "name": "moto",
+            "count": 1
+         },
+         {
+            "name": "casco",
+            "count": 1
+         },
+         {
+            "name": "mochila_termica",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "entrega_bici": {
+      "resources": [
+         {
+            "name": "repartidor",
+            "count": 1
+         },
+         {
+            "name": "bicicleta",
+            "count": 1
+         },
+         {
+            "name": "casco",
+            "count": 1
+         },
+         {
+            "name": "mochila_termica",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "entrega_furgoneta": {
+      "resources": [
+         {
+            "name": "repartidor",
+            "count": 1
+         },
+         {
+            "name": "furgoneta",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "entrega_coche": {
+      "resources": [
+         {
+            "name": "repartidor",
+            "count": 1
+         },
+         {
+            "name": "coche",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "entrega_patinete": {
+      "resources": [
+         {
+            "name": "repartidor",
+            "count": 1
+         },
+         {
+            "name": "patinete_electrico",
+            "count": 1
+         },
+         {
+            "name": "casco",
+            "count": 1
+         },
+         {
+            "name": "mochila_termica",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "cocinar_hamburguesa": {
+      "resources": [
+         {
+            "name": "cocinero",
+            "count": 1
+         },
+         {
+            "name": "plancha",
+            "count": 1
+         },
+         {
+            "name": "mesa_preparacion",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "cocinar_pizza": {
+      "resources": [
+         {
+            "name": "cocinero",
+            "count": 1
+         },
+         {
+            "name": "horno",
+            "count": 1
+         },
+         {
+            "name": "mesa_preparacion",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "cocinar_sushi": {
+      "resources": [
+         {
+            "name": "cocinero",
+            "count": 1
+         },
+         {
+            "name": "mesa_preparacion",
+            "count": 1
+         },
+         {
+            "name": "guantes",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "preparar_ensalada": {
+      "resources": [
+         {
+            "name": "ayudante_cocina",
+            "count": 1
+         },
+         {
+            "name": "mesa_preparacion",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "preparar_postre": {
+      "resources": [
+         {
+            "name": "ayudante_cocina",
+            "count": 1
+         },
+         {
+            "name": "nevera",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "limpiar_cocina": {
+      "resources": [
+         {
+            "name": "personal_limpieza",
+            "count": 1
+         },
+         {
+            "name": "guantes",
             "count": 1
          }
       ],
       "without": [
-         "gpu"
+         "cocinero"
       ]
    },
-   "btc miner": {
+   "limpiar_salon": {
       "resources": [
          {
-            "name": "gpu",
-            "count": 1
-         }
-      ],
-      "without": [
-         "cpu"
-      ]
-   },
-   "encode video to x265 codec": {
-      "resources": [
-         {
-            "name": "codec",
+            "name": "personal_limpieza",
             "count": 1
          }
       ],
       "without": []
    },
-   "telegram bot hosting": {
+   "gestionar_pedidos_tel": {
       "resources": [
          {
-            "name": "hdd",
+            "name": "gerente",
             "count": 1
          },
          {
-            "name": "cpu",
-            "count": 1
-         },
-         {
-            "name": "net",
+            "name": "telefono",
             "count": 1
          }
       ],
       "without": []
    },
-   "webpage hosting": {
+   "gestionar_pedidos_web": {
       "resources": [
          {
-            "name": "ssd",
+            "name": "gerente",
             "count": 1
          },
          {
-            "name": "cpu",
-            "count": 1
-         },
-         {
-            "name": "net",
+            "name": "ordenador_pedidos",
             "count": 1
          }
       ],
       "without": []
    },
-   "host a dota 2 server": {
+   "cobrar_caja": {
       "resources": [
          {
-            "name": "ssd",
+            "name": "gerente",
             "count": 1
          },
          {
-            "name": "cpu",
+            "name": "caja_registradora",
             "count": 1
          }
       ],
       "without": []
    },
-   "vps hosting": {
+   "cobrar_tarjeta": {
       "resources": [
          {
-            "name": "hdd",
+            "name": "gerente",
             "count": 1
          },
          {
-            "name": "cpu",
+            "name": "datafono",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "inventario_semanal": {
+      "resources": [
+         {
+            "name": "gerente",
             "count": 1
          },
          {
-            "name": "net",
+            "name": "ordenador_pedidos",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "mantenimiento_motos": {
+      "resources": [
+         {
+            "name": "repartidor",
+            "count": 1
+         },
+         {
+            "name": "kit_herramientas",
+            "count": 1
+         },
+         {
+            "name": "moto",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "compra_insumos": {
+      "resources": [
+         {
+            "name": "gerente",
+            "count": 1
+         },
+         {
+            "name": "furgoneta",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "apertura_local": {
+      "resources": [
+         {
+            "name": "gerente",
+            "count": 1
+         },
+         {
+            "name": "electricidad",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "cierre_local": {
+      "resources": [
+         {
+            "name": "gerente",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "repartir_folletos": {
+      "resources": [
+         {
+            "name": "ayudante_cocina",
+            "count": 1
+         },
+         {
+            "name": "folletos",
+            "count": 50
+         }
+      ],
+      "without": []
+   },
+   "gestionar_redes_sociales": {
+      "resources": [
+         {
+            "name": "gerente",
+            "count": 1
+         },
+         {
+            "name": "anuncios_redes",
+            "count": 1
+         },
+         {
+            "name": "ordenador_pedidos",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "entrevistar_candidatos": {
+      "resources": [
+         {
+            "name": "gerente",
+            "count": 1
+         },
+         {
+            "name": "zona_descanso",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "formacion_empleados": {
+      "resources": [
+         {
+            "name": "gerente",
+            "count": 1
+         },
+         {
+            "name": "zona_descanso",
+            "count": 1
+         },
+         {
+            "name": "manual_empleado",
+            "count": 5
+         }
+      ],
+      "without": []
+   },
+   "limpiar_bano": {
+      "resources": [
+         {
+            "name": "personal_limpieza",
+            "count": 1
+         },
+         {
+            "name": "bano",
+            "count": 1
+         },
+         {
+            "name": "guantes",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "organizar_almacen": {
+      "resources": [
+         {
+            "name": "ayudante_cocina",
+            "count": 1
+         },
+         {
+            "name": "almacen",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "reponer_bebidas": {
+      "resources": [
+         {
+            "name": "ayudante_cocina",
+            "count": 1
+         },
+         {
+            "name": "nevera",
+            "count": 1
+         },
+         {
+            "name": "bebidas",
+            "count": 10
+         }
+      ],
+      "without": []
+   },
+   "revision_extintores": {
+      "resources": [
+         {
+            "name": "gerente",
+            "count": 1
+         },
+         {
+            "name": "extintor",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "curso_manipulacion_alimentos": {
+      "resources": [
+         {
+            "name": "cocinero",
+            "count": 1
+         },
+         {
+            "name": "carnet_manipulador",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "pagar_proveedores": {
+      "resources": [
+         {
+            "name": "gerente",
+            "count": 1
+         },
+         {
+            "name": "ordenador_pedidos",
+            "count": 1
+         },
+         {
+            "name": "internet",
+            "count": 1
+         }
+      ],
+      "without": []
+   },
+   "contabilidad_mensual": {
+      "resources": [
+         {
+            "name": "gerente",
+            "count": 1
+         },
+         {
+            "name": "ordenador_pedidos",
+            "count": 1
+         },
+         {
+            "name": "caja_registradora",
             "count": 1
          }
       ],

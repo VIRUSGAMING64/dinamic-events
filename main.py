@@ -1,11 +1,5 @@
-from customtkinter import *
-from CTkMessagebox import CTkMessagebox as Messagebox
-from modules.gui_core import *
-from ctkdlib import *
-from modules.gui_core.EventDeffiner import EventCreator
+print("MAIN POINT STARTED")
 from modules import *
-from threading import Thread
-import PIL
 
 set_appearance_mode("dark")
 
@@ -13,8 +7,9 @@ class app(CTk):
 
     def __init__(self):
         super().__init__()
+
         self.pack_propagate(False)
-        self.title("Server tasks administrator")
+        self.title("Jamazon - tasks administrator")
         self.task_creator = None
         self.task_remover = None
         self.size_x = 512
@@ -52,6 +47,16 @@ class app(CTk):
             x=self.size_x - self.button_ev_adder._current_width,
             y=90
         )
+
+        self.button_ev_shower = CTkButton(self,text="Show events",command=self.show)
+        self.button_ev_shower.pack()
+        self.button_ev_shower.place(
+            x=self.size_x - self.button_ev_shower._current_width,
+            y=120
+        )
+
+
+        self.ev_shower = None
         self.ev_creator = None
         self.res_adder = None
         self.currents = CTkComboBox(self,width=512 - 140,command=self.get_information,state="readonly")
@@ -59,7 +64,7 @@ class app(CTk):
         self.currents.pack()
         self.currents.place(x=0,y=0)
 
-        self.info = CTkLabel(self,text="INFORMATION:")
+        self.info = CTkLabel(master=self,text="INFORMATION:")
         self.info.pack()
         self.info.place(x=0,y=30)
         self.ev_info_select = None
@@ -71,10 +76,18 @@ class app(CTk):
             variable=Variable(None, 0)
         )
         self.prog.pack()
-        print( self.info._current_width )
         self.prog.place(x = 0, y = 30 + 28 * 5)
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
         
+    def show(self):
+        if self.ev_shower != None:
+            try:
+                self.ev_shower.destroy()
+                self.ev_shower = None
+            except Exception as e:
+                log(f"already destroyed [{e}]")
+        self.ev_shower = EventShower(calendar.events)
+        self.ev_shower.resizable(False,False)
 
     def get_information(self,selected):
         index = parse_event_option(selected)
@@ -112,7 +125,7 @@ class app(CTk):
 
     def update(self):
         try:
-            self.currents.configure(values = build_event_option_labels(calendar.events))    
+            self.currents.configure(values = build_event_option_labels(calendar.events[:20]))    
         except Exception as e:
             log(str(e) + " in bar updater ")
 
@@ -198,6 +211,7 @@ class app(CTk):
         sys.exit(0)
 
 
+print("removing olds events")
 calendar.remove_old_events()
 APP = app()
 APP.resizable(False,False)

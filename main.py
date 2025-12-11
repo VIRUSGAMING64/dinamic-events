@@ -41,17 +41,19 @@ class app(CTk):
             y=60
         )
 
-        self.button_ev_adder = CTkButton(self,text="Define new event",command=self.open_event_creator)
-        self.button_ev_adder.pack()
-        self.button_ev_adder.place(
-            x=self.size_x - self.button_ev_adder._current_width,
-            y=90
-        )
 
-        self.button_ev_shower = CTkButton(self,text="Show events",command=self.show)
+        self.button_ev_shower = CTkButton(self,text="Show tasks",command=self.show)
         self.button_ev_shower.pack()
         self.button_ev_shower.place(
             x=self.size_x - self.button_ev_shower._current_width,
+            y=90
+        )
+
+        
+        self.button_ev_adder = CTkButton(self,text="New type of task",command=self.open_event_creator)
+        self.button_ev_adder.pack()
+        self.button_ev_adder.place(
+            x=self.size_x - self.button_ev_adder._current_width,
             y=120
         )
 
@@ -59,6 +61,7 @@ class app(CTk):
         self.ev_shower = None
         self.ev_creator = None
         self.res_adder = None
+
         self.currents = CTkComboBox(self,width=512 - 140,command=self.get_information,state="readonly")
         self.currents.set("Select current a task")
         self.currents.pack()
@@ -67,6 +70,7 @@ class app(CTk):
         self.info = CTkLabel(master=self,text="INFORMATION:")
         self.info.pack()
         self.info.place(x=0,y=30)
+        
         self.ev_info_select = None
 
         self.prog = CTkProgressBar(
@@ -78,7 +82,10 @@ class app(CTk):
         self.prog.pack()
         self.prog.place(x = 0, y = 30 + 28 * 5)
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
-        
+
+
+
+
     def show(self):
         if self.ev_shower != None:
             try:
@@ -89,6 +96,7 @@ class app(CTk):
         self.ev_shower = EventShower(calendar.events)
         self.ev_shower.resizable(False,False)
 
+
     def get_information(self,selected):
         index = parse_event_option(selected)
         if index is None or index >= len(calendar.events):
@@ -97,7 +105,8 @@ class app(CTk):
         self.ev_info_select = ev
         self.info.configure(text = format_event_info(ev))
         self._bar_updater()
-    
+
+
     def _bar_updater(self):
         if self.ev_info_select == None:
             return
@@ -114,7 +123,8 @@ class app(CTk):
         
         percent = Variable(None,percent)
         self.prog.configure( variable = percent)
-    
+
+
     def bar_updater(self):
         while True:
             try:
@@ -123,11 +133,13 @@ class app(CTk):
             except Exception as e:
                 log(str(e) + " in bar updater ")
 
+
     def update(self):
         try:
             self.currents.configure(values = build_event_option_labels(calendar.events[:20]))    
         except Exception as e:
             log(str(e) + " in bar updater ")
+
 
     def open_event_creator(self):
         if self.ev_creator != None:
@@ -140,6 +152,7 @@ class app(CTk):
         self.ev_creator = EventCreator()
         self.ev_creator.resizable(False,False)
 
+
     def open_res_adder(self):
         if self.res_adder != None:
             try:
@@ -149,6 +162,7 @@ class app(CTk):
                 log(f"already destroyed [{e}]")
         self.res_adder = RessAdder()
         self.res_adder.resizable(False,False)
+
 
     def remove_task(self):
         if self.task_remover != None:
@@ -163,6 +177,7 @@ class app(CTk):
         self.task_remover.resizable(False,False)
         self.task_remover.mainloop()
 
+
     def create_task(self):
         if self.task_creator != None:
             try:
@@ -170,9 +185,10 @@ class app(CTk):
                 self.task_creator = None
             except Exception as e:
                 log(f"already destroyed [{e}]")
-            
+
         self.task_creator = TaskCreator()
         self.task_creator.resizable(False,False)
+
 
     def run_daemon(self):
         self.t1 = Thread(target=self.bar_updater,daemon=True)
@@ -180,10 +196,12 @@ class app(CTk):
         self.t1.start()
         self.t2.start()
 
+
     def updater(self):
         while True:
             self.update()
             time.sleep(3)
+
 
     def on_closing(self):
         if self.task_creator is not None:
@@ -209,6 +227,7 @@ class app(CTk):
         self.destroy()
         import sys
         sys.exit(0)
+
 
 
 print("removing olds events")

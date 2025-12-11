@@ -8,6 +8,7 @@ import time
 def log(*data):
     print(f"[{time.ctime()}]: ",*data,file=(open("logs.txt","a")))
 
+
 def get_sources_dependency(resources, res: str, visited=None):
     if visited is None:
         visited = set()
@@ -20,6 +21,7 @@ def get_sources_dependency(resources, res: str, visited=None):
         needs += get_sources_dependency(resources, dependency, visited)
     return needs
 
+
 def CheckISODate(date:str): 
     try:
         datetime.fromisoformat(date)
@@ -27,9 +29,11 @@ def CheckISODate(date:str):
     except ValueError:
         return 0
 
+
 def get_saved_json(filename):
     jsonstr = read_file(filename)
     return json.load(jsonstr)
+
 
 def read_file(name):
     task = open(name)
@@ -37,13 +41,15 @@ def read_file(name):
     task.close()
     return data
 
-def tominute(date: datetime | str) -> int:
+
+def tominute(date: datetime | str) -> int:  #TODO
     if isinstance(date, str):
         date = datetime.fromisoformat(date)
     epoch = datetime(1000, 1, 1)
     delta = date - epoch
     return int(delta.total_seconds() // 60)
-    
+
+
 def add_to_dict(dic:dict,lis):
     if len(lis) == 2:
         try:

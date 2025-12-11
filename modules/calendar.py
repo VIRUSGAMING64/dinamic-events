@@ -21,6 +21,8 @@ class Calendar(BasicHandler):
         except Exception as e:
             log(f"error loading used resources: ",e)
 
+
+
     def _save_tasks(self,filename = None):
         if filename == None:
             filename = "./templates/tasks.json"
@@ -30,16 +32,22 @@ class Calendar(BasicHandler):
         tmp.write(data)
         tmp.close()
 
+
+
     def is_running(self,ev):
         return self.inqueue.get(ev, False)
+
+
 
 
     def list_events(self): 
         return self.events
 
 
+
     def load_used_resources(self, filename):
         self.used_resources = self._load_json(filename)
+
 
 
     def save_json_data(self) -> None:
@@ -60,6 +68,7 @@ class Calendar(BasicHandler):
             fi.close()
         except Exception as e:
             print("maybe you don't have access to this file: ",e)
+
 
 
     def gen_tree(self, res , l , length):    
@@ -88,7 +97,8 @@ class Calendar(BasicHandler):
             end_idx = di[x.end]
             tree.update(start_idx, end_idx, 1)
         return di,tree
-    
+
+
 
     def check_available(self, new_res: str, start: int, end: int, di , tree):
         if not (new_res in self.used_resources.keys()):
@@ -106,6 +116,7 @@ class Calendar(BasicHandler):
             log("error checking available resource: ", str(e))
             return True
         return True
+
 
 
     def add_event(self,new:event):
@@ -132,12 +143,14 @@ class Calendar(BasicHandler):
         return False
 
 
+
     def remove(self,index):
         deleted = self.events.pop(index)
         for res in deleted.need_resources:
             add_to_dict(self.used_resources,[res,deleted.start, -1])
             add_to_dict(self.used_resources,[res,deleted.end, 1])
         del self.inqueue[deleted]
+
 
 
     def remove_old_events(self):
@@ -153,6 +166,7 @@ class Calendar(BasicHandler):
         self.events  = []
         for x in events:
             self.add_event(x)
+
 
 
     def sort(self):
@@ -174,14 +188,13 @@ class Calendar(BasicHandler):
             self.used_resources[res] = temp[res]
 
 
+
     def suggest_brute_lr(self, L: int, R: int, resources: list):
         length = (R-L)
         print(type(L),type(R))
         l = tominute(datetime.datetime.now())
         start = datetime.datetime.now()
-        
-        self.sort()
-        
+        self.sort()        
         while True:
             av = True
             for res in resources:
@@ -189,13 +202,13 @@ class Calendar(BasicHandler):
                 if not self.check_available(res, l, l + length, di, tree):
                     av = False
                     mx: int = 10**300
-
                     for x in self.list_events():
                         if (l < x.end):
                             mx = min(mx, x.end + 1)
 
                     if mx == 10**300:
                         mx = l + 1
+                        
                     ant: int = l
                     l: int = mx
                     print(mx,start.isoformat())
@@ -203,5 +216,6 @@ class Calendar(BasicHandler):
                     dr = datetime.timedelta(minutes=dif)
                     start += dr
                     break
+
             if av:
                 return start

@@ -14,6 +14,7 @@ class RessAdder(CTk):
         self.add_button = CTkButton(self, text="Add Resource", command=self.add_resource_callback)
         self.add_button.pack(pady=20)
 
+
     def add_resource_callback(self):
         res_name = self.res_name_entry.get()
         res_count: str = (self.res_count_entry.get())
@@ -30,6 +31,7 @@ class RessAdder(CTk):
             return
         CTkLabel(self, text="Resource added successfully!").pack(pady=10)   
         self.add_button.configure(text="exit", command=self.destroy)
+        
 
     def add_resource(self, res_name:str, inc:int, need:list = [], witout = []):
         if not (res_name in calendar.resources):

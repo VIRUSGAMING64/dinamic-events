@@ -6,6 +6,7 @@ class SegTree:
     def __init__(self,a = None):
         if a == None:
             a = [0] * (10**6 * 2)
+        
         self.a = a
         self.length = len(a)
         self.lazy = [0] * 4 * self.length
@@ -22,7 +23,7 @@ class SegTree:
             return self.tree[n]
         if r < a or l > b:
             return 0
-        m = (l + r) // 2
+        m  = (l + r) // 2
         q1 = self._query(n*2,l,m,a,b)
         q2 = self._query(n*2+1,m+1,r,a,b)
         return max(q1,q2)
@@ -47,10 +48,13 @@ class SegTree:
     def propagate(self,n , l, r):
         if self.lazy[n] == 0:
             return
+        
         self.tree[n] += self.lazy[n]
+        
         if l != r:
             self.lazy[n*2] += self.lazy[n]
             self.lazy[n*2+1] += self.lazy[n]
         else:
             self.a[l] += self.lazy[n]
+        
         self.lazy[n] = 0

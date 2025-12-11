@@ -34,9 +34,11 @@ class TaskRemover(CTk):
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.close = False
     
+
     def on_closing(self):
         self.close = True
         self.destroy()
+
 
     def run_updater(self):        
         self.update_thread.start()
@@ -53,6 +55,7 @@ class TaskRemover(CTk):
                     self.eventos.configure(values = labels)
                 except Exception as e:
                     log(f"eror in update_combo [{e}]")
+
 
     def remove(self):
         if self.selected == None:

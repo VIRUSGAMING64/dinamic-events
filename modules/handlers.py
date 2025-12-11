@@ -21,10 +21,12 @@ class BasicHandler:
         data = self._jsonstr_to_dict(data)
         return data
 
+
     def _load_resources(self,filename):
         filename = os.path.realpath(filename)
         data = self._load_json(filename)
         self.resources = data
+
 
     def _save_resources(self,filename = None):
         if filename == None:
@@ -34,18 +36,21 @@ class BasicHandler:
         tmp = open(filename,'w')
         tmp.write(data)
         tmp.close()
-    
+
+
     def _ex_ext(self,filename):
-        filename = os.path.realpath(filename)
-        #extract extension function
+        filename = os.path.realpath(filename) #extract extension function
         filename = filename.split('.')
         return filename[-1] #this works (readed in docs.python.org)
-    
+
+
     def _jsonstr_to_dict(self,json_data) -> dict:
         return json.loads(json_data)
 
+
     def _dict_to_jsonstr(self,dict_data):
         return json.dumps(dict_data,indent=3)
+
 
     def _load_tasks(self,name):
         filename = os.path.realpath(name)

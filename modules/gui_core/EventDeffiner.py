@@ -21,6 +21,7 @@ class EventCreator(CTk):
     def GetCounts(self, resource):
         print(resource)
         return 1
+    
 
     def create_event(self,name:str,resources:list):
         if name in calendar.available_tasks:

@@ -8,13 +8,14 @@ class event(BasicHandler):
     def __init__(self,_json:dict):
         try:
             self.need_resources:list = _json["resources"]
-            self.date = _json["date-range"]
-            self.time:list = _json['time-range']  # minute when it starts
-            self.task:str = _json['name']
+            self.date                = _json["date-range"]
+            self.time:list           = _json['time-range']  # minute when it starts
+            self.task:str            = _json['name']
             if "notes" in _json.keys():
-                self.notes = _json["notes"]
-            self.start = int(self.time[0])
-            self.end = int(self.time[1])
+                self.notes           = _json["notes"]
+           
+            self.start               = int(self.time[0])
+            self.end                 = int(self.time[1])
             
             if self.start > self.end:
                 raise Exception("Invalid range [R < L]")
@@ -23,18 +24,22 @@ class event(BasicHandler):
             deps = set()
             for x in self.need_resources:
                 deps.add(x)
+           
             for resource in self.need_resources:
                 needed = get_sources_dependency(self.resources, resource)
                 for required in needed:
                     deps.add(required)
+           
             no_use = set()
             for resource in deps:
                 for el in self.resources[resource]["without"]:
                     no_use.add(el)
+           
             collisions = deps & no_use
             if len(collisions) > 0:
                 raise BaseException("invalid task, collision detected")
             self.need_resources = list(deps)
+
         except Exception as e:
             log(f"error initializing event [{e}]")
 

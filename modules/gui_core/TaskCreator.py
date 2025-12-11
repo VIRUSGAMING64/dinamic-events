@@ -1,6 +1,8 @@
 from customtkinter import *
 import datetime
-from modules import *
+from modules.utils import *
+from modules.gvar import calendar
+from modules.events import *
 from CTkMessagebox import CTkMessagebox as Messagebox
 
 class TaskCreator(CTk):
@@ -99,6 +101,7 @@ class TaskCreator(CTk):
         self.dependency_label.configure(text=org + ":\n" + ne)
         return deps
 
+
     def __suggest(self, l: int, r: int, resources: list) -> list:
         print("running...")
         L = calendar.suggest_brute_lr(l, r, resources)
@@ -106,8 +109,8 @@ class TaskCreator(CTk):
         R = L + datetime.timedelta(minutes=r - l)
         return L, R
 
+
     def adjust(self):
-       
         print("[SUGGEST_FUNCTION]")
         begin = self.begin_time.get("1.0","19.0").replace(" AT ","T").replace("\n","")
         end = self.end_time.get("1.0","19.0").replace(" AT ","T").replace("\n","")
@@ -126,28 +129,22 @@ class TaskCreator(CTk):
             return False
 
         res = self._get_deps(self.tasks.get())
-        
-        print(res)
-
         l, r = self.__suggest(tominute(begin), tominute(end), res)
-        
         l=str(l.isoformat().replace('T', ' AT ').split(".")[0])
         r=str(r.isoformat().replace('T', ' AT ').split(".")[0])
         l=l.rsplit(":",1)[0]
         r=r.rsplit(":",1)[0]
+        
         print(l)
         print(r)
         
-
         self.begin_time.delete("1.0","19.0")
         self.end_time.delete("1.0","19.0")
         
         self.begin_time.insert("1.0", l)
         self.end_time.insert("1.0", r)
-
         return True
         
-
 
     def _get_tasks(self) -> list:
         tasks = []
@@ -156,6 +153,7 @@ class TaskCreator(CTk):
         tasks.sort()
         return tasks
     
+
     def show_invalid(self, data):
         Messagebox(
             height=100,
@@ -164,6 +162,7 @@ class TaskCreator(CTk):
             message=f"Invalid {data}",
             option_1="Accept"
         )
+
 
     def _add_event(self):
         begin = self.begin_time.get("1.0","19.0").replace(" AT ","T").replace("\n","")
@@ -177,7 +176,6 @@ class TaskCreator(CTk):
             return False
 
         task_name = self.tasks.get()
-
         res = self._get_deps(task_name)
 
         new = event(
@@ -207,6 +205,7 @@ class TaskCreator(CTk):
         calendar.save_json_data()
         print(f"added: [{added}]")
         return added
+    
 
     def add_event(self):
         message = Messagebox(
@@ -229,6 +228,3 @@ class TaskCreator(CTk):
         else:
             Messagebox(self, message="Not added")
             return False
-
-    def verify(self):
-        pass

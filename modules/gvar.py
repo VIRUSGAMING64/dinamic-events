@@ -14,5 +14,3 @@ except:
 calendar = Calendar()
 calendar._load_resources('./templates/resources.json')
 calendar._load_tasks("./templates/tasks.json")
-
-FONT_SIZE = ...

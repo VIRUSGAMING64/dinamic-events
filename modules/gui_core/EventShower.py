@@ -7,13 +7,13 @@ class EventShower(CTk):
     def __init__(self, event_list:list[event] = []):
         super().__init__()
         self.resizable(False, False)
-
         self.title("event shower")
         self.geometry("600x500")
         
         self.scrollable_frame = CTkScrollableFrame(master=self, width=200, height=300, label_text="events running")
         self.scrollable_frame.pack(pady=20, padx=20, fill="both", expand=True)
         self.buttons = []
+
         for i in range(len(event_list)):
             item = CTkButton(
                 master=self.scrollable_frame, 
@@ -27,9 +27,11 @@ class EventShower(CTk):
         self.horizontal_frame.pack(pady=10, fill="x")
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
     
+
     def button_click(self, ev:event):
         ev_info = format_event_info(ev)
         CTkMessagebox(title="Event Information", message=ev_info)
+
 
     def on_closing(self):
         self.destroy()

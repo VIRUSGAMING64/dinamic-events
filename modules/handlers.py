@@ -8,17 +8,15 @@ class BasicHandler:
     resources = {}
     chunk_size = 65535
     res_path = "./templates/resources.json"
+
     def _load_json(self,filename):
         filename = os.path.realpath(filename)
         if self._ex_ext(filename) != 'json':
             raise Exception("need a json file")
-        data = ''
-        tmp = open(filename,'r')
-        line = tmp.read(self.chunk_size)
-        while line != '':
-            data = data + line
-            line = tmp.read(self.chunk_size)
-        data = self._jsonstr_to_dict(data)
+        with open(filename,'r') as tmp:
+            data = self._jsonstr_to_dict(tmp.read(2**30))
+            tmp.close()
+            
         return data
 
 

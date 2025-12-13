@@ -3,24 +3,25 @@ from modules.SegTree import *
 
 
 class Calendar(BasicHandler):
-    used_resources:dict = {}
-    available_tasks:dict = {}
-    events:list[event] = []
-    inqueue:dict[event,bool] = {} 
     
     def __init__(self,used_res = "used_resources.json", actives_ev = "actives_events.json"):
         try:
-            self.actives_events_path = actives_ev
-            self.used_res_path = used_res
+                
+            self.used_resources:dict        = {}
+            self.available_tasks:dict       = {}
+            self.events:list[event]         = []
+            self.inqueue:dict[event,bool]   = {} 
+            self.actives_events_path        = actives_ev
+            self.used_res_path              = used_res
             self.load_used_resources(f"{SAVE_ROOT}/{used_res}")
-            ex = self._load_json(f"{SAVE_ROOT}/{actives_ev}")
-            self.events = []
+            ex                              = self._load_json(f"{SAVE_ROOT}/{actives_ev}")
+            self.events                     = []
             for i in ex:
                 self.events.append(event(i))
             self.save_json_data()
+
         except Exception as e:
             log(f"error loading used resources: ",e)
-
 
 
     def _save_tasks(self,filename = None):
@@ -38,26 +39,20 @@ class Calendar(BasicHandler):
         return self.inqueue.get(ev, False)
 
 
-
-
     def list_events(self): 
         return self.events
-
 
 
     def load_used_resources(self, filename):
         self.used_resources = self._load_json(filename)
 
 
-
     def save_json_data(self) -> None:
         sv:list = []
         for ev in self.events:
             sv.append(ev.__dict__())
-        try:
-            os.mkdir(SAVE_ROOT)
-        except:
-            pass
+            
+        os.makedirs(SAVE_ROOT, exist_ok=True)
         fi = open(f"{SAVE_ROOT}/{self.actives_events_path}","w")
         fi.write(json.dumps(sv,indent=3))
         fi.close()
@@ -119,20 +114,20 @@ class Calendar(BasicHandler):
 
 
 
-    def add_event(self,new:event):
+    def add_event(self,new:event,check = True):
         self.sort()
         try:
-            for res in new.need_resources:
-                di,tree = self.gen_tree(res,new.start,new.end - new.start)
-                av = self.check_available(res, new.start, new.end, di, tree)
-                if av == False:
-                    return av
+            if check == True:
+                for res in new.need_resources:
+                    di,tree = self.gen_tree(res,new.start,new.end - new.start)
+                    av = self.check_available(res, new.start, new.end, di, tree)
+                    if av == False:
+                        return av
             
             self.events.append(new)
             self.inqueue[new] = True
 
             for res in new.need_resources:     
-                
                 add_to_dict(self.used_resources,[res,new.start,1])        
                 add_to_dict(self.used_resources,[res,new.end,-1])
         
@@ -152,20 +147,19 @@ class Calendar(BasicHandler):
         del self.inqueue[deleted]
 
 
-
     def remove_old_events(self):
         self.sort()
-        now = datetime.datetime.now()
-        init_t = tominute(now)
-        del now
+        init_t = tominute(datetime.datetime.now())
         events = []
         for task in self.events:
             if init_t < task.end:
                 events.append(task)
+
         self.used_resources = {}
         self.events  = []
+
         for x in events:
-            self.add_event(x)
+            self.add_event(x,False)
 
 
 

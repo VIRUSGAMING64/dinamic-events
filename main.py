@@ -84,15 +84,17 @@ class app(CTk):
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
 
 
-
+    def kill_window(self,wind):
+        if wind is not None:
+            try:
+                wind.destroy()
+                wind = None
+            except Exception as e:
+                log(f"kill window: [{e}]")
+        
 
     def show(self):
-        if self.ev_shower != None:
-            try:
-                self.ev_shower.destroy()
-                self.ev_shower = None
-            except Exception as e:
-                log(f"already destroyed [{e}]")
+        self.kill_window(self.ev_shower)
         self.ev_shower = EventShower(calendar.events)
         self.ev_shower.resizable(False,False)
 
@@ -142,36 +144,19 @@ class app(CTk):
 
 
     def open_event_creator(self):
-        if self.ev_creator != None:
-            try:
-                self.ev_creator.destroy()
-                self.ev_creator = None
-            except Exception as e:
-                log(f"already destroyed [{e}]")
-            
+        self.kill_window(self.ev_creator)
         self.ev_creator = EventCreator()
         self.ev_creator.resizable(False,False)
 
 
     def open_res_adder(self):
-        if self.res_adder != None:
-            try:
-                self.res_adder.destroy()
-                self.res_adder = None
-            except Exception as e:
-                log(f"already destroyed [{e}]")
+        self.kill_window(self.res_adder)
         self.res_adder = RessAdder()
         self.res_adder.resizable(False,False)
 
 
     def remove_task(self):
-        if self.task_remover != None:
-            try:
-                self.task_remover.destroy()
-                self.task_remover = None
-            except Exception as e:
-                log(f"already destroyed [{e}]")
-        
+        self.kill_window(self.task_remover)
         self.task_remover = TaskRemover()
         self.task_remover.run_updater()
         self.task_remover.resizable(False,False)
@@ -179,13 +164,7 @@ class app(CTk):
 
 
     def create_task(self):
-        if self.task_creator != None:
-            try:
-                self.task_creator.destroy()
-                self.task_creator = None
-            except Exception as e:
-                log(f"already destroyed [{e}]")
-
+        self.kill_window(self.task_creator)
         self.task_creator = TaskCreator()
         self.task_creator.resizable(False,False)
 
@@ -204,26 +183,10 @@ class app(CTk):
 
 
     def on_closing(self):
-        if self.task_creator is not None:
-            try:
-                self.task_creator.destroy()
-            except:
-                pass
-        if self.task_remover is not None:
-            try:
-                self.task_remover.destroy()
-            except:
-                pass
-        if self.ev_creator is not None:
-            try:
-                self.ev_creator.destroy()
-            except:
-                pass
-        if self.res_adder is not None:
-            try:
-                self.res_adder.destroy()
-            except:
-                pass
+        self.kill_window(self.task_creator)
+        self.kill_window(self.task_remover)
+        self.kill_window(self.ev_creator)
+        self.kill_window(self.res_adder)
         self.destroy()
         import sys
         sys.exit(0)

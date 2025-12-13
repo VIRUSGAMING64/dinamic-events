@@ -3,7 +3,6 @@ from modules.gvar import *
 import time
 import os
 from datetime import datetime
-import time
 
 def log(*data):
     print(f"[{time.ctime()}]: ",*data,file=(open("logs.txt","a")))
@@ -36,9 +35,9 @@ def get_saved_json(filename):
 
 
 def read_file(name):
-    task = open(name)
-    data = task.read(2**31)
-    task.close()
+    with open(name,'r') as task:
+        data = task.read(2**31)
+        task.close()
     return data
 
 

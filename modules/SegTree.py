@@ -1,5 +1,4 @@
 class SegTree:
-    a = []
     tree = []
     lazy = []
     length = 0

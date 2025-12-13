@@ -1,7 +1,6 @@
 import os
 from modules.calendar import Calendar
 import sys
-sys.setrecursionlimit(2**30)
 sys.set_int_max_str_digits(2**30)
 """
 Global variables shared across modules.

@@ -1,117 +1,120 @@
-# Jamazon - Administrador de Tareas y Eventos 📅🚀
+# Jamazon - Event Manager 📅🚀
 
-**Jamazon** (también conocido como *Dinamic Events*) es una aplicación de escritorio desarrollada en Python para la gestión eficiente de tareas, eventos y recursos. Utiliza una interfaz gráfica moderna y estructuras de datos avanzadas para manejar la programación y evitar conflictos de recursos.
+**Jamazon** (also known as *Dinamic Events*) is a desktop application developed in Python for the efficient management of events and resources. It uses a modern graphical interface and advanced data structures to handle scheduling and avoid resource conflicts.
 
-## 🌟 Características Principales
+## 🌟 Key Features
 
-*   **Gestión de Tareas:** Crear y eliminar tareas fácilmente.
-*   **Definición de Eventos:** Programar eventos con rangos de fecha y hora específicos.
-*   **Gestión de Recursos:** Añadir recursos y manejar dependencias entre ellos.
-*   **Detección de Conflictos:** Sistema inteligente que verifica si los recursos necesarios están disponibles y no entran en conflicto con otras reglas.
-*   **Interfaz Moderna:** GUI oscura y amigable basada en `customtkinter`.
+* **Task Management:** Easily create and delete tasks.
+* **Event Definition:** Schedule events with specific date and time ranges.
+* **Resource Management:** Add resources and handle dependencies between them.
+* **Conflict Detection:** Intelligent system that checks if necessary resources are available and do not conflict with other rules.
+* **Modern Interface:** Dark and friendly GUI based on `customtkinter`.
 
-## 🛠️ Instalación y Ejecución
+## 🛠️ Installation and Execution
 
-Sigue estos pasos para ejecutar la aplicación en tu entorno local:
+Follow these steps to run the application in your local environment:
 
-1.  **Clonar el repositorio:**
-    ```bash
-    git clone https://github.com/VIRUSGAMING64/Jamazon.git
-    cd Jamazon
-    ```
+1. **Clone the repository:**
 
-2.  **Instalar dependencias:**
-    Asegúrate de tener Python instalado. Luego, instala las librerías necesarias:
-    ```bash
-    pip install -r requirements.txt
-    ```
+   ```bash
+   git clone https://github.com/VIRUSGAMING64/Jamazon.git
+   cd Jamazon
+   ```
 
-3.  **Ejecutar la aplicación:**
-    ```bash
-    python main.py
-    ```
+2. **Install dependencies:**
+   Make sure you have Python installed. Then, install the necessary libraries:
 
-## 📖 Guía de Uso
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Al iniciar la aplicación, verás un panel de control con las siguientes opciones:
+3. **Run the application:**
 
-*   **Create new task:** Abre un formulario para registrar una nueva tarea en el sistema.
-*   **Remove existing task:** Permite eliminar tareas que ya no son necesarias.
-*   **Add Resource:** Agrega nuevos recursos (ej. salas, equipos) que pueden ser asignados a eventos.
-*   **Define new event:** Crea eventos complejos que requieren recursos y tienen una duración específica. El sistema validará automáticamente si los recursos están disponibles y si existen conflictos de dependencia.
+   ```bash
+   python main.py
+   ```
 
-## 🧠 Detalles Técnicos y Módulos
+## 📖 Usage Guide
 
-El proyecto está construido con un enfoque modular. A continuación se detallan los componentes principales:
+Upon starting the application, you will see a control panel with the following options:
 
-### 1. Núcleo (`modules/`)
+* **Create new task:** Opens a form to register a new task in the system.
+* **Remove existing task:** Allows deleting tasks that are no longer needed.
+* **Add Resource:** Adds new resources (e.g., rooms, equipment) that can be assigned to events.
+* **Define new event:** Creates complex events that require resources and have a specific duration. The system will automatically validate if resources are available and if there are dependency conflicts.
 
-*   **`app` (en `main.py`)**:
-    *   Es la ventana principal de la aplicación.
-    *   Configura la interfaz, carga imágenes y gestiona la navegación a otras herramientas.
+## 🧠 Technical Details and Modules
 
-*   **`Calendar` (en `modules/calendar.py`)**:
-    *   Gestiona la lista de eventos activos y los recursos utilizados.
-    *   Se encarga de guardar y cargar el estado de la aplicación.
-    *   Coordina la disponibilidad de las tareas.
+The project is built with a modular approach. The main components are detailed below:
 
-*   **`event` (en `modules/events.py`)**:
-    *   Representa un evento individual con fecha, hora y recursos necesarios.
-    *   **Validación:** Verifica dependencias y colisiones de recursos al inicializarse. Si hay un conflicto, impide la creación del evento.
+### 1. Core (`modules/`)
 
-*   **`SegTree` (en `modules/SegTree.py`)**:
-    *   Implementa un **Árbol de Segmentos** con *Lazy Propagation*.
-    *   Se utiliza para realizar consultas eficientes sobre rangos de tiempo, permitiendo verificar rápidamente la disponibilidad o el uso de recursos en intervalos específicos.
+* **`app` (in `main.py`)**:
+  * It is the main window of the application.
+  * Configures the interface, loads images, and manages navigation to other tools.
 
-### 2. Interfaz Gráfica (`modules/gui_core/`)
+* **`Calendar` (in `modules/calendar.py`)**:
+  * Manages the list of active events and used resources.
+  * Handles saving and loading the application state.
+  * Coordinates task availability.
 
-*   **`EventCreator` (en `EventDeffiner.py`)**: Ventana para ingresar detalles de nuevos eventos.
-*   **`TaskCreator`**: Interfaz para registrar nuevas tareas en el sistema.
-*   **`TaskRemover`**: Interfaz para eliminar tareas existentes.
-*   **`ResAdder`**: Permite añadir nuevos recursos a la base de datos (`resources.json`).
+* **`event` (in `modules/events.py`)**:
+  * Represents an individual event with date, time, and necessary resources.
+  * **Validation:** Checks dependencies and resource collisions upon initialization. If there is a conflict, it prevents the event creation.
 
-## 📂 Estructura del Proyecto
+* **`SegTree` (in `modules/SegTree.py`)**:
+  * Implements a **Segment Tree** with *Lazy Propagation*.
+  * Used to perform efficient queries on time ranges, allowing quick verification of resource availability or usage in specific intervals.
+
+### 2. Graphical Interface (`modules/gui_core/`)
+
+* **`EventCreator` (in `EventDeffiner.py`)**: Window to enter details for new events.
+* **`TaskCreator`**: Interface to register new tasks in the system.
+* **`TaskRemover`**: Interface to delete existing tasks.
+* **`ResAdder`**: Allows adding new resources to the database (`resources.json`).
+
+## 📂 Project Structure
 
 ```text
 Jamazon/
-├── changelog           # Registro de cambios del proyecto
-├── clean.py            # Script de limpieza de archivos temporales
-├── logs.txt            # Archivo de registro de errores y eventos
-├── main.py             # 🏁 Punto de entrada principal de la aplicación
-├── README.md           # Documentación del proyecto
-├── requirements.txt    # Lista de dependencias de Python
-├── test.py             # Script para pruebas rápidas
-├── modules/            # 🧠 Núcleo lógico del sistema
+├── changelog           # Project change log
+├── clean.py            # Script to clean temporary files
+├── logs.txt            # Error and event log file
+├── main.py             # 🏁 Main entry point of the application
+├── README.md           # Project documentation
+├── requirements.txt    # List of Python dependencies
+├── test.py             # Script for quick tests
+├── modules/            # 🧠 Logical core of the system
 │   ├── __init__.py
-│   ├── calendar.py     # Lógica del calendario y disponibilidad
-│   ├── events.py       # Definición de la clase Evento y validaciones
-│   ├── gvar.py         # Variables globales
-│   ├── handlers.py     # Manejadores base y utilidades
-│   ├── SegTree.py      # Implementación de Segment Tree (Árbol de Segmentos)
-│   ├── utils.py        # Funciones de utilidad general
-│   └── gui_core/       # 🎨 Componentes de la Interfaz Gráfica
+│   ├── calendar.py     # Calendar logic and availability
+│   ├── events.py       # Event class definition and validations
+│   ├── gvar.py         # Global variables
+│   ├── handlers.py     # Base handlers and utilities
+│   ├── SegTree.py      # Segment Tree implementation
+│   ├── utils.py        # General utility functions
+│   └── gui_core/       # 🎨 Graphical Interface Components
 │       ├── __init__.py
-│       ├── EventDeffiner.py  # Ventana para definir nuevos eventos
-│       ├── EventShower.py    # Visualizador de eventos
-│       ├── ResAdder.py       # Ventana para añadir recursos
-│       ├── TaskCreator.py    # Ventana para crear tareas
-│       └── TaskRemover.py    # Ventana para eliminar tareas
-├── saved/              # Carpeta para datos guardados
-├── templates/          # 📄 Plantillas y datos estáticos
-│   ├── resources.json  # Base de datos de recursos disponibles
-│   └── tasks.json      # Base de datos de tareas guardadas
-└── tests/              # 🧪 Pruebas unitarias
+│       ├── EventDeffiner.py  # Window to define new events
+│       ├── EventShower.py    # Event viewer
+│       ├── ResAdder.py       # Window to add resources
+│       ├── TaskCreator.py    # Window to create tasks
+│       └── TaskRemover.py    # Window to delete tasks
+├── saved/              # Folder for saved data
+├── templates/          # 📄 Templates and static data
+│   ├── resources.json  # Database of available resources
+│   └── tasks.json      # Database of saved tasks
+└── tests/              # 🧪 Unit tests
 ```
 
-## 🤝 Contribución
+## 🤝 Contribution
 
-¡Las contribuciones son bienvenidas! Si deseas mejorar Jamazon:
+Contributions are welcome! If you want to improve Jamazon:
 
-1.  Haz un Fork del proyecto.
-2.  Crea una rama para tu nueva funcionalidad (`git checkout -b feature/nueva-funcionalidad`).
-3.  Realiza tus cambios y haz commit (`git commit -m "Añadir nueva funcionalidad"`).
-4.  Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
-5.  Abre un Pull Request.
+1. Fork the project.
+2. Create a branch for your new feature (`git checkout -b feature/new-feature`).
+3. Make your changes and commit (`git commit -m "Add new feature"`).
+4. Push to the branch (`git push origin feature/new-feature`).
+5. Open a Pull Request.
 
 ---
-Desarrollado por [VIRUSGAMING64](https://github.com/VIRUSGAMING64)
+Developed by [VIRUSGAMING64](https://github.com/VIRUSGAMING64)

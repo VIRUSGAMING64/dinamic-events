@@ -1,3 +1,12 @@
+2.9.1.0
+Minor changes in utils and segment tree
+Added to __init__ (used_resources and others) in calendar class
+Added kill_window in main.py (this clean code)
+Changed order of __str__ and __dict__ in event.py
+Changed language in README.md
+Optimized code in _load_json
+Removed setrecursionlimit in gvar
+Removed duplicated code
 2.9.0.1
 Added spaces in class functions
 2.9.0.0

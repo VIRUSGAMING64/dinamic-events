@@ -44,16 +44,16 @@ class event(BasicHandler):
             log(f"error initializing event [{e}]")
 
     def __str__(self):
-        return json.dumps({
+        return json.dumps(self.__dict__())
+
+    def __dict__(self):
+        return {
             "time-range": self.time,
             "date-range": self.date,
             "resources" : self.need_resources,
             "name":self.task,
             "notes": self.notes
-        })
-
-    def __dict__(self):
-        return json.loads(self.__str__())
+        }
     
     def get_no_utilization(self,res:str):
         excluded = []

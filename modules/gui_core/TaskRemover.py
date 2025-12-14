@@ -3,11 +3,12 @@ from customtkinter import *
 from modules import *
 from CTkMessagebox import CTkMessagebox as Messagebox
 
-class TaskRemover(CTk):
+class TaskRemover(CTkToplevel):
     selected = None
 
     def __init__(self):
         super().__init__()
+        self.after(100, self.lift)  # Asegura que la ventana aparezca al frente en Windows
         self.x_size = 256
         self.y_size = 400
         self.title("Task Remover")

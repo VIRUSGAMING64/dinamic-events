@@ -1,3 +1,5 @@
+2.10.1.0
+Changed the parent class for GUI classes. Inheriting from CTk is problematic on Windows, so it was changed to CTkToplevel.
 2.10.0.1
 Removed github workflows
 2.10.0.0

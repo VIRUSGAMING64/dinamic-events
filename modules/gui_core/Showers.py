@@ -14,9 +14,10 @@ class parameter:
         CTkMessagebox(title="Not use with", message=str(self.data))
 
 
-class EventShower(CTk):
+class EventShower(CTkToplevel):
     def __init__(self, event_list:list[event] = []):
         super().__init__()
+        self.after(100, self.lift)  # Asegura que la ventana aparezca al frente en Windows
         self.resizable(False, False)
         self.title("event shower")
         self.geometry("600x500")
@@ -45,9 +46,10 @@ class EventShower(CTk):
         self.destroy()
 
 
-class ResourceShower(CTk):
+class ResourceShower(CTkToplevel):
     def __init__(self, event_list:list[event] = []):
         super().__init__()
+        self.after(100, self.lift)  # Asegura que la ventana aparezca al frente en Windows
         self.resizable(False, False)
         self.title("Resource shower")
         self.geometry("600x500")

@@ -5,9 +5,10 @@ from modules.gvar import calendar
 from modules.events import *
 from CTkMessagebox import CTkMessagebox as Messagebox
 
-class TaskCreator(CTk):
+class TaskCreator(CTkToplevel):
     def __init__(self):
         super().__init__()
+        self.after(100, self.lift)  # Asegura que la ventana aparezca al frente en Windows
         self.title("TASK ADDER")
         self.x_size = 480
         self.y_size = 300

@@ -174,7 +174,6 @@ class app(CTk):
         self.task_remover = TaskRemover()
         self.task_remover.run_updater()
         self.task_remover.resizable(False,False)
-        self.task_remover.mainloop()
 
 
     def create_task(self):

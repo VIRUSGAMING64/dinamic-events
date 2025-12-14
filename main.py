@@ -58,10 +58,19 @@ class app(CTk):
         )
 
 
-        self.ev_shower = None
-        self.ev_creator = None
-        self.res_adder = None
+        
+        self.resource_show = CTkButton(self,text="Show all resources",command=self.show_resources)
+        self.resource_show.pack()
+        self.resource_show.place(
+            x=self.size_x - self.resource_show._current_width,
+            y=150
+        )
 
+        self.ev_shower       = None
+        self.ev_creator      = None
+        self.res_adder       = None
+        self.resource_shower = None
+        
         self.currents = CTkComboBox(self,width=512 - 140,command=self.get_information,state="readonly")
         self.currents.set("Select current a task")
         self.currents.pack()
@@ -82,6 +91,11 @@ class app(CTk):
         self.prog.pack()
         self.prog.place(x = 0, y = 30 + 28 * 5)
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
+    
+    def show_resources(self):
+        self.kill_window(self.resource_shower)
+        self.resource_shower = ResourceShower()
+        self.resource_shower.resizable(False,False)
 
 
     def kill_window(self,wind):
@@ -114,7 +128,7 @@ class app(CTk):
             return
 
         total = self.ev_info_select.end - self.ev_info_select.start + 1
-        part  = (total - (self.ev_info_select.end - tominute(datetime.datetime.now())))
+        part  = (total - (self.ev_info_select.end - tominute(datetime.now())))
         percent = part / total 
 
         if (percent >= 1.0) or (not calendar.is_running(self.ev_info_select)):

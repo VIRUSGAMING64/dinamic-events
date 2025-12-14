@@ -11,4 +11,3 @@ from threading import Thread
 import PIL
 from modules.gui_core import *
 from ctkdlib import *
-from modules.gui_core.EventShower import *

@@ -177,7 +177,6 @@ class TaskCreator(CTk):
 
         task_name = self.tasks.get()
         res = self._get_deps(task_name)
-
         new = event(
             {
                 "name": task_name,
@@ -190,6 +189,7 @@ class TaskCreator(CTk):
                 "notes": notes
             }
         )
+        
         if new.start >= new.end:
             message = Messagebox(
                 height=100,

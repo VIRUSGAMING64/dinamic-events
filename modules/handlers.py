@@ -39,7 +39,7 @@ class BasicHandler:
     def _ex_ext(self,filename):
         filename = os.path.realpath(filename) #extract extension function
         filename = filename.split('.')
-        return filename[-1] #this works (readed in docs.python.org)
+        return filename[-1] #this works (read in docs.python.org)
 
 
     def _jsonstr_to_dict(self,json_data) -> dict:

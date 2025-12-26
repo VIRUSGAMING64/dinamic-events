@@ -3,6 +3,7 @@ from CTkMessagebox import CTkMessagebox
 from modules.events import *
 from modules.utils import *
 from modules.gvar import *
+
 class parameter:
     data = None
     def call(self):
@@ -10,14 +11,19 @@ class parameter:
         CTkMessagebox(title="Event Information", message=ev_info)
 
     def call2(self):
-        print(len(self.data))
-        CTkMessagebox(title="Not use with", message=str(self.data))
+        s = ""
+        if self.data == None:
+            s = "Can be used with all resources"
+        else:
+            for i in self.data:
+                s += " " + str(i)
+        CTkMessagebox(title="Not use with", message=s)
 
 
 class EventShower(CTkToplevel):
     def __init__(self, event_list:list[event] = []):
         super().__init__()
-        self.after(100, self.lift)  # Asegura que la ventana aparezca al frente en Windows
+        self.after(1001, self.lift)
         self.resizable(False, False)
         self.title("event shower")
         self.geometry("600x500")
@@ -25,6 +31,8 @@ class EventShower(CTkToplevel):
         self.scrollable_frame = CTkScrollableFrame(master=self, width=200, height=300, label_text="events running")
         self.scrollable_frame.pack(pady=20, padx=20, fill="both", expand=True)
         self.buttons = []
+        
+        #CTkMessagebox(self,title="ERORR")
 
         for i in range(len(event_list)):
             data = parameter()
@@ -47,14 +55,14 @@ class EventShower(CTkToplevel):
 
 
 class ResourceShower(CTkToplevel):
-    def __init__(self, event_list:list[event] = []):
+    def __init__(self, res:list[event] = []):
         super().__init__()
-        self.after(100, self.lift)  # Asegura que la ventana aparezca al frente en Windows
+        self.after(100, self.lift) 
         self.resizable(False, False)
         self.title("Resource shower")
         self.geometry("600x500")
         
-        self.scrollable_frame = CTkScrollableFrame(master=self, width=200, height=300, label_text="All availables resources")
+        self.scrollable_frame = CTkScrollableFrame(master=self, width=200, height=300, label_text="All available resources")
         self.scrollable_frame.pack(pady=20, padx=20, fill="both", expand=True)
         self.buttons = []
 

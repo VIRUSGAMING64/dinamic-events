@@ -8,7 +8,7 @@ from CTkMessagebox import CTkMessagebox
 class EventCreator(CTkToplevel):
     def __init__(self):
         super().__init__()
-        self.after(100, self.lift)  # Asegura que la ventana aparezca al frente en Windows
+        self.after(100, self.lift)
         self.title("Create Event")
         self.geometry("400x300")
         self.res_name_entry = CTkEntry(self, placeholder_text="Resources Name separated by ,", width= 200)

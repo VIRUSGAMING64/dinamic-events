@@ -8,7 +8,7 @@ class TaskRemover(CTkToplevel):
 
     def __init__(self):
         super().__init__()
-        self.after(100, self.lift)  # Asegura que la ventana aparezca al frente en Windows
+        self.after(100, self.lift)
         self.x_size = 256
         self.y_size = 400
         self.title("Task Remover")
@@ -32,8 +32,8 @@ class TaskRemover(CTkToplevel):
 
 
         self.update_thread = Thread(target = self.update_combo, daemon = True)
-        self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.close = False
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
     
 
     def on_closing(self):

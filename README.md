@@ -1,6 +1,6 @@
 # Jamazon - Event Manager 📅🚀
 
-**Jamazon** (also known as *Dinamic Events*) is a desktop application developed in Python for the efficient management of events and resources. It uses a modern graphical interface and advanced data structures to handle scheduling and avoid resource conflicts.
+**Jamazon** (also known as *Dynamic Events*) is a desktop application developed in Python for the efficient management of events and resources. It uses a modern graphical interface and advanced data structures to handle scheduling and avoid resource conflicts.
 
 ## 🌟 Key Features
 
@@ -68,7 +68,7 @@ The project is built with a modular approach. The main components are detailed b
 
 ### 2. Graphical Interface (`modules/gui_core/`)
 
-* **`EventCreator` (in `EventDeffiner.py`)**: Window to enter details for new events.
+* **`EventCreator` (in `EventDefiner.py`)**: Window to enter details for new events.
 * **`TaskCreator`**: Interface to register new tasks in the system.
 * **`TaskRemover`**: Interface to delete existing tasks.
 * **`ResAdder`**: Allows adding new resources to the database (`resources.json`).
@@ -94,7 +94,7 @@ Jamazon/
 │   ├── utils.py        # General utility functions
 │   └── gui_core/       # 🎨 Graphical Interface Components
 │       ├── __init__.py
-│       ├── EventDeffiner.py  # Window to define new events
+│       ├── EventDefiner.py   # Window to define new events
 │       ├── EventShower.py    # Event viewer
 │       ├── ResAdder.py       # Window to add resources
 │       ├── TaskCreator.py    # Window to create tasks

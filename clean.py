@@ -20,7 +20,6 @@ def remove_file(path):
 
 def clean_project():
     root_dir = Path(__file__).parent
-    
     dirs_to_remove = ["__pycache__", ".cph"]
     
     for path in root_dir.rglob("*"):

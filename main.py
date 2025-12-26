@@ -92,12 +92,6 @@ class app(CTk):
         self.prog.place(x = 0, y = 30 + 28 * 5)
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
     
-    def show_resources(self):
-        self.kill_window(self.resource_shower)
-        self.resource_shower = ResourceShower()
-        self.resource_shower.resizable(False,False)
-
-
     def kill_window(self,wind):
         if wind is not None:
             try:
@@ -105,13 +99,8 @@ class app(CTk):
                 wind = None
             except Exception as e:
                 log(f"kill window: [{e}]")
-        
-
-    def show(self):
-        self.kill_window(self.ev_shower)
-        self.ev_shower = EventShower(calendar.events)
-        self.ev_shower.resizable(False,False)
-
+        else:
+            log("window is None, can't kill it")
 
     def get_information(self,selected):
         index = parse_event_option(selected)
@@ -170,17 +159,26 @@ class app(CTk):
 
 
     def remove_task(self):
+        if self.task_remover is not None:
+            self.task_remover.close = True
+            
         self.kill_window(self.task_remover)
         self.task_remover = TaskRemover()
-        self.task_remover.run_updater()
         self.task_remover.resizable(False,False)
-
+        self.task_remover.run_updater()
 
     def create_task(self):
         self.kill_window(self.task_creator)
         self.task_creator = TaskCreator()
         self.task_creator.resizable(False,False)
 
+    def show_resources(self):
+        self.kill_window(self.resource_shower)
+        self.resource_shower = ResourceShower(calendar.resources)
+        
+    def show(self):
+        self.kill_window(self.ev_shower)
+        self.ev_shower = EventShower(calendar.events)
 
     def run_daemon(self):
         self.t1 = Thread(target=self.bar_updater,daemon=True)
@@ -188,18 +186,18 @@ class app(CTk):
         self.t1.start()
         self.t2.start()
 
-
     def updater(self):
         while True:
             self.update()
             time.sleep(3)
-
 
     def on_closing(self):
         self.kill_window(self.task_creator)
         self.kill_window(self.task_remover)
         self.kill_window(self.ev_creator)
         self.kill_window(self.res_adder)
+        self.kill_window(self.ev_shower)
+        self.kill_window(self.resource_shower)
         self.destroy()
         import sys
         sys.exit(0)

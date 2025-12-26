@@ -1,3 +1,7 @@
+2.10.2.0
+Fixed the bug where clicking "Remove task" multiple times created multiple threads. Now the previous thread stops before creating a new one.
+added self.kill_window(self.ev_shower) self.kill_window(self.resource_shower) to on_closing method in main
+Minor changes in others files
 2.10.1.0
 Changed the parent class for GUI classes. Inheriting from CTk is problematic on Windows, so it was changed to CTkToplevel.
 2.10.0.1
@@ -19,15 +23,15 @@ Removed duplicated code
 2.9.0.1
 Added spaces in class functions
 2.9.0.0
-Changed name from dinamic-events to Jamazon
+Changed name from dynamic-events to Jamazon
 Added Event shower class
 Removed tests
-changed position of buttons in TaskCreator
+Changed position of buttons in TaskCreator
 Added many events and resources
-Changed Background image
+Changed background image
 2.8.0.0 dev
-Added on_closing handler to properly destroy all child windows (TaskCreator, TaskRemover, EventCreator, RessAdder) on exit
-Added EventDeffiner and ResAdder files
+Added on_closing handler to properly destroy all child windows (TaskCreator, TaskRemover, EventCreator, ResAdder) on exit
+Added EventDefiner and ResAdder files
 Created clean.py for use in windows an linux
 Updated .yml file
 Added save tasks function in calendar
@@ -49,25 +53,25 @@ testing archlinux 2
 2.6.2.2
 testing archlinux
 2.6.2.1
-Minor erros fixed
+Minor errors fixed
 2.6.2.0
 Added Background image
 Added title to main menu
-Removed .sort() from check avialable
-Fix error in add_event 
+Removed .sort() from check available
+Fixed error in add_event 
 Fixed errors in templates
 Fixed resize of main menu and others options
 Optimized some functions [56s test time] -> [26s test time]
 Tested project on (windows 11 25h2 26200.6584) (python 3.14)
 2.6.1.0
 Fixed Readme
-Fixed TaskCreator Date in sugest
+Fixed TaskCreator date in suggest
 Removed unused function in calendar (suggest_brute)
-Minors fix in other folders
+Minor fixes in other folders
 2.6.0.0
 Removed deprecated functions in utils
 Created function for duplicated code
-Readme updated`
+Readme updated
 2.5.0.1
 Removed run.sh (deprecated)
 Removed project.md (done)

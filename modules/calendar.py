@@ -34,7 +34,6 @@ class Calendar(BasicHandler):
         tmp.close()
 
 
-
     def is_running(self,ev):
         return self.inqueue.get(ev, False)
 

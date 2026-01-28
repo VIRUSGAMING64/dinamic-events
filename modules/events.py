@@ -6,16 +6,23 @@ class event(BasicHandler):
     end = 0
     notes = ""
     def __init__(self,_json:dict):
+        """
+        this constructor requires a json with
+        resources: list of resources
+        date-range: a list with two dates in isoformat
+        time-range: same date but in minutes
+        name: the name of task
+        note: a note for this task
+        """
         try:
             self.need_resources:list = _json["resources"]
             self.date                = _json["date-range"]
             self.time:list           = _json['time-range']  # minute when it starts
-            self.task:str            = _json['name']
-            if "notes" in _json.keys():
-                self.notes           = _json["notes"]
-           
+            self.task:str            = _json['name']     
             self.start               = int(self.time[0])
             self.end                 = int(self.time[1])
+            if "notes" in _json.keys():
+                self.notes           = _json["notes"]
             
             if self.start > self.end:
                 raise Exception("Invalid range [R < L]")
@@ -56,6 +63,10 @@ class event(BasicHandler):
         }
     
     def get_no_utilization(self,res:str):
+        """
+        this function returns a list of resources that
+        the param does not require to work
+        """
         excluded = []
         for x in self.resources[res]["without"]:
             excluded.append(x)

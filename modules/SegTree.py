@@ -1,4 +1,9 @@
 class SegTree:
+    """
+    this is a data structure called segment tree
+    this structure makes operations in L-R update and query in O(log(n))
+    """
+
     tree = []
     lazy = []
     length = 0
@@ -36,6 +41,7 @@ class SegTree:
             self.lazy[n] += x
             self.propagate(n,l,r)
             return
+        
         if r < a or l  > b:
             return 
         

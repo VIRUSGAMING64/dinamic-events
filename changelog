@@ -1,3 +1,5 @@
+2.10.3.0
+Removed unused tools
 2.10.2.0
 Fixed the bug where clicking "Remove task" multiple times created multiple threads. Now the previous thread stops before creating a new one.
 added self.kill_window(self.ev_shower) self.kill_window(self.resource_shower) to on_closing method in main

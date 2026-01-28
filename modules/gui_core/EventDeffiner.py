@@ -11,7 +11,7 @@ class EventCreator(CTkToplevel):
         self.after(100, self.lift)
         self.title("Create Event")
         self.geometry("400x300")
-        self.res_name_entry = CTkEntry(self, placeholder_text="Resources Name separated by ,", width= 200)
+        self.res_name_entry = CTkEntry(self, placeholder_text="Resource names separated by ,", width= 200)
         self.res_name_entry.pack(pady=10)
         self.res_count_entry = CTkEntry(self, placeholder_text="Event name")
         self.res_count_entry.pack(pady=10)
@@ -62,12 +62,14 @@ class EventCreator(CTkToplevel):
         for resource in A:
             for el in calendar.resources[resource]["without"]:
                 B.add(el)
+
         C = A & B
         print(A,B,C)
         if len(C) > 0:
             CTkMessagebox(self,200, 200 , title="Error", message=f"Resource collision detected: {', '.join(C)}\n remove this resource")
             print(A,B,C)
             return
+
         need = []
         for res in res_names:
             need.append([res,self.GetCounts(res)])

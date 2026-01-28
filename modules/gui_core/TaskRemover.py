@@ -55,7 +55,7 @@ class TaskRemover(CTkToplevel):
                 try:
                     self.eventos.configure(values = labels)
                 except Exception as e:
-                    log(f"eror in update_combo [{e}]")
+                    log(f"error in update_combo [{e}]")
 
 
     def remove(self):

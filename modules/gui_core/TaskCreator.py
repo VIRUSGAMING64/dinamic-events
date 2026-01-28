@@ -8,7 +8,7 @@ from CTkMessagebox import CTkMessagebox as Messagebox
 class TaskCreator(CTkToplevel):
     def __init__(self):
         super().__init__()
-        self.after(100, self.lift)  # Asegura que la ventana aparezca al frente en Windows
+        self.after(100, self.lift)  # Ensures that the window appears in front on Windows
         self.title("TASK ADDER")
         self.x_size = 480
         self.y_size = 300
@@ -79,6 +79,7 @@ class TaskCreator(CTkToplevel):
     def _get_deps(self, selected):
         deps = []
         print(selected, calendar.available_tasks)
+
         res = calendar.available_tasks[selected]["resources"]
         for t in res:
             deps.append(t["name"])
@@ -128,8 +129,15 @@ class TaskCreator(CTkToplevel):
         if begin >= end:
             self.show_invalid("[begin >= end]")
             return False
-
-        res = self._get_deps(self.tasks.get())
+        selected_task = self.tasks.get()
+        if (selected_task == "Select a task"):
+            Messagebox(
+                self,200,200,"Not selected",
+                "Select one task"
+            )
+            return
+        
+        res = self._get_deps(selected_task)
         l, r = self.__suggest(tominute(begin), tominute(end), res)
         l=str(l.isoformat().replace('T', ' AT ').split(".")[0])
         r=str(r.isoformat().replace('T', ' AT ').split(".")[0])
@@ -177,6 +185,13 @@ class TaskCreator(CTkToplevel):
             return False
 
         task_name = self.tasks.get()
+        if (task_name == "Select a task"):
+            Messagebox(
+                self,200,200,"Not selected",
+                "Select one task"
+            )
+            return
+        
         res = self._get_deps(task_name)
         new = event(
             {

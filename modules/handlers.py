@@ -5,6 +5,10 @@ import datetime
 SAVE_ROOT = "./saved"
 
 class BasicHandler:
+    """
+    this class is a base of IO in files
+    """
+
     resources = {}
     chunk_size = 65535
     res_path = "./templates/resources.json"
@@ -37,9 +41,9 @@ class BasicHandler:
 
 
     def _ex_ext(self,filename):
-        filename = os.path.realpath(filename) #extract extension function
+        filename = os.path.realpath(filename) # extract extension function
         filename = filename.split('.')
-        return filename[-1] #this works (read in docs.python.org)
+        return filename[-1] # this works (read in docs.python.org)
 
 
     def _jsonstr_to_dict(self,json_data) -> dict:

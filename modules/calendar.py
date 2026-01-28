@@ -37,7 +37,7 @@ class Calendar(BasicHandler):
     def is_running(self,ev):
         return self.inqueue.get(ev, False)
 
-
+    
     def list_events(self): 
         return self.events
 
@@ -99,7 +99,7 @@ class Calendar(BasicHandler):
             return True
         try:
             if start not in di or end not in di:
-                log(f"check_available: claves no encontradas - start={start} in di: {start in di}, end={end} in di: {end in di}")
+                log(f"check_available: keys not found - start={start} in di: {start in di}, end={end} in di: {end in di}")
                 return True 
             l = di[start]
             r = di[end]
@@ -164,7 +164,7 @@ class Calendar(BasicHandler):
 
     def sort(self):
         """
-        this function sort keys of self.used_resources by age
+        this function sorts keys of self.used_resources by age
         """
         temp = {}
         for res in self.used_resources:

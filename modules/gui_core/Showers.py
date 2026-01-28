@@ -32,7 +32,7 @@ class EventShower(CTkToplevel):
         self.scrollable_frame.pack(pady=20, padx=20, fill="both", expand=True)
         self.buttons = []
         
-        #CTkMessagebox(self,title="ERORR")
+        #CTkMessagebox(self,title="ERROR")
 
         for i in range(len(event_list)):
             data = parameter()
@@ -42,7 +42,7 @@ class EventShower(CTkToplevel):
                 text=f"{i} - {event_list[i].task}  {event_list[i].date[0]} TO {event_list[i].date[1]}", 
                 command=data.call
             )
-            item.pack(pady=2, padx=2)
+            item.pack(pady = 2)
             self.buttons.append([item,data])
 
         self.horizontal_frame = CTkScrollableFrame(master=self, orientation="horizontal", height=50)

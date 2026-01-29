@@ -116,5 +116,9 @@ Contributions are welcome! If you want to improve Jamazon:
 4. Push to the branch (`git push origin feature/new-feature`).
 5. Open a Pull Request.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=VIRUSGAMING64/Jamazon&type=date&legend=top-left)](https://www.star-history.com/#VIRUSGAMING64/Jamazon&type=date&legend=top-left)
+
 ---
 Developed by [VIRUSGAMING64](https://github.com/VIRUSGAMING64)
